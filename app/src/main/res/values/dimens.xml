@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="header_layout_height">48dp</dimen>
+    <dimen name="header_layout_marginTop">4dp</dimen>
+    <dimen name="header_layout_marginStart">4dp</dimen>
+    <dimen name="header_layout_marginEnd">52dp</dimen>
+    <dimen name="button_insetTop">0dp</dimen>
+    <dimen name="button_insetBottom">0dp</dimen>
+    <dimen name="title_layout_marginTop">10dp</dimen>
+    <dimen name="title_textSize">22sp</dimen>
+    <dimen name="button_textSize">22sp</dimen>
+    <dimen name="main_button_iconPadding">10dp</dimen>
+    <dimen name="button_cornerRadius">16dp</dimen>
+    <dimen name="main_button_layout_height">0dp</dimen>
+    <dimen name="settings_menu_layout_height">61dp</dimen>
+    <dimen name="settings_menu_textSize">16sp</dimen>
+    <dimen name="settings_menu_layout_marginStart">16dp</dimen>
+    <dimen name="settings_menu_layout_marginTop">21dp</dimen>
+    <dimen name="settings_menu_imageView_layout_width">24dp</dimen>
+    <dimen name="settings_menu_imageView_layout_height">24dp</dimen>
+    <dimen name="settings_menu_imageView_layout_marginTop">19dp</dimen>
+    <dimen name="settings_menu_imageView_layout_marginEnd">12dp</dimen>
+</resources>
