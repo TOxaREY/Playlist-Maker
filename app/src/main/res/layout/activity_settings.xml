@@ -80,10 +80,10 @@
             android:layout_marginTop="@dimen/settings_menu_imageView_layout_marginTop"
             android:layout_marginEnd="@dimen/settings_menu_imageView_layout_marginEnd"
             android:layout_gravity="end"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
+            android:paddingStart="@dimen/settings_menu_share_app_imageView_paddingStart_and_paddingEnd"
+            android:paddingEnd="@dimen/settings_menu_share_app_imageView_paddingStart_and_paddingEnd"
+            android:paddingTop="@dimen/settings_menu_share_app_imageView_paddingTop_and_paddingBottom"
+            android:paddingBottom="@dimen/settings_menu_share_app_imageView_paddingTop_and_paddingBottom"
             android:src="@drawable/ic_share" />
     </FrameLayout>
 
@@ -106,8 +106,8 @@
             android:layout_marginTop="@dimen/settings_menu_imageView_layout_marginTop"
             android:layout_marginEnd="@dimen/settings_menu_imageView_layout_marginEnd"
             android:layout_gravity="end"
-            android:paddingStart="2dp"
-            android:paddingEnd="2dp"
+            android:paddingStart="@dimen/settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd"
+            android:paddingEnd="@dimen/settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd"
             android:paddingTop="3.1dp"
             android:paddingBottom="2.9dp"
             android:src="@drawable/ic_support" />
@@ -132,10 +132,10 @@
             android:layout_marginTop="@dimen/settings_menu_imageView_layout_marginTop"
             android:layout_marginEnd="@dimen/settings_menu_imageView_layout_marginEnd"
             android:layout_gravity="end"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingStart="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
+            android:paddingEnd="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
+            android:paddingTop="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"
+            android:paddingBottom="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"
             android:src="@drawable/ic_arrow_forward" />
     </FrameLayout>
 </LinearLayout>
