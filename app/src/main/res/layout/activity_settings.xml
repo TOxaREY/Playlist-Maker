@@ -35,6 +35,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/share_app_frame_layout"
         style="@style/FrameLayoutSettings">
 
         <TextView
@@ -43,7 +44,6 @@
 
         <ImageView
             style="@style/ImageViewAtt"
-            android:id="@+id/share_app_image_view"
             android:paddingStart="@dimen/settings_menu_share_app_imageView_paddingStart_and_paddingEnd"
             android:paddingEnd="@dimen/settings_menu_share_app_imageView_paddingStart_and_paddingEnd"
             android:paddingTop="@dimen/settings_menu_share_app_imageView_paddingTop_and_paddingBottom"
@@ -52,6 +52,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/write_to_support_frame_layout"
         style="@style/FrameLayoutSettings">
 
         <TextView
@@ -60,7 +61,6 @@
 
         <ImageView
             style="@style/ImageViewAtt"
-            android:id="@+id/support_image_view"
             android:paddingStart="@dimen/settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd"
             android:paddingEnd="@dimen/settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd"
             android:paddingTop="3.1dp"
@@ -69,15 +69,15 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/terms_of_use_frame_layout"
         style="@style/FrameLayoutSettings">
 
         <TextView
             style="@style/TextViewAtt"
-            android:text="@string/terms_of_use"/>
+            android:text="@string/terms_of_use" />
 
         <ImageView
             style="@style/ImageViewAtt"
-            android:id="@+id/terms_of_use_image_view"
             android:paddingStart="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
             android:paddingEnd="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
             android:paddingTop="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"

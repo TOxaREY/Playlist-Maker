@@ -53,6 +53,7 @@
             android:insetTop="@dimen/button_insetTop"
             android:insetBottom="@dimen/button_insetBottom"
             android:backgroundTint="?attr/editTextBackground"
+            android:visibility="gone"
             app:cornerRadius="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
             app:iconGravity="textStart"
             app:iconPadding="0dp"

@@ -1,7 +1,6 @@
 package xyz.toxarey.playlistmaker
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -27,8 +26,6 @@ class SearchActivity : AppCompatActivity() {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
 
         backToMainButton.setOnClickListener {
-            val backToMainIntent = Intent(this, MainActivity::class.java)
-            startActivity(backToMainIntent)
             finish()
         }
         clearSearchButton.setOnClickListener {
@@ -60,8 +57,10 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        searchEditText.setText(savedInstanceState.getString(SEARCH_TEXT, ""))
+        val restoreText = savedInstanceState.getString(SEARCH_TEXT, "")
+        searchEditText.setText(restoreText)
         searchEditText.setSelection(searchEditText.text.length)
+        searchText = restoreText
     }
 
     private fun clearSearchButtonVisibility(s: CharSequence?): Int {
