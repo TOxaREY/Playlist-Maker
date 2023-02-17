@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    style="@style/LinearLayoutAtt"
+    android:background="?attr/backgroundColor">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        style="@style/FrameLayoutAtt">
+
+        <Button
+            style="@style/BackButtonAttr"
+            android:id="@+id/back_to_main_button_from_search" />
+
+        <TextView
+            style="@style/TextViewTitleAtt"
+            android:text="@string/search" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <EditText
+            android:id="@+id/search_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
+            android:layout_marginBottom="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
+            android:layout_marginStart="@dimen/search_edit_text_and_button_layout_marginStart_and_layout_marginEnd"
+            android:layout_marginEnd="@dimen/search_edit_text_and_button_layout_marginStart_and_layout_marginEnd"
+            android:backgroundTint="?attr/editTextBackground"
+            android:textCursorDrawable="@drawable/cursor"
+            android:inputType="text"
+            android:hint="@string/search"
+            android:fontFamily="@font/ys_display_regular"
+            android:textSize="16sp"
+            android:textColorHint="?attr/hintTextColor"
+            android:lines="1"
+            android:maxLength="25"
+            android:textColor="@color/yp_black"
+            android:paddingStart="36dp"
+            android:background="@drawable/rounded_edit_text" />
+        <Button
+            android:id="@+id/clear_search_button"
+            style="@style/ClearButtonAttr"
+            android:layout_width="40dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
+            android:layout_marginBottom="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
+            android:layout_marginEnd="@dimen/search_edit_text_and_button_layout_marginStart_and_layout_marginEnd"
+            android:layout_gravity="end"
+            android:insetTop="@dimen/button_insetTop"
+            android:insetBottom="@dimen/button_insetBottom"
+            android:backgroundTint="?attr/editTextBackground"
+            app:cornerRadius="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconTint="?attr/hintTextColor"
+            app:icon="@drawable/ic_clear_button"/>
+        <ImageView
+            android:layout_width="@dimen/search_image_view_layout_width_and_layout_height"
+            android:layout_height="@dimen/search_image_view_layout_width_and_layout_height"
+            android:layout_marginTop="@dimen/search_image_view_layout_marginTop_and_layout_marginBottom"
+            android:layout_marginBottom="@dimen/search_image_view_layout_marginTop_and_layout_marginBottom"
+            android:layout_marginStart="29dp"
+            android:src="@drawable/ic_search_edit_text" />
+    </FrameLayout>
+</LinearLayout>

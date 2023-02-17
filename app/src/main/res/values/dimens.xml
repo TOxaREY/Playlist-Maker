@@ -26,4 +26,8 @@
     <dimen name="settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd">2dp</dimen>
     <dimen name="settings_menu_share_app_imageView_paddingStart_and_paddingEnd">4dp</dimen>
     <dimen name="settings_menu_share_app_imageView_paddingTop_and_paddingBottom">3dp</dimen>
+    <dimen name="search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius">8dp</dimen>
+    <dimen name="search_edit_text_and_button_layout_marginStart_and_layout_marginEnd">16dp</dimen>
+    <dimen name="search_image_view_layout_width_and_layout_height">14dp</dimen>
+    <dimen name="search_image_view_layout_marginTop_and_layout_marginBottom">19dp</dimen>
 </resources>
