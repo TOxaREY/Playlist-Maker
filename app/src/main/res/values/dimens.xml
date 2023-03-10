@@ -30,4 +30,10 @@
     <dimen name="search_edit_text_and_button_layout_marginStart_and_layout_marginEnd">16dp</dimen>
     <dimen name="search_image_view_layout_width_and_layout_height">14dp</dimen>
     <dimen name="search_image_view_layout_marginTop_and_layout_marginBottom">19dp</dimen>
+    <dimen name="track_item_textView_and_dot_image_layout_marginTop">1dp</dimen>
+    <dimen name="track_item_textView_and_dot_image_layout_marginBottom">14dp</dimen>
+    <dimen name="track_dot_imageView_layout_height_and_layout_width">13dp</dimen>
+    <dimen name="track_item_album_imageView_layout_height_and_layout_width">45dp</dimen>
+    <dimen name="track_item_album_imageView_layout_marginTop_and_marginBottom">8dp</dimen>
+    <dimen name="track_item_forward_layout_height_and_layout_width">24dp</dimen>
 </resources>

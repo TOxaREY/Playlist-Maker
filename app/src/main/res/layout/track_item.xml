@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/LinearLayoutTrackAtt"
+    android:layout_width="match_parent">
+
+    <ImageView
+        android:id="@+id/ivAlbum"
+        android:layout_height="@dimen/track_item_album_imageView_layout_height_and_layout_width"
+        android:layout_width="@dimen/track_item_album_imageView_layout_height_and_layout_width"
+        android:layout_marginTop="@dimen/track_item_album_imageView_layout_marginTop_and_marginBottom"
+        android:layout_marginBottom="@dimen/track_item_album_imageView_layout_marginTop_and_marginBottom"
+        android:layout_marginStart="13dp"
+        android:src="@drawable/album_placeholder"/>
+
+    <LinearLayout
+        style="@style/LinearLayoutTrackAtt"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTrackName"
+            style="@style/TextViewTrackAtt"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="0dp"
+            android:textSize="16sp"
+            android:textColor="?attr/colorPrimary"
+            tools:text="@string/placeholder"/>
+
+        <LinearLayout
+            style="@style/LinearLayoutTrackAtt">
+
+            <TextView
+                android:id="@+id/tvArtistName"
+                style="@style/TextViewTrackAtt"
+                tools:text="@string/placeholder"/>
+
+            <ImageView
+                android:layout_marginTop="@dimen/track_item_textView_and_dot_image_layout_marginTop"
+                android:layout_marginBottom="@dimen/track_item_textView_and_dot_image_layout_marginBottom"
+                android:layout_height="@dimen/track_dot_imageView_layout_height_and_layout_width"
+                android:layout_width="@dimen/track_dot_imageView_layout_height_and_layout_width"
+                android:src="@drawable/ic_dot"/>
+
+            <TextView
+                android:id="@+id/tvTrackTime"
+                style="@style/TextViewTrackAtt"
+                tools:text="@string/placeholder"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="@dimen/track_item_forward_layout_height_and_layout_width"
+        android:layout_height="@dimen/track_item_forward_layout_height_and_layout_width"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="12dp"
+        android:paddingStart="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
+        android:paddingEnd="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
+        android:paddingTop="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"
+        android:paddingBottom="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"
+        android:src="@drawable/ic_arrow_forward" />
+</LinearLayout>
