@@ -11,6 +11,10 @@
         android:layout_marginTop="@dimen/track_item_album_imageView_layout_marginTop_and_marginBottom"
         android:layout_marginBottom="@dimen/track_item_album_imageView_layout_marginTop_and_marginBottom"
         android:layout_marginStart="13dp"
+        android:paddingTop="@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd"
+        android:paddingBottom="@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd"
+        android:paddingStart="@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd"
+        android:paddingEnd="@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd"
         android:src="@drawable/album_placeholder"/>
 
     <LinearLayout
@@ -35,6 +39,8 @@
             <TextView
                 android:id="@+id/tvArtistName"
                 style="@style/TextViewTrackAtt"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 tools:text="@string/placeholder"/>
 
             <ImageView
