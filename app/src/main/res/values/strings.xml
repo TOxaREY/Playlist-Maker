@@ -15,4 +15,7 @@
     <string name="terms_of_use_text">https://yandex.ru/legal/practicum_offer/</string>
     <string name="input_hint">Поиск</string>
     <string name="placeholder">Placeholder</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="communicationError">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
+    <string name="update">Обновить</string>
 </resources>

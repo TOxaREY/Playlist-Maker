@@ -39,8 +39,8 @@
             <TextView
                 android:id="@+id/tvArtistName"
                 style="@style/TextViewTrackAtt"
-                android:layout_weight="1"
                 android:layout_width="0dp"
+                android:layout_weight="1"
                 tools:text="@string/placeholder"/>
 
             <ImageView
