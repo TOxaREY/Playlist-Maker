@@ -85,7 +85,6 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.addTextChangedListener(simpleTextWatcher)
         searchEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                clearTrackList()
                 requestTrack()
                 true
             }
@@ -115,6 +114,7 @@ class SearchActivity : AppCompatActivity() {
     }
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
+            tracksAdapter.notifyDataSetChanged()
             notingFoundImage.visibility = View.VISIBLE
             notingFoundText.visibility = View.VISIBLE
         } else {
@@ -125,6 +125,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun communicationErrorMessage(isVisible: Boolean) {
         if(isVisible) {
+            clearTrackList()
             communicationErrorImage.visibility = View.VISIBLE
             communicationErrorText.visibility = View.VISIBLE
             updateButton.visibility = View.VISIBLE
