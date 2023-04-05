@@ -38,4 +38,5 @@
     <dimen name="track_item_album_imageView_layout_marginTop_and_marginBottom">8dp</dimen>
     <dimen name="track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd">5dp</dimen>
     <dimen name="track_item_forward_layout_height_and_layout_width">24dp</dimen>
+    <dimen name="you_searched_textView_paddingStart_and_paddingEnd">16dp</dimen>
 </resources>

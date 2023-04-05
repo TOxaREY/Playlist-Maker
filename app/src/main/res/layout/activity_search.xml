@@ -71,55 +71,89 @@
             android:src="@drawable/ic_search_edit_text" />
     </FrameLayout>
 
-    <FrameLayout android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <FrameLayout
+        style="@style/FrameLayoutSearchAttr">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTracks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            tools:listitem="@layout/track_item"
-            tools:itemCount="5"/>
+        <FrameLayout
+            style="@style/FrameLayoutSearchAttr">
 
-        <ImageView
-            android:id="@+id/notingFoundImage"
-            style="@style/ImageViewErrorAttr"
-            android:src="@drawable/ic_nothing_found" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTracks"
+                style="@style/RecyclerViewSearchAttr"
+                android:layout_marginTop="16dp"
+                tools:listitem="@layout/track_item"
+                tools:itemCount="5"/>
 
-        <TextView
-            android:id="@+id/notingFoundText"
-            style="@style/TextViewErrorAttr"
-            android:text="@string/nothing_found" />
+            <ImageView
+                android:id="@+id/notingFoundImage"
+                style="@style/ImageViewErrorAttr"
+                android:src="@drawable/ic_nothing_found" />
 
-        <ImageView
-            android:id="@+id/communicationErrorImage"
-            style="@style/ImageViewErrorAttr"
-            android:src="@drawable/ic_communication_error" />
+            <TextView
+                android:id="@+id/notingFoundText"
+                style="@style/TextViewErrorAttr"
+                android:text="@string/nothing_found" />
 
-        <TextView
-            android:id="@+id/communicationErrorText"
-            style="@style/TextViewErrorAttr"
-            android:text="@string/communicationError" />
+            <ImageView
+                android:id="@+id/communicationErrorImage"
+                style="@style/ImageViewErrorAttr"
+                android:src="@drawable/ic_communication_error" />
 
-        <Button
-            android:id="@+id/update_button"
-            style="@style/UpdateButtonAttr"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="350dp"
-            android:backgroundTint="?attr/colorPrimary"
-            android:fontFamily="@font/ys_display_medium"
-            android:insetTop="@dimen/button_insetTop"
-            android:insetBottom="@dimen/button_insetBottom"
-            android:text="@string/update"
-            android:textAllCaps="false"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="14sp"
-            android:visibility="invisible"
-            app:cornerRadius="54dp" />
+            <TextView
+                android:id="@+id/communicationErrorText"
+                style="@style/TextViewErrorAttr"
+                android:text="@string/communicationError" />
+
+            <Button
+                android:id="@+id/update_button"
+                style="@style/UpdateAndClearButtonAttr"
+                android:layout_marginTop="350dp"
+                android:text="@string/update"
+                android:visibility="invisible"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/search_history_frame"
+            style="@style/FrameLayoutSearchAttr"
+            android:visibility="gone">
+
+            <LinearLayout
+                style="@style/LinearLayoutHistoryAtt">
+
+                <TextView
+                    style="@style/TextViewErrorAttr"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="24dp"
+                    android:paddingStart="@dimen/you_searched_textView_paddingStart_and_paddingEnd"
+                    android:paddingTop="18dp"
+                    android:paddingEnd="@dimen/you_searched_textView_paddingStart_and_paddingEnd"
+                    android:paddingBottom="12dp"
+                    android:text="@string/you_searched"
+                    android:visibility="visible"/>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        style="@style/LinearLayoutHistoryAtt">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvSearchHistory"
+                            style="@style/RecyclerViewSearchAttr"
+                            android:layout_marginTop="8dp"
+                            tools:listitem="@layout/track_item"
+                            tools:itemCount="10"/>
+
+                        <Button
+                            android:id="@+id/clear_history_button"
+                            style="@style/UpdateAndClearButtonAttr"
+                            android:layout_marginTop="24dp"
+                            android:text="@string/clear_history" />
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </FrameLayout>
     </FrameLayout>
 </LinearLayout>

@@ -9,7 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TracksViewHolder(private val itemView: View): RecyclerView.ViewHolder(itemView) {
+class TracksViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     private val ivAlbum: ImageView = itemView.findViewById(R.id.ivAlbum)
     private val tvTrackName: TextView = itemView.findViewById(R.id.tvTrackName)

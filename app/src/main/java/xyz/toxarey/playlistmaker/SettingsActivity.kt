@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatDelegate
 
 class SettingsActivity : AppCompatActivity() {
     lateinit var darkThemeSwitch: androidx.appcompat.widget.SwitchCompat
@@ -18,6 +17,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val backToMainButton = findViewById<Button>(R.id.back_to_main_button_from_settings)
         darkThemeSwitch = findViewById(R.id.dark_theme_switch)
+        darkThemeSwitch.isChecked = (applicationContext as App).darkTheme
         val shareAppButton = findViewById<FrameLayout>(R.id.share_app_frame_layout)
         val supportButton = findViewById<FrameLayout>(R.id.write_to_support_frame_layout)
         val termsOfUseButton = findViewById<FrameLayout>(R.id.terms_of_use_frame_layout)
@@ -25,13 +25,8 @@ class SettingsActivity : AppCompatActivity() {
         backToMainButton.setOnClickListener {
             finish()
         }
-        checkDarkTheme()
-        darkThemeSwitch.setOnCheckedChangeListener { _, b ->
-            if (b) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+        darkThemeSwitch.setOnCheckedChangeListener { _, checked ->
+            (applicationContext as App).switchTheme(checked)
         }
         shareAppButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
@@ -54,8 +49,5 @@ class SettingsActivity : AppCompatActivity() {
             }
             startActivity(Intent.createChooser(termsOfUseIntent, getString(R.string.terms_of_use)))
         }
-    }
-    private fun checkDarkTheme() {
-        darkThemeSwitch.isChecked = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
     }
 }

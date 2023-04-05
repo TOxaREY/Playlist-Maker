@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,8 @@ class SearchActivity : AppCompatActivity() {
         .build()
     private val iTunesSearchService = retrofit.create(ItunesSearchAPI::class.java)
     private val tracks = ArrayList<Track>()
-    private val tracksAdapter = TracksAdapter(tracks)
+    lateinit var tracksAdapter: TracksAdapter
+    lateinit var tracksAdapterHistory: TracksAdapter
     companion object {
         const val SEARCH_TEXT = "SEARCH_TEXT"
     }
@@ -42,14 +44,20 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        val searchHistory = SearchHistory(getSharedPreferences(PLAYLISTMAKER_PREFERENCES, MODE_PRIVATE))
+        tracksAdapter = TracksAdapter(tracks, searchHistory)
+        tracksAdapterHistory = TracksAdapter(searchHistory.read(), null)
         notingFoundImage = findViewById(R.id.notingFoundImage)
         notingFoundText = findViewById(R.id.notingFoundText)
         communicationErrorImage = findViewById(R.id.communicationErrorImage)
         communicationErrorText = findViewById(R.id.communicationErrorText)
         updateButton = findViewById(R.id.update_button)
+        val searchHistoryFrame = findViewById<FrameLayout>(R.id.search_history_frame)
+        val clearHistoryButton = findViewById<Button>(R.id.clear_history_button)
         val rvTracks = findViewById<RecyclerView>(R.id.rvTracks)
         rvTracks.adapter = tracksAdapter
-
+        val rvSearchHistory = findViewById<RecyclerView>(R.id.rvSearchHistory)
+        rvSearchHistory.adapter = tracksAdapterHistory
         val backToMainButton = findViewById<Button>(R.id.back_to_main_button_from_search)
         searchEditText = findViewById(R.id.search_edit_text)
         val clearSearchButton = findViewById<Button>(R.id.clear_search_button)
@@ -68,6 +76,10 @@ class SearchActivity : AppCompatActivity() {
             communicationErrorMessage(false)
             requestTrack()
         }
+        clearHistoryButton.setOnClickListener {
+            searchHistory.remove()
+            searchHistoryFrame.visibility = View.GONE
+        }
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -76,6 +88,7 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearSearchButton.visibility = clearSearchButtonVisibility(s)
+                searchHistoryFrame.visibility = if (searchEditText.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -89,6 +102,9 @@ class SearchActivity : AppCompatActivity() {
                 true
             }
             false
+        }
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            searchHistoryFrame.visibility = if (hasFocus && searchEditText.text.isEmpty() && searchHistory.read().isNotEmpty()) View.VISIBLE else View.GONE
         }
     }
 
