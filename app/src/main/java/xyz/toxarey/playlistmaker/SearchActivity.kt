@@ -50,7 +50,7 @@ class SearchActivity : AppCompatActivity() {
         val searchHistory = SearchHistory(getSharedPreferences(PLAYLISTMAKER_PREFERENCES, MODE_PRIVATE))
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         initializationAdapters(searchHistory)
-        initializationItems()
+        initializationViews()
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -146,7 +146,7 @@ class SearchActivity : AppCompatActivity() {
         tracksAdapter.notifyDataSetChanged()
     }
 
-    private fun addHistoryTrack(tracks: ArrayList<Track>) {
+    private fun addHistoryTracks(tracks: ArrayList<Track>) {
         tracksHistory.clear()
         tracksHistory.addAll(tracks)
         tracksAdapterHistory.notifyDataSetChanged()
@@ -162,7 +162,7 @@ class SearchActivity : AppCompatActivity() {
             false
         }
         searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            addHistoryTrack(tracks)
+            addHistoryTracks(tracks)
             searchHistoryLinear.visibility = if (hasFocus && searchEditText.text.isEmpty() && tracks.isNotEmpty()) View.VISIBLE else View.GONE
         }
     }
@@ -196,7 +196,7 @@ class SearchActivity : AppCompatActivity() {
         rvSearchHistory.adapter = tracksAdapterHistory
     }
 
-    private fun initializationItems() {
+    private fun initializationViews() {
         nothingFoundImage = findViewById(R.id.nothingFoundImage)
         nothingFoundText = findViewById(R.id.nothingFoundText)
         communicationErrorImage = findViewById(R.id.communicationErrorImage)
@@ -218,7 +218,7 @@ class SearchActivity : AppCompatActivity() {
         searchText = searchEditText.text.toString()
         if (searchText.isEmpty()) {
             clearTrackList()
-            addHistoryTrack(tracks)
+            addHistoryTracks(tracks)
             searchHistoryLinear.visibility = if (tracksHistory.isNotEmpty()) View.VISIBLE else View.GONE
         }
     }
