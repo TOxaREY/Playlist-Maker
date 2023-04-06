@@ -36,7 +36,7 @@
     <style name="TextViewAtt">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/settings_menu_layout_marginStart</item>
+        <item name="android:layout_marginStart">@dimen/padding_and_margin_horizontal</item>
         <item name="android:layout_marginTop">@dimen/settings_menu_layout_marginTop</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:textSize">@dimen/settings_menu_textSize</item>

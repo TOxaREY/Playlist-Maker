@@ -28,8 +28,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
             android:layout_marginBottom="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
-            android:layout_marginStart="@dimen/search_edit_text_and_button_layout_marginStart_and_layout_marginEnd"
-            android:layout_marginEnd="@dimen/search_edit_text_and_button_layout_marginStart_and_layout_marginEnd"
+            android:layout_marginStart="@dimen/padding_and_margin_horizontal"
+            android:layout_marginEnd="@dimen/padding_and_margin_horizontal"
             android:backgroundTint="?attr/editTextBackground"
             android:textCursorDrawable="@drawable/cursor"
             android:inputType="text"
@@ -51,7 +51,7 @@
             android:layout_height="36dp"
             android:layout_marginTop="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
             android:layout_marginBottom="@dimen/search_edit_text_and_button_layout_marginTop_and_layout_marginBottom_and_cornerRadius"
-            android:layout_marginEnd="@dimen/search_edit_text_and_button_layout_marginStart_and_layout_marginEnd"
+            android:layout_marginEnd="@dimen/padding_and_margin_horizontal"
             android:layout_gravity="end"
             android:insetTop="@dimen/button_insetTop"
             android:insetBottom="@dimen/button_insetBottom"
@@ -85,12 +85,12 @@
                 tools:itemCount="5"/>
 
             <ImageView
-                android:id="@+id/notingFoundImage"
+                android:id="@+id/nothingFoundImage"
                 style="@style/ImageViewErrorAttr"
                 android:src="@drawable/ic_nothing_found" />
 
             <TextView
-                android:id="@+id/notingFoundText"
+                android:id="@+id/nothingFoundText"
                 style="@style/TextViewErrorAttr"
                 android:text="@string/nothing_found" />
 
@@ -112,48 +112,45 @@
                 android:visibility="invisible"/>
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/search_history_frame"
-            style="@style/FrameLayoutSearchAttr"
+        <LinearLayout
+            android:id="@+id/search_history_linear"
+            style="@style/LinearLayoutHistoryAtt"
             android:visibility="gone">
 
-            <LinearLayout
-                style="@style/LinearLayoutHistoryAtt">
+            <TextView
+                style="@style/TextViewErrorAttr"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="24dp"
+                android:paddingStart="@dimen/padding_and_margin_horizontal"
+                android:paddingTop="18dp"
+                android:paddingEnd="@dimen/padding_and_margin_horizontal"
+                android:paddingBottom="12dp"
+                android:text="@string/you_searched"
+                android:visibility="visible"/>
 
-                <TextView
-                    style="@style/TextViewErrorAttr"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginTop="24dp"
-                    android:paddingStart="@dimen/you_searched_textView_paddingStart_and_paddingEnd"
-                    android:paddingTop="18dp"
-                    android:paddingEnd="@dimen/you_searched_textView_paddingStart_and_paddingEnd"
-                    android:paddingBottom="12dp"
-                    android:text="@string/you_searched"
-                    android:visibility="visible"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/LinearLayoutHistoryAtt">
 
-                    <LinearLayout
-                        style="@style/LinearLayoutHistoryAtt">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSearchHistory"
+                        style="@style/RecyclerViewSearchAttr"
+                        android:layout_marginTop="8dp"
+                        tools:listitem="@layout/track_item"
+                        tools:itemCount="10"/>
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvSearchHistory"
-                            style="@style/RecyclerViewSearchAttr"
-                            android:layout_marginTop="8dp"
-                            tools:listitem="@layout/track_item"
-                            tools:itemCount="10"/>
-
-                        <Button
-                            android:id="@+id/clear_history_button"
-                            style="@style/UpdateAndClearButtonAttr"
-                            android:layout_marginTop="24dp"
-                            android:text="@string/clear_history" />
+                    <Button
+                        android:id="@+id/clear_history_button"
+                        style="@style/UpdateAndClearButtonAttr"
+                        android:layout_marginTop="@dimen/clear_button_history_marginTop_and_marginBottom"
+                        android:layout_marginBottom="@dimen/clear_button_history_marginTop_and_marginBottom"
+                        android:text="@string/clear_history" />
                     </LinearLayout>
                 </ScrollView>
-            </LinearLayout>
-        </FrameLayout>
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

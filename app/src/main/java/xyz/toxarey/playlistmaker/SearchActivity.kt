@@ -10,8 +10,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -28,58 +28,29 @@ class SearchActivity : AppCompatActivity() {
         .build()
     private val iTunesSearchService = retrofit.create(ItunesSearchAPI::class.java)
     private val tracks = ArrayList<Track>()
-    lateinit var tracksAdapter: TracksAdapter
-    lateinit var tracksAdapterHistory: TracksAdapter
-    companion object {
-        const val SEARCH_TEXT = "SEARCH_TEXT"
-    }
-    lateinit var searchEditText: EditText
-    lateinit var notingFoundImage: ImageView
-    lateinit var notingFoundText: TextView
-    lateinit var communicationErrorImage: ImageView
-    lateinit var communicationErrorText: TextView
-    lateinit var updateButton: Button
-    var searchText = ""
+    private val tracksHistory = ArrayList<Track>()
+    private var searchText = ""
+    private lateinit var tracksAdapter: TracksAdapter
+    private lateinit var tracksAdapterHistory: TracksAdapter
+    private lateinit var searchEditText: EditText
+    private lateinit var nothingFoundImage: ImageView
+    private lateinit var nothingFoundText: TextView
+    private lateinit var communicationErrorImage: ImageView
+    private lateinit var communicationErrorText: TextView
+    private lateinit var updateButton: Button
+    private lateinit var searchHistoryLinear: LinearLayout
+    private lateinit var clearHistoryButton: Button
+    private lateinit var backToMainButton: Button
+    private lateinit var clearSearchButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
         val searchHistory = SearchHistory(getSharedPreferences(PLAYLISTMAKER_PREFERENCES, MODE_PRIVATE))
-        tracksAdapter = TracksAdapter(tracks, searchHistory)
-        tracksAdapterHistory = TracksAdapter(searchHistory.read(), null)
-        notingFoundImage = findViewById(R.id.notingFoundImage)
-        notingFoundText = findViewById(R.id.notingFoundText)
-        communicationErrorImage = findViewById(R.id.communicationErrorImage)
-        communicationErrorText = findViewById(R.id.communicationErrorText)
-        updateButton = findViewById(R.id.update_button)
-        val searchHistoryFrame = findViewById<FrameLayout>(R.id.search_history_frame)
-        val clearHistoryButton = findViewById<Button>(R.id.clear_history_button)
-        val rvTracks = findViewById<RecyclerView>(R.id.rvTracks)
-        rvTracks.adapter = tracksAdapter
-        val rvSearchHistory = findViewById<RecyclerView>(R.id.rvSearchHistory)
-        rvSearchHistory.adapter = tracksAdapterHistory
-        val backToMainButton = findViewById<Button>(R.id.back_to_main_button_from_search)
-        searchEditText = findViewById(R.id.search_edit_text)
-        val clearSearchButton = findViewById<Button>(R.id.clear_search_button)
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-
-        backToMainButton.setOnClickListener {
-            finish()
-        }
-        clearSearchButton.setOnClickListener {
-            searchEditText.setText("")
-            searchText = ""
-            inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
-            clearTrackList()
-        }
-        updateButton.setOnClickListener {
-            communicationErrorMessage(false)
-            requestTrack()
-        }
-        clearHistoryButton.setOnClickListener {
-            searchHistory.remove()
-            searchHistoryFrame.visibility = View.GONE
-        }
+        initializationAdapters(searchHistory)
+        initializationItems()
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -87,25 +58,15 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                clearSearchButton.visibility = clearSearchButtonVisibility(s)
-                searchHistoryFrame.visibility = if (searchEditText.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
+                onTextChangedAction(s)
             }
 
             override fun afterTextChanged(s: Editable?) {
-                searchText = searchEditText.text.toString()
+                afterTextChangedAction(searchHistory.read())
             }
         }
-        searchEditText.addTextChangedListener(simpleTextWatcher)
-        searchEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                requestTrack()
-                true
-            }
-            false
-        }
-        searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            searchHistoryFrame.visibility = if (hasFocus && searchEditText.text.isEmpty() && searchHistory.read().isNotEmpty()) View.VISIBLE else View.GONE
-        }
+        buttonsListeners(inputMethodManager, searchHistory)
+        searchEditTextListeners(simpleTextWatcher, searchHistory.read())
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -131,11 +92,11 @@ class SearchActivity : AppCompatActivity() {
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
             tracksAdapter.notifyDataSetChanged()
-            notingFoundImage.visibility = View.VISIBLE
-            notingFoundText.visibility = View.VISIBLE
+            nothingFoundImage.visibility = View.VISIBLE
+            nothingFoundText.visibility = View.VISIBLE
         } else {
-            notingFoundImage.visibility = View.GONE
-            notingFoundText.visibility = View.GONE
+            nothingFoundImage.visibility = View.GONE
+            nothingFoundText.visibility = View.GONE
         }
     }
 
@@ -183,5 +144,86 @@ class SearchActivity : AppCompatActivity() {
     private fun clearTrackList() {
         tracks.clear()
         tracksAdapter.notifyDataSetChanged()
+    }
+
+    private fun addHistoryTrack(tracks: ArrayList<Track>) {
+        tracksHistory.clear()
+        tracksHistory.addAll(tracks)
+        tracksAdapterHistory.notifyDataSetChanged()
+    }
+
+    private fun searchEditTextListeners(simpleTextWatcher: TextWatcher, tracks: ArrayList<Track>) {
+        searchEditText.addTextChangedListener(simpleTextWatcher)
+        searchEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                requestTrack()
+                true
+            }
+            false
+        }
+        searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            addHistoryTrack(tracks)
+            searchHistoryLinear.visibility = if (hasFocus && searchEditText.text.isEmpty() && tracks.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun buttonsListeners(inputMethodManager: InputMethodManager?, searchHistory: SearchHistory) {
+        backToMainButton.setOnClickListener {
+            finish()
+        }
+        clearSearchButton.setOnClickListener {
+            searchEditText.setText("")
+            searchText = ""
+            inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
+            clearTrackList()
+        }
+        updateButton.setOnClickListener {
+            communicationErrorMessage(false)
+            requestTrack()
+        }
+        clearHistoryButton.setOnClickListener {
+            searchHistory.remove()
+            searchHistoryLinear.visibility = View.GONE
+        }
+    }
+
+    private fun initializationAdapters(searchHistory: SearchHistory) {
+        val rvTracks = findViewById<RecyclerView>(R.id.rvTracks)
+        val rvSearchHistory = findViewById<RecyclerView>(R.id.rvSearchHistory)
+        tracksAdapter = TracksAdapter(tracks, searchHistory)
+        tracksAdapterHistory = TracksAdapter(tracksHistory, null)
+        rvTracks.adapter = tracksAdapter
+        rvSearchHistory.adapter = tracksAdapterHistory
+    }
+
+    private fun initializationItems() {
+        nothingFoundImage = findViewById(R.id.nothingFoundImage)
+        nothingFoundText = findViewById(R.id.nothingFoundText)
+        communicationErrorImage = findViewById(R.id.communicationErrorImage)
+        communicationErrorText = findViewById(R.id.communicationErrorText)
+        updateButton = findViewById(R.id.update_button)
+        searchHistoryLinear = findViewById(R.id.search_history_linear)
+        clearHistoryButton = findViewById(R.id.clear_history_button)
+        backToMainButton = findViewById(R.id.back_to_main_button_from_search)
+        searchEditText = findViewById(R.id.search_edit_text)
+        clearSearchButton = findViewById(R.id.clear_search_button)
+    }
+
+    private fun onTextChangedAction(s: CharSequence?) {
+        clearSearchButton.visibility = clearSearchButtonVisibility(s)
+        searchHistoryLinear.visibility = if (searchEditText.hasFocus() && s?.isEmpty() == true) View.VISIBLE else View.GONE
+    }
+
+    private fun afterTextChangedAction(tracks: ArrayList<Track>) {
+        searchText = searchEditText.text.toString()
+        if (searchText.isEmpty()) {
+            clearTrackList()
+            addHistoryTrack(tracks)
+            searchHistoryLinear.visibility = if (tracksHistory.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
+    companion object {
+        const val SEARCH_TEXT = "SEARCH_TEXT"
     }
 }

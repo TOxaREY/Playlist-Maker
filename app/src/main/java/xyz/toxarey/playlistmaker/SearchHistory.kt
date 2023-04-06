@@ -42,11 +42,11 @@ class SearchHistory(var sharedPrefs: SharedPreferences) {
     }
 
     private fun indexCopyTrack(tracks: ArrayList<Track>, track: Track): Int? {
-        tracks.forEachIndexed { index, trk ->
-            if (trk.trackId == track.trackId) {
-                return index
-            }
+        val index = tracks.indexOfFirst { it.trackId == track.trackId }
+        return if (index == -1) {
+            null
+        } else {
+            index
         }
-        return null
     }
 }
