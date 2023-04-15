@@ -1,6 +1,7 @@
 package xyz.toxarey.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -20,7 +21,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), CellClickListener {
     private val iTunesSearchBaseUrl = "https://itunes.apple.com"
     private val retrofit = Retrofit.Builder()
         .baseUrl(iTunesSearchBaseUrl)
@@ -80,6 +81,12 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.setText(restoreText)
         searchEditText.setSelection(searchEditText.text.length)
         searchText = restoreText
+    }
+
+    override fun onCellClickListener(track: Track) {
+        val audioPlayerIntent = Intent(this, AudioPlayerActivity::class.java)
+        audioPlayerIntent.putExtra(EXTRA_TRACK, track)
+        startActivity(audioPlayerIntent)
     }
 
     private fun clearSearchButtonVisibility(s: CharSequence?): Int {
@@ -190,8 +197,8 @@ class SearchActivity : AppCompatActivity() {
     private fun initializationAdapters(searchHistory: SearchHistory) {
         val rvTracks = findViewById<RecyclerView>(R.id.rvTracks)
         val rvSearchHistory = findViewById<RecyclerView>(R.id.rvSearchHistory)
-        tracksAdapter = TracksAdapter(tracks, searchHistory)
-        tracksAdapterHistory = TracksAdapter(tracksHistory, null)
+        tracksAdapter = TracksAdapter(tracks, this, searchHistory)
+        tracksAdapterHistory = TracksAdapter(tracksHistory, this, null)
         rvTracks.adapter = tracksAdapter
         rvSearchHistory.adapter = tracksAdapterHistory
     }
