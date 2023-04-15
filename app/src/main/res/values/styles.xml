@@ -133,4 +133,64 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
     </style>
+    <style name="ConstraintLayoutAtt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?attr/backgroundColor</item>
+    </style>
+    <style name="GuidelineAtt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="TextViewInfoAtt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">17dp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?attr/itemFillColor</item>
+        <item name="layout_constraintStart_toStartOf">@+id/leftBorderInfo</item>
+    </style>
+    <style name="TextViewInfoValueAtt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginBottom">17dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:text">@string/placeholder</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="layout_constrainedWidth">true</item>
+        <item name="layout_constraintHorizontal_bias">1</item>
+        <item name="layout_constraintStart_toEndOf">@+id/titleBarrier</item>
+    </style>
+    <style name="PlayerButtonAtt">
+        <item name="android:layout_width">@dimen/player_addbutton_and_likebutton_width_height_fabCustomSize</item>
+        <item name="android:layout_height">@dimen/player_addbutton_and_likebutton_width_height_fabCustomSize</item>
+        <item name="fabCustomSize">@dimen/player_addbutton_and_likebutton_width_height_fabCustomSize</item>
+        <item name="android:layout_marginBottom">84dp</item>
+        <item name="android:backgroundTint">?attr/colorBackgroundFloating</item>
+        <item name="android:foregroundGravity">center</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">0dp</item>
+        <item name="layout_constraintBottom_toTopOf">@+id/tvDuration</item>
+        <item name="maxImageSize">23dp</item>
+        <item name="tint">@color/yp_white</item>
+    </style>
+    <style name="TextViewInfoTitleAtt">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:text">@string/placeholder</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="layout_constrainedWidth">true</item>
+        <item name="layout_constraintHorizontal_bias">0</item>
+        <item name="layout_constraintEnd_toEndOf">@+id/rightBorderPlayer</item>
+        <item name="layout_constraintStart_toStartOf">@+id/leftBorderPlayer</item>
+    </style>
 </resources>

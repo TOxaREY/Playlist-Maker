@@ -38,4 +38,13 @@
     <dimen name="track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd">5dp</dimen>
     <dimen name="track_item_forward_layout_height_and_layout_width">24dp</dimen>
     <dimen name="clear_button_history_marginTop_and_marginBottom">24dp</dimen>
+    <dimen name="guideline_info_constraint">16dp</dimen>
+    <dimen name="guideline_player_constraint">24dp</dimen>
+    <dimen name="player_marginStart_and_marginTop_and_marginBottom_playbutton">4dp</dimen>
+    <dimen name="player_marginBottom">8dp</dimen>
+    <dimen name="player_goneMarginBottom">49dp</dimen>
+    <dimen name="player_playbutton_width_height_fabCustomSize">100dp</dimen>
+    <dimen name="player_album_full_width_height">0dp</dimen>
+    <dimen name="player_addbutton_and_likebutton_width_height_fabCustomSize">51dp</dimen>
+    <dimen name="track_album_full_imageView_roundedCorners">8dp</dimen>
 </resources>

@@ -1,7 +1,10 @@
 package xyz.toxarey.playlistmaker
 
+import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class TracksAdapter(
@@ -17,6 +20,10 @@ class TracksAdapter(
     override fun onBindViewHolder(holder: TracksViewHolder, position: Int) {
         holder.bind(data[position])
         holder.itemView.setOnClickListener {
+            val activity = holder.itemView.context as Activity
+            val audioPlayerIntent = Intent(activity, AudioPlayerActivity::class.java)
+            audioPlayerIntent.putExtra(EXTRA_TRACK, data[position])
+            startActivity(activity, audioPlayerIntent, null)
             searchHistory?.add(data[position])
         }
     }

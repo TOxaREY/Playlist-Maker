@@ -19,5 +19,6 @@
         <item name="hintTextColor">@color/yp_text_gray</item>
         <item name="colorSwitchThumbNormal">@color/yp_text_gray</item>
         <item name="android:colorForeground">@color/yp_text_gray</item>
+        <item name="colorBackgroundFloating">@color/yp_player_button</item>
     </style>
 </resources>

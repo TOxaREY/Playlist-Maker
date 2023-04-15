@@ -18,5 +18,6 @@
         <item name="colorAccent">@color/yp_blue</item>
         <item name="editTextBackground">@color/yp_white</item>
         <item name="hintTextColor">@color/yp_black</item>
+        <item name="colorBackgroundFloating">@color/yp_player_button_dark</item>
     </style>
 </resources>
