@@ -22,7 +22,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity(), CellClickListener {
-    private val iTunesSearchBaseUrl = "https://itunes.apple.com"
+    private val iTunesSearchBaseUrl = "http://itunes.apple.com"
     private val retrofit = Retrofit.Builder()
         .baseUrl(iTunesSearchBaseUrl)
         .addConverterFactory(GsonConverterFactory.create())
