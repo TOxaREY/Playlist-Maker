@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="39dp"
         android:fontFamily="@font/ys_display_medium"
-        android:text="0:30"
+        android:text="0:00"
         android:textColor="?attr/colorPrimary"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/tvDuration"

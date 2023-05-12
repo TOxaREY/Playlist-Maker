@@ -4,15 +4,17 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -43,6 +45,9 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
     private lateinit var clearHistoryButton: Button
     private lateinit var backToMainButton: Button
     private lateinit var clearSearchButton: Button
+    private lateinit var handler: Handler
+    private lateinit var requestTrackRunnable: Runnable
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +57,8 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         initializationAdapters(searchHistory)
         initializationViews()
+        handler = Handler(Looper.getMainLooper())
+        requestTrackRunnable = Runnable { requestTrack(inputMethodManager) }
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -60,6 +67,7 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 onTextChangedAction(s)
+                requestTrackDebounce()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -109,6 +117,7 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
 
     private fun communicationErrorMessage(isVisible: Boolean) {
         if(isVisible) {
+            progressBar.visibility = View.GONE
             clearTrackList()
             communicationErrorImage.visibility = View.VISIBLE
             communicationErrorText.visibility = View.VISIBLE
@@ -120,14 +129,17 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
         }
     }
 
-    private fun requestTrack() {
+    private fun requestTrack(inputMethodManager: InputMethodManager?) {
         if (searchEditText.text.isNotEmpty()) {
+            inputMethodManager?.hideSoftInputFromWindow(searchEditText.windowToken, 0)
+            progressBar.visibility = View.VISIBLE
             iTunesSearchService.search(searchEditText.text.toString()).enqueue(object :
                 Callback<TracksResponse> {
                 override fun onResponse(call: Call<TracksResponse>,
                                         response: Response<TracksResponse>
                 ) {
                     if (response.code() == 200) {
+                        progressBar.visibility = View.GONE
                         tracks.clear()
                         if (response.body()?.results?.isNotEmpty() == true) {
                             tracks.addAll(response.body()?.results!!)
@@ -161,13 +173,6 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
 
     private fun searchEditTextListeners(simpleTextWatcher: TextWatcher, tracks: ArrayList<Track>) {
         searchEditText.addTextChangedListener(simpleTextWatcher)
-        searchEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                requestTrack()
-                true
-            }
-            false
-        }
         searchEditText.setOnFocusChangeListener { _, hasFocus ->
             addHistoryTracks(tracks)
             searchHistoryLinear.visibility = if (hasFocus && searchEditText.text.isEmpty() && tracks.isNotEmpty()) View.VISIBLE else View.GONE
@@ -186,7 +191,7 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
         }
         updateButton.setOnClickListener {
             communicationErrorMessage(false)
-            requestTrack()
+            requestTrack(inputMethodManager)
         }
         clearHistoryButton.setOnClickListener {
             searchHistory.remove()
@@ -214,6 +219,7 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
         backToMainButton = findViewById(R.id.back_to_main_button_from_search)
         searchEditText = findViewById(R.id.search_edit_text)
         clearSearchButton = findViewById(R.id.clear_search_button)
+        progressBar = findViewById(R.id.progressBar)
     }
 
     private fun onTextChangedAction(s: CharSequence?) {
@@ -230,7 +236,13 @@ class SearchActivity : AppCompatActivity(), CellClickListener {
         }
     }
 
+    private fun requestTrackDebounce() {
+        handler.removeCallbacks(requestTrackRunnable)
+        handler.postDelayed(requestTrackRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
     companion object {
-        const val SEARCH_TEXT = "SEARCH_TEXT"
+        private const val SEARCH_TEXT = "SEARCH_TEXT"
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }

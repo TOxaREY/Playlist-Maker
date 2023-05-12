@@ -47,4 +47,5 @@
     <dimen name="player_album_full_width_height">0dp</dimen>
     <dimen name="player_addbutton_and_likebutton_width_height_fabCustomSize">51dp</dimen>
     <dimen name="track_album_full_imageView_roundedCorners">8dp</dimen>
+    <dimen name="progress_bar_layout_height_and_layout_width">44dp</dimen>
 </resources>
