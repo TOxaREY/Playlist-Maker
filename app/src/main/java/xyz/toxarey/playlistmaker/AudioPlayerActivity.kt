@@ -17,7 +17,8 @@ import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
     private var mediaPlayer = MediaPlayer()
-    private var playerState = STATE_DEFAULT
+    private var playerState = AudioPlayerState.STATE_DEFAULT
+    private val runnable = updateTimerTask()
     private lateinit var backToSearchButton: Button
     private lateinit var countryTextView: TextView
     private lateinit var genreTextView: TextView
@@ -60,7 +61,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
-        handler.removeCallbacks(updateTimerTask())
+        handler.removeCallbacks(runnable)
     }
 
     private fun addViews() {
@@ -104,46 +105,46 @@ class AudioPlayerActivity : AppCompatActivity() {
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            playerState = STATE_PREPARED
+            playerState = AudioPlayerState.STATE_PREPARED
         }
         mediaPlayer.setOnCompletionListener {
-            playerState = STATE_PREPARED
+            playerState = AudioPlayerState.STATE_PREPARED
             playButton.setImageResource(R.drawable.ic_play_button)
             playbackTimeTextView.text = "0:00"
-            handler.removeCallbacks(updateTimerTask())
+            handler.removeCallbacks(runnable)
         }
     }
 
     private fun startPlayer() {
         mediaPlayer.start()
-        playerState = STATE_PLAYING
-        handler.post(updateTimerTask())
+        playerState = AudioPlayerState.STATE_PLAYING
+        handler.post(runnable)
     }
 
     private fun pausePlayer() {
         mediaPlayer.pause()
-        playerState = STATE_PAUSED
-        handler.removeCallbacks(updateTimerTask())
+        playerState = AudioPlayerState.STATE_PAUSED
+        handler.removeCallbacks(runnable)
     }
 
     private fun playbackControl() {
         when(playerState) {
-            STATE_PLAYING -> {
+            AudioPlayerState.STATE_PLAYING -> {
                 pausePlayer()
                 playButton.setImageResource(R.drawable.ic_play_button)
             }
-            STATE_PREPARED, STATE_PAUSED -> {
+            AudioPlayerState.STATE_PREPARED, AudioPlayerState.STATE_PAUSED -> {
                 startPlayer()
                 playButton.setImageResource(R.drawable.ic_pause_button)
             }
-
+            else -> {}
         }
     }
 
     private fun updateTimerTask(): Runnable {
         return object : Runnable {
             override fun run() {
-                if (playerState == STATE_PLAYING) {
+                if (playerState == AudioPlayerState.STATE_PLAYING) {
                     playbackTimeTextView.text = SimpleDateFormat("mm:ss", Locale.getDefault())
                         .format(mediaPlayer.currentPosition)
                     handler.postDelayed(this, CHECkED_PLAY_TIME)
@@ -152,10 +153,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
     }
     companion object {
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
         private const val CHECkED_PLAY_TIME = 300L
     }
 }
