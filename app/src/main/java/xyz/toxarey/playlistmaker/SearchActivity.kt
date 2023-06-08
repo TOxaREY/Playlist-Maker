@@ -22,6 +22,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import xyz.toxarey.playlistmaker.audioplayer.domain.models.Track
+import xyz.toxarey.playlistmaker.audioplayer.presentation.AudioPlayerActivity
 
 class SearchActivity : AppCompatActivity(), CellClickListener {
     private val iTunesSearchBaseUrl = "http://itunes.apple.com"

@@ -3,6 +3,7 @@ package xyz.toxarey.playlistmaker
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import xyz.toxarey.playlistmaker.audioplayer.domain.models.Track
 
 class SearchHistory(var sharedPrefs: SharedPreferences) {
     fun read(): ArrayList<Track> {
