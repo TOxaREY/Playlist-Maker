@@ -21,7 +21,6 @@ class AudioPlayerActivity : AppCompatActivity(), AudioPlayerView {
     private lateinit var presenter: AudioPlayerPresenter
     private lateinit var playButton: FloatingActionButton
     private lateinit var playbackTimeTextView: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_player)
