@@ -1,4 +1,4 @@
-package xyz.toxarey.playlistmaker
+package xyz.toxarey.playlistmaker.audioplayer.domain.models
 
 enum class AudioPlayerState {
     STATE_DEFAULT,
