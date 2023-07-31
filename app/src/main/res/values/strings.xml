@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Playlist Maker</string>
+    <string name="main_title">Playlist maker</string>
+    <string name="search">Поиск</string>
+    <string name="media_library">Медиатека</string>
+    <string name="settings">Настройки</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="write_to_support">Написать в поддержку</string>
+    <string name="terms_of_use">Пользовательское соглашение</string>
+    <string name="share_address">https://practicum.yandex.ru/android-developer/</string>
+    <string name="my_email">anton@reynikov.ru</string>
+    <string name="theme_email">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="text_email">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="terms_of_use_text">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="input_hint">Поиск</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="communicationError">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
+    <string name="update">Обновить</string>
+    <string name="you_searched">Вы искали</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="country">Страна</string>
+    <string name="genre">Жанр</string>
+    <string name="year">Год</string>
+    <string name="album">Альбом</string>
+    <string name="duration">Длительность</string>
+
+</resources>

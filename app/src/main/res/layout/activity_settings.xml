@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearLayoutAtt"
+    android:background="?attr/backgroundColor">
+
+    <FrameLayout
+        style="@style/FrameLayoutAtt">
+
+        <Button
+            style="@style/BackButtonAttr"
+            android:id="@+id/back_to_main_button_from_settings" />
+
+        <TextView
+            style="@style/TextViewTitleAtt"
+            android:text="@string/settings" />
+    </FrameLayout>
+
+    <FrameLayout
+        style="@style/FrameLayoutSettings"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            style="@style/TextViewAtt"
+            android:text="@string/dark_theme"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/dark_theme_switch"
+            android:layout_width="56dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="6dp"
+            android:layout_gravity="end"
+            android:checked="false" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/share_app_frame_layout"
+        style="@style/FrameLayoutSettings">
+
+        <TextView
+            style="@style/TextViewAtt"
+            android:text="@string/share_app" />
+
+        <ImageView
+            style="@style/ImageViewAtt"
+            android:paddingStart="@dimen/settings_menu_share_app_imageView_paddingStart_and_paddingEnd"
+            android:paddingEnd="@dimen/settings_menu_share_app_imageView_paddingStart_and_paddingEnd"
+            android:paddingTop="@dimen/settings_menu_share_app_imageView_paddingTop_and_paddingBottom"
+            android:paddingBottom="@dimen/settings_menu_share_app_imageView_paddingTop_and_paddingBottom"
+            android:src="@drawable/ic_share" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/write_to_support_frame_layout"
+        style="@style/FrameLayoutSettings">
+
+        <TextView
+            style="@style/TextViewAtt"
+            android:text="@string/write_to_support" />
+
+        <ImageView
+            style="@style/ImageViewAtt"
+            android:paddingStart="@dimen/settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd"
+            android:paddingEnd="@dimen/settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd"
+            android:paddingTop="3.1dp"
+            android:paddingBottom="2.9dp"
+            android:src="@drawable/ic_support" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/terms_of_use_frame_layout"
+        style="@style/FrameLayoutSettings">
+
+        <TextView
+            style="@style/TextViewAtt"
+            android:text="@string/terms_of_use" />
+
+        <ImageView
+            style="@style/ImageViewAtt"
+            android:paddingStart="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
+            android:paddingEnd="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
+            android:paddingTop="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"
+            android:paddingBottom="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"
+            android:src="@drawable/ic_arrow_forward" />
+    </FrameLayout>
+</LinearLayout>
