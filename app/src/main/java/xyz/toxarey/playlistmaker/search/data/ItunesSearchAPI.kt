@@ -1,4 +1,4 @@
-package xyz.toxarey.playlistmaker
+package xyz.toxarey.playlistmaker.search.data
 
 import retrofit2.Call
 import retrofit2.http.GET

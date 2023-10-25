@@ -1,17 +1,25 @@
-package xyz.toxarey.playlistmaker
+package xyz.toxarey.playlistmaker.app
 
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import xyz.toxarey.playlistmaker.utils.DARK_THEME_KEY
+import xyz.toxarey.playlistmaker.utils.PLAYLISTMAKER_PREFERENCES
 
 class App: Application() {
     var darkTheme = false
-    lateinit var sharedPrefs: SharedPreferences
+    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreate() {
         super.onCreate()
-        sharedPrefs = getSharedPreferences(PLAYLISTMAKER_PREFERENCES, MODE_PRIVATE)
-        darkTheme = sharedPrefs.getBoolean(DARK_THEME_KEY, false)
+        sharedPrefs = getSharedPreferences(
+            PLAYLISTMAKER_PREFERENCES,
+            MODE_PRIVATE
+        )
+        darkTheme = sharedPrefs.getBoolean(
+            DARK_THEME_KEY,
+            false
+        )
         switchTheme(darkTheme)
     }
 
@@ -22,6 +30,9 @@ class App: Application() {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        sharedPrefs.edit().putBoolean(DARK_THEME_KEY, darkTheme).apply()
+        sharedPrefs.edit().putBoolean(
+            DARK_THEME_KEY,
+            darkTheme
+        ).apply()
     }
 }
