@@ -1,7 +1,6 @@
 package xyz.toxarey.playlistmaker.creator
 
 import android.content.Context
-import xyz.toxarey.playlistmaker.app.App
 import xyz.toxarey.playlistmaker.player.data.TrackMediaPlayerRepositoryImpl
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerRepository
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractorImpl
@@ -32,12 +31,16 @@ object Creator {
         return SharingInteractorImpl(provideExternalNavigator(context))
     }
 
-    fun provideSettingsInteractor(app: App): SettingsInteractor {
-        return SettingsInteractorImpl(provideSettingsRepository(app))
+    fun provideSettingsInteractor(context: Context): SettingsInteractor {
+        return SettingsInteractorImpl(provideSettingsRepository(context))
     }
 
     fun provideSearchInteractor(context: Context): TracksInteractor {
         return TracksInteractorImpl(provideTracksRepository(context))
+    }
+
+   fun provideSettingsRepository(context: Context): SettingsRepository {
+        return SettingsRepositoryImpl(context)
     }
 
     private fun provideTrackMediaPlayer(previewUrl: String) : TrackMediaPlayerRepository {
@@ -46,10 +49,6 @@ object Creator {
 
     private fun provideExternalNavigator(context: Context): ExternalTransitions {
         return ExternalTransitionsImpl(context)
-    }
-
-    private fun provideSettingsRepository(app: App): SettingsRepository {
-        return SettingsRepositoryImpl(app)
     }
 
     private fun provideTracksRepository(context: Context): TracksRepository {
