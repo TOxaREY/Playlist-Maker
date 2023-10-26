@@ -1,7 +1,6 @@
 package xyz.toxarey.playlistmaker.search.domain
 
 import xyz.toxarey.playlistmaker.player.domain.Track
-import xyz.toxarey.playlistmaker.search.data.Resource
 import java.util.concurrent.Executors
 
 class TracksInteractorImpl(private val repository: TracksRepository): TracksInteractor {
@@ -12,15 +11,17 @@ class TracksInteractorImpl(private val repository: TracksRepository): TracksInte
         consumer: TracksInteractor.TracksConsumer
     ) {
         executor.execute {
-            when (val resource = repository.searchTracks(text)) {
-                is Resource.Success -> consumer.consume(
-                    resource.data,
+            when (val result = repository.searchTracks(text)) {
+                is Result.Success -> consumer.consume(
+                    result.data,
                     false
                 )
-                is Resource.Error -> consumer.consume(
+                is Result.Error -> consumer.consume(
                     null,
                     true
                 )
+
+                else -> {}
             }
         }
     }

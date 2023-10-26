@@ -5,6 +5,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import xyz.toxarey.playlistmaker.player.domain.Track
+import xyz.toxarey.playlistmaker.search.domain.Result
 
 class RetrofitNetworkClient(private val context: Context): NetworkClient {
     private val iTunesSearchBaseUrl = "http://itunes.apple.com"
@@ -14,16 +16,17 @@ class RetrofitNetworkClient(private val context: Context): NetworkClient {
         .build()
     private val iTunesSearchService = retrofit.create(ItunesSearchAPI::class.java)
 
-    override fun doRequest(request: Any): Response {
+    override fun requestTracks(request: TracksRequest): Result<List<Track>> {
         if (!isConnected()) {
-            return Response().apply { resultCode = -1 }
-        }
-        if (request !is TracksRequest) {
-            return Response().apply { resultCode = 400 }
+            return Result.Error()
         }
         val response = iTunesSearchService.search(request.text).execute()
         val body = response.body()
-        return body?.apply { resultCode = response.code() } ?: Response().apply { resultCode = response.code() }
+        return if (body != null) {
+            Result.Success(body.results)
+        } else {
+            Result.Error()
+        }
     }
 
     private fun isConnected(): Boolean {
