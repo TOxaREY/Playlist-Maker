@@ -3,10 +3,9 @@ package xyz.toxarey.playlistmaker.player.data
 import android.media.MediaPlayer
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerRepository
 
-class TrackMediaPlayerRepositoryImpl(private val previewUrl: String) : TrackMediaPlayerRepository {
-    private val mediaPlayer = MediaPlayer()
-
+class TrackMediaPlayerRepositoryImpl(private val mediaPlayer: MediaPlayer): TrackMediaPlayerRepository {
     override fun preparePlayer(
+        previewUrl: String,
         onPrepared: () -> Unit,
         onCompletion: () -> Unit
     ) {

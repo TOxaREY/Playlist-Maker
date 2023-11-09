@@ -8,9 +8,10 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.lifecycle.ViewModelProvider
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import xyz.toxarey.playlistmaker.databinding.ActivitySearchBinding
 import xyz.toxarey.playlistmaker.player.domain.Track
@@ -19,7 +20,7 @@ import xyz.toxarey.playlistmaker.search.domain.SearchScreenState
 import xyz.toxarey.playlistmaker.search.domain.SearchState
 
 class SearchActivity : AppCompatActivity() {
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModel()
     private lateinit var binding: ActivitySearchBinding
     private lateinit var tracksAdapter: TracksAdapter
     private lateinit var tracksAdapterHistory: TracksAdapter
@@ -34,11 +35,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory()
-        )[SearchViewModel::class.java]
 
         viewModel.getSearchStateLiveData().observe(this) {
             searchState(it)
@@ -126,6 +122,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun segueToAudioPlayerActivity(track: Track) {
+        Log.i("TEST", track.artistName)
         val audioPlayerIntent = Intent(
             this,
             AudioPlayerActivity::class.java

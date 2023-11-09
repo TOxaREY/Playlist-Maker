@@ -3,11 +3,6 @@ package xyz.toxarey.playlistmaker.search.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import xyz.toxarey.playlistmaker.app.App
-import xyz.toxarey.playlistmaker.creator.Creator
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.search.domain.SearchState
 import xyz.toxarey.playlistmaker.search.domain.TracksInteractor
@@ -48,15 +43,6 @@ class SearchViewModel(private val tracksInteractor: TracksInteractor): ViewModel
                     }
                 }
             } )
-        }
-    }
-
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val app = this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as App
-                SearchViewModel(Creator.provideSearchInteractor(app))
-            }
         }
     }
 }

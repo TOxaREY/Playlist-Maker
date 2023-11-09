@@ -1,21 +1,23 @@
 package xyz.toxarey.playlistmaker.player.ui
 
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import xyz.toxarey.playlistmaker.creator.Creator
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.player.domain.Track
+import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
+import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AudioPlayerViewModel(private val track: Track): ViewModel() {
-    private val interactorTrackMediaPlayer = Creator.provideTrackMediaPlayerInteractor(track.previewUrl)
+class AudioPlayerViewModel(
+    intent: Intent,
+    private val interactorTrackMediaPlayer: TrackMediaPlayerInteractor
+): ViewModel() {
+    private var track: Track = intent.getSerializableExtra(EXTRA_TRACK) as Track
     private val handler = Handler(Looper.getMainLooper())
     private val audioPlayerStateLiveData = MutableLiveData<AudioPlayerState>()
     private val updateTimerTaskLiveData = MutableLiveData<String>()
@@ -23,6 +25,7 @@ class AudioPlayerViewModel(private val track: Track): ViewModel() {
     init {
         updateAudioPlayerState(AudioPlayerState.STATE_DEFAULT)
         interactorTrackMediaPlayer.preparePlayer(
+            previewUrl = track.previewUrl,
             onPrepared = {
                 updateAudioPlayerState(AudioPlayerState.STATE_PREPARED)
             },
@@ -41,10 +44,13 @@ class AudioPlayerViewModel(private val track: Track): ViewModel() {
     }
 
     fun getAudioPlayerStateLiveData(): LiveData<AudioPlayerState> = audioPlayerStateLiveData
+
     fun getUpdateTimerTaskLiveData(): LiveData<String> = updateTimerTaskLiveData
+
     fun getTrack(): Track {
         return this.track
     }
+
     fun playbackControl() {
         when(audioPlayerStateLiveData.value) {
             AudioPlayerState.STATE_PLAYING -> {
@@ -97,11 +103,5 @@ class AudioPlayerViewModel(private val track: Track): ViewModel() {
 
     companion object {
         private const val CHECkED_PLAY_TIME = 300L
-
-        fun getViewModelFactory(track: Track): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                AudioPlayerViewModel(track)
-            }
-        }
     }
 }
