@@ -6,11 +6,17 @@ import com.google.gson.reflect.TypeToken
 import xyz.toxarey.playlistmaker.utils.SEARCH_HISTORY_KEY
 import xyz.toxarey.playlistmaker.player.domain.Track
 
-class SearchTrackStorageImpl(var sharedPrefs: SharedPreferences): SearchTrackStorage {
+class SearchTrackStorageImpl(
+    private val sharedPrefs: SharedPreferences,
+    private val gson: Gson
+): SearchTrackStorage {
     override fun read(): ArrayList<Track> {
         val json = sharedPrefs.getString(SEARCH_HISTORY_KEY, null) ?: return arrayListOf()
         val arrayType = object : TypeToken<ArrayList<Track>>() {}.type
-        return Gson().fromJson(json, arrayType)
+        return gson.fromJson(
+            json,
+            arrayType
+        )
     }
 
     override fun add(track: Track) {
@@ -43,9 +49,12 @@ class SearchTrackStorageImpl(var sharedPrefs: SharedPreferences): SearchTrackSto
     }
 
     private fun write(tracks: ArrayList<Track>) {
-        val json = Gson().toJson(tracks)
+        val json = gson.toJson(tracks)
         sharedPrefs.edit()
-            .putString(SEARCH_HISTORY_KEY, json)
+            .putString(
+                SEARCH_HISTORY_KEY,
+                json
+            )
             .apply()
     }
 

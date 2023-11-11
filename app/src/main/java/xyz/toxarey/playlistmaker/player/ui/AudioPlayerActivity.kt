@@ -3,29 +3,27 @@ package xyz.toxarey.playlistmaker.player.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.databinding.ActivityAudioPlayerBinding
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
+import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
-    private lateinit var viewModel: AudioPlayerViewModel
+    private val viewModel: AudioPlayerViewModel by viewModel {
+        parametersOf(intent.getSerializableExtra(EXTRA_TRACK) as Track)
+    }
     private lateinit var binding: ActivityAudioPlayerBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(
-            this,
-            AudioPlayerViewModel.getViewModelFactory(intent.getSerializableExtra(EXTRA_TRACK) as Track)
-        )[AudioPlayerViewModel::class.java]
 
         viewModel.getAudioPlayerStateLiveData().observe(this) {
             setImagePlayPauseButton(it)

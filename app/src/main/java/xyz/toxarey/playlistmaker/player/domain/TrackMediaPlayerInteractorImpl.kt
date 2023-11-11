@@ -4,10 +4,12 @@ class TrackMediaPlayerInteractorImpl(private val trackMediaPlayerRepository: Tra
     TrackMediaPlayerInteractor {
 
     override fun preparePlayer(
+        previewUrl: String,
         onPrepared: () -> Unit,
         onCompletion: () -> Unit
     ) {
         trackMediaPlayerRepository.preparePlayer(
+            previewUrl,
             onPrepared,
             onCompletion
         )
