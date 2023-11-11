@@ -1,6 +1,5 @@
 package xyz.toxarey.playlistmaker.player.ui
 
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.LiveData
@@ -9,15 +8,13 @@ import androidx.lifecycle.ViewModel
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
-import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerViewModel(
-    intent: Intent,
+    private val track: Track,
     private val interactorTrackMediaPlayer: TrackMediaPlayerInteractor
 ): ViewModel() {
-    private var track: Track = intent.getSerializableExtra(EXTRA_TRACK) as Track
     private val handler = Handler(Looper.getMainLooper())
     private val audioPlayerStateLiveData = MutableLiveData<AudioPlayerState>()
     private val updateTimerTaskLiveData = MutableLiveData<String>()

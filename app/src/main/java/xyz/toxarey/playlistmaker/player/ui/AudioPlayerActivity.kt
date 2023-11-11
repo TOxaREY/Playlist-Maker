@@ -11,12 +11,13 @@ import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.databinding.ActivityAudioPlayerBinding
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
+import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
     private val viewModel: AudioPlayerViewModel by viewModel {
-        parametersOf(intent)
+        parametersOf(intent.getSerializableExtra(EXTRA_TRACK) as Track)
     }
     private lateinit var binding: ActivityAudioPlayerBinding
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -7,7 +7,7 @@ import xyz.toxarey.playlistmaker.utils.SEARCH_HISTORY_KEY
 import xyz.toxarey.playlistmaker.player.domain.Track
 
 class SearchTrackStorageImpl(
-    var sharedPrefs: SharedPreferences,
+    private val sharedPrefs: SharedPreferences,
     private val gson: Gson
 ): SearchTrackStorage {
     override fun read(): ArrayList<Track> {

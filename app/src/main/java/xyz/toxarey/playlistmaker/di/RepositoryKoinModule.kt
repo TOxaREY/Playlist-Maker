@@ -15,7 +15,7 @@ import xyz.toxarey.playlistmaker.sharing.domain.ExternalTransitions
 import xyz.toxarey.playlistmaker.utils.PLAYLISTMAKER_PREFERENCES
 
 val repositoryKoinModule = module {
-    factory { MediaPlayer() }
+    single { MediaPlayer() }
 
     factory<TrackMediaPlayerRepository> {
         TrackMediaPlayerRepositoryImpl(get())
@@ -37,7 +37,7 @@ val repositoryKoinModule = module {
     }
 
     single<SettingsRepository> {
-        SettingsRepositoryImpl()
+        SettingsRepositoryImpl(get())
     }
 
     single<ExternalTransitions> {

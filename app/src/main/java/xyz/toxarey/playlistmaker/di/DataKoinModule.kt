@@ -20,7 +20,7 @@ val dataKoinModule = module {
             .create(ItunesSearchAPI::class.java)
     }
 
-    factory { Gson() }
+    single { Gson() }
 
     single<NetworkClient> {
         RetrofitNetworkClient(
