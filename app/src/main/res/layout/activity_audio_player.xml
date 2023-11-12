@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/ConstraintLayoutAtt">
+    style="@style/ConstraintLayoutAttr">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftBorderInfo"
-        style="@style/GuidelineAtt"
+        style="@style/GuidelineAttr"
         app:layout_constraintGuide_begin="@dimen/guideline_info_constraint" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorderInfo"
-        style="@style/GuidelineAtt"
+        style="@style/GuidelineAttr"
         app:layout_constraintGuide_end="@dimen/guideline_info_constraint" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftBorderPlayer"
-        style="@style/GuidelineAtt"
+        style="@style/GuidelineAttr"
         app:layout_constraintGuide_begin="@dimen/guideline_player_constraint" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorderPlayer"
-        style="@style/GuidelineAtt"
+        style="@style/GuidelineAttr"
         app:layout_constraintGuide_end="@dimen/guideline_player_constraint" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottomBorderInfo"
-        style="@style/GuidelineAtt"
+        style="@style/GuidelineAttr"
         android:orientation="horizontal"
         app:layout_constraintGuide_end="20dp" />
 
@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/tvCountry"
-        style="@style/TextViewInfoAtt"
+        style="@style/TextViewInfoAttr"
         android:layout_marginBottom="@dimen/player_marginBottom"
         android:text="@string/country"
         app:layout_constraintBottom_toTopOf="@+id/bottomBorderInfo"
@@ -55,28 +55,28 @@
 
     <TextView
         android:id="@+id/tvGenre"
-        style="@style/TextViewInfoAtt"
+        style="@style/TextViewInfoAttr"
         android:text="@string/genre"
         app:layout_constraintBottom_toTopOf="@+id/tvCountry"
         app:layout_constraintTag="genreTag" />
 
     <TextView
         android:id="@+id/tvYear"
-        style="@style/TextViewInfoAtt"
+        style="@style/TextViewInfoAttr"
         android:text="@string/year"
         app:layout_constraintBottom_toTopOf="@+id/tvGenre"
         app:layout_constraintTag="yearTag" />
 
     <TextView
         android:id="@+id/tvAlbum"
-        style="@style/TextViewInfoAtt"
+        style="@style/TextViewInfoAttr"
         android:text="@string/album"
         app:layout_constraintBottom_toTopOf="@+id/tvYear"
         app:layout_constraintTag="albumTag" />
 
     <TextView
         android:id="@+id/tvDuration"
-        style="@style/TextViewInfoAtt"
+        style="@style/TextViewInfoAttr"
         android:text="@string/duration"
         app:layout_constraintBottom_toTopOf="@+id/tvAlbum"
         app:layout_constraintTag="durationTag"
@@ -84,32 +84,32 @@
 
     <TextView
         android:id="@+id/tvCountryValue"
-        style="@style/TextViewInfoValueAtt"
+        style="@style/TextViewInfoValueAttr"
         android:layout_marginBottom="@dimen/player_marginBottom"
         app:layout_constraintBottom_toTopOf="@+id/bottomBorderInfo"
         app:layout_constraintEnd_toStartOf="@+id/rightBorderInfo" />
 
     <TextView
         android:id="@+id/tvGenreValue"
-        style="@style/TextViewInfoValueAtt"
+        style="@style/TextViewInfoValueAttr"
         app:layout_constraintBottom_toTopOf="@+id/tvCountryValue"
         app:layout_constraintEnd_toStartOf="@+id/rightBorderInfo" />
 
     <TextView
         android:id="@+id/tvYearValue"
-        style="@style/TextViewInfoValueAtt"
+        style="@style/TextViewInfoValueAttr"
         app:layout_constraintBottom_toTopOf="@+id/tvGenreValue"
         app:layout_constraintEnd_toStartOf="@+id/rightBorderInfo" />
 
     <TextView
         android:id="@+id/tvAlbumValue"
-        style="@style/TextViewInfoValueAtt"
+        style="@style/TextViewInfoValueAttr"
         app:layout_constraintBottom_toTopOf="@+id/tvYearValue"
         app:layout_constraintEnd_toStartOf="@+id/rightBorderInfo" />
 
     <TextView
         android:id="@+id/tvDurationValue"
-        style="@style/TextViewInfoValueAtt"
+        style="@style/TextViewInfoValueAttr"
         app:layout_constraintBottom_toTopOf="@+id/tvAlbumValue"
         app:layout_constraintEnd_toStartOf="@+id/rightBorderInfo"
         app:layout_goneMarginBottom="@dimen/player_goneMarginBottom" />
@@ -129,7 +129,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/playButton"
-        style="@style/PlayerButtonAtt"
+        style="@style/PlayerButtonAttr"
         android:layout_width="@dimen/player_playbutton_width_height_fabCustomSize"
         android:layout_height="@dimen/player_playbutton_width_height_fabCustomSize"
         android:layout_marginBottom="@dimen/player_marginStart_and_marginTop_and_marginBottom_playbutton"
@@ -144,26 +144,26 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addButton"
-        style="@style/PlayerButtonAtt"
+        style="@style/PlayerButtonAttr"
         android:src="@drawable/ic_add_button"
         app:layout_constraintStart_toStartOf="@+id/leftBorderPlayer" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/likeButton"
-        style="@style/PlayerButtonAtt"
+        style="@style/PlayerButtonAttr"
         android:src="@drawable/ic_like_button"
         app:layout_constraintEnd_toEndOf="@+id/rightBorderPlayer" />
 
     <TextView
         android:id="@+id/tvArtistTitle"
-        style="@style/TextViewInfoTitleAtt"
+        style="@style/TextViewInfoTitleAttr"
         android:layout_marginBottom="28dp"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/playButton" />
 
     <TextView
         android:id="@+id/tvTrackTitle"
-        style="@style/TextViewInfoTitleAtt"
+        style="@style/TextViewInfoTitleAttr"
         android:layout_marginBottom="12dp"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/tvArtistTitle" />

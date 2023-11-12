@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/LinearLayoutAtt"
+    style="@style/LinearLayoutAttr"
     android:background="?attr/backgroundColor">
 
     <FrameLayout
-        style="@style/FrameLayoutAtt">
+        style="@style/FrameLayoutAttr">
 
         <Button
             style="@style/BackButtonAttr"
             android:id="@+id/back_to_main_button_from_settings" />
 
         <TextView
-            style="@style/TextViewTitleAtt"
+            style="@style/TextViewTitleAttr"
             android:text="@string/settings" />
     </FrameLayout>
 
@@ -21,7 +21,7 @@
         android:layout_marginTop="24dp">
 
         <TextView
-            style="@style/TextViewAtt"
+            style="@style/TextViewAttr"
             android:text="@string/dark_theme"/>
 
         <androidx.appcompat.widget.SwitchCompat
@@ -39,11 +39,11 @@
         style="@style/FrameLayoutSettings">
 
         <TextView
-            style="@style/TextViewAtt"
+            style="@style/TextViewAttr"
             android:text="@string/share_app" />
 
         <ImageView
-            style="@style/ImageViewAtt"
+            style="@style/ImageViewAttr"
             android:paddingStart="@dimen/settings_menu_share_app_imageView_paddingStart_and_paddingEnd"
             android:paddingEnd="@dimen/settings_menu_share_app_imageView_paddingStart_and_paddingEnd"
             android:paddingTop="@dimen/settings_menu_share_app_imageView_paddingTop_and_paddingBottom"
@@ -56,11 +56,11 @@
         style="@style/FrameLayoutSettings">
 
         <TextView
-            style="@style/TextViewAtt"
+            style="@style/TextViewAttr"
             android:text="@string/write_to_support" />
 
         <ImageView
-            style="@style/ImageViewAtt"
+            style="@style/ImageViewAttr"
             android:paddingStart="@dimen/settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd"
             android:paddingEnd="@dimen/settings_menu_write_to_support_imageView_paddingStart_and_paddingEnd"
             android:paddingTop="3.1dp"
@@ -73,11 +73,11 @@
         style="@style/FrameLayoutSettings">
 
         <TextView
-            style="@style/TextViewAtt"
+            style="@style/TextViewAttr"
             android:text="@string/terms_of_use" />
 
         <ImageView
-            style="@style/ImageViewAtt"
+            style="@style/ImageViewAttr"
             android:paddingStart="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
             android:paddingEnd="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
             android:paddingTop="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"

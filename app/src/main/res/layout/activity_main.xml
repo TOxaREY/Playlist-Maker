@@ -2,40 +2,40 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/LinearLayoutAtt"
+    style="@style/LinearLayoutAttr"
     android:background="?attr/colorPrimaryVariant">
 
     <FrameLayout
-        style="@style/FrameLayoutAtt">
+        style="@style/FrameLayoutAttr">
 
         <TextView
-            style="@style/TextViewTitleAtt"
+            style="@style/TextViewTitleAttr"
             android:layout_marginStart="12dp"
             android:textColor="@color/yp_white"
             android:text="@string/main_title" />
     </FrameLayout>
 
     <LinearLayout
-        style="@style/LinearLayoutAtt"
+        style="@style/LinearLayoutAttr"
         android:layout_marginStart="17dp"
         android:layout_marginEnd="15dp">
 
         <Button
             android:id="@+id/search_button"
-            style="@style/ButtonsAtt"
+            style="@style/ButtonsAttr"
             android:layout_marginTop="24dp"
             android:text="@string/search"
             app:icon="@drawable/ic_search" />
 
         <Button
             android:id="@+id/media_library_button"
-            style="@style/ButtonsAtt"
+            style="@style/ButtonsAttr"
             android:text="@string/media_library"
             app:icon="@drawable/ic_media_library" />
 
         <Button
             android:id="@+id/settings_button"
-            style="@style/ButtonsAtt"
+            style="@style/ButtonsAttr"
             android:layout_marginBottom="28dp"
             android:text="@string/settings"
             app:icon="@drawable/ic_settings" />
