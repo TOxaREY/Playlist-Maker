@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/LinearLayoutTrackAtt"
+    style="@style/LinearLayoutTrackAttr"
     android:layout_width="match_parent">
 
     <ImageView
@@ -18,7 +18,7 @@
         android:src="@drawable/album_placeholder"/>
 
     <LinearLayout
-        style="@style/LinearLayoutTrackAtt"
+        style="@style/LinearLayoutTrackAttr"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_marginStart="8dp"
@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/tvTrackName"
-            style="@style/TextViewTrackAtt"
+            style="@style/TextViewTrackAttr"
             android:layout_marginTop="14dp"
             android:layout_marginBottom="0dp"
             android:textSize="16sp"
@@ -34,11 +34,11 @@
             tools:text="@string/placeholder"/>
 
         <LinearLayout
-            style="@style/LinearLayoutTrackAtt">
+            style="@style/LinearLayoutTrackAttr">
 
             <TextView
                 android:id="@+id/tvArtistName"
-                style="@style/TextViewTrackAtt"
+                style="@style/TextViewTrackAttr"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 tools:text="@string/placeholder"/>
@@ -52,7 +52,7 @@
 
             <TextView
                 android:id="@+id/tvTrackTime"
-                style="@style/TextViewTrackAtt"
+                style="@style/TextViewTrackAttr"
                 tools:text="@string/placeholder"/>
         </LinearLayout>
     </LinearLayout>

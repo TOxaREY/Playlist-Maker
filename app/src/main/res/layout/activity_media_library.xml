@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/LinearLayoutAttr"
     android:background="?attr/backgroundColor">
 
@@ -9,7 +9,7 @@
 
         <Button
             style="@style/BackButtonAttr"
-            android:id="@+id/back_to_main_button_from_search" />
+            android:id="@+id/back_to_main_button_from_media_library" />
 
         <TextView
             style="@style/TextViewTitleAttr"
@@ -21,6 +21,7 @@
         android:layout_height="48dp">
 
         <com.google.android.material.tabs.TabLayout
+            app:tabTextAppearance="@style/TabLayoutTextAppearanceAttr"
             style="@style/TabLayoutAttr"
             android:id="@+id/tabLayout" />
     </FrameLayout>
