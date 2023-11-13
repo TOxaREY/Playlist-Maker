@@ -6,29 +6,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import xyz.toxarey.playlistmaker.databinding.FragmentFavoriteTracksBinding
+import xyz.toxarey.playlistmaker.databinding.FragmentPlaylistsBinding
 
-class FragmentFavoriteTracks: Fragment() {
-    private val fragmentFavoriteTracksViewModel: FragmentFavoriteTracksViewModel by viewModel()
-    private lateinit var binding: FragmentFavoriteTracksBinding
+class PlaylistsFragment: Fragment() {
+    private val playlistsFragmentViewModel: PlaylistsFragmentViewModel by viewModel()
+    private var _binding: FragmentPlaylistsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFavoriteTracksBinding.inflate(
+        _binding = FragmentPlaylistsBinding.inflate(
             inflater,
             container,
             false)
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
-        fun newInstance(): FragmentFavoriteTracks {
+        fun newInstance(): PlaylistsFragment {
             val args = Bundle()
 
-            val fragment = FragmentFavoriteTracks()
+            val fragment = PlaylistsFragment()
             fragment.arguments = args
             return fragment
         }
