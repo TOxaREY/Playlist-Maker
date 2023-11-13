@@ -3,7 +3,7 @@ package xyz.toxarey.playlistmaker.main.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import xyz.toxarey.playlistmaker.media_library.MediaLibraryActivity
+import xyz.toxarey.playlistmaker.media_library.ui.MediaLibraryActivity
 import xyz.toxarey.playlistmaker.search.ui.SearchActivity
 import xyz.toxarey.playlistmaker.settings.ui.SettingsActivity
 import xyz.toxarey.playlistmaker.databinding.ActivityMainBinding

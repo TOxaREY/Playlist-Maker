@@ -3,18 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/LinearLayoutAtt"
+    style="@style/LinearLayoutAttr"
     android:background="?attr/backgroundColor">
 
     <FrameLayout
-        style="@style/FrameLayoutAtt">
+        style="@style/FrameLayoutAttr">
 
         <Button
             style="@style/BackButtonAttr"
             android:id="@+id/back_to_main_button_from_search" />
 
         <TextView
-            style="@style/TextViewTitleAtt"
+            style="@style/TextViewTitleAttr"
             android:text="@string/search" />
     </FrameLayout>
 
@@ -71,10 +71,10 @@
     </FrameLayout>
 
     <FrameLayout
-        style="@style/FrameLayoutSearchAttr">
+        style="@style/FrameLayoutSearchAndMediaLibraryAttr">
 
         <FrameLayout
-            style="@style/FrameLayoutSearchAttr">
+            style="@style/FrameLayoutSearchAndMediaLibraryAttr">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTracks"
@@ -114,7 +114,7 @@
 
             <Button
                 android:id="@+id/update_button"
-                style="@style/UpdateAndClearButtonAttr"
+                style="@style/UpdateAndClearAndNewPlaulistButtonAttr"
                 android:layout_marginTop="350dp"
                 android:text="@string/update"
                 android:visibility="invisible"/>
@@ -122,7 +122,7 @@
 
         <LinearLayout
             android:id="@+id/search_history_linear"
-            style="@style/LinearLayoutHistoryAtt"
+            style="@style/LinearLayoutHistoryAttr"
             android:visibility="gone">
 
             <TextView
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    style="@style/LinearLayoutHistoryAtt">
+                    style="@style/LinearLayoutHistoryAttr">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvSearchHistory"
@@ -153,7 +153,7 @@
 
                     <Button
                         android:id="@+id/clear_history_button"
-                        style="@style/UpdateAndClearButtonAttr"
+                        style="@style/UpdateAndClearAndNewPlaulistButtonAttr"
                         android:layout_marginTop="@dimen/clear_button_history_marginTop_and_marginBottom"
                         android:layout_marginBottom="@dimen/clear_button_history_marginTop_and_marginBottom"
                         android:text="@string/clear_history" />

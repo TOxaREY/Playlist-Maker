@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LinearLayoutAttr"
+    android:background="?attr/backgroundColor">
+
+    <FrameLayout
+        style="@style/FrameLayoutSearchAndMediaLibraryAttr">
+
+        <ImageView
+            android:id="@+id/nothingFoundImage"
+            style="@style/ImageViewErrorAttr"
+            android:src="@drawable/ic_nothing_found"
+            android:layout_marginTop="106dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/mediaLibraryIsEmptyText"
+            style="@style/TextViewErrorAttr"
+            android:layout_marginTop="242dp"
+            android:text="@string/your_media_library_is_empty"
+            android:visibility="visible" />
+    </FrameLayout>
+</LinearLayout>
