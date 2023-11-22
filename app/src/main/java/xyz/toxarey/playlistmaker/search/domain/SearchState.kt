@@ -7,5 +7,5 @@ sealed interface SearchState {
     data class Content(val tracks: List<Track>): SearchState
     object Error: SearchState
     object Empty: SearchState
-    object Default: SearchState
+    object Paused: SearchState
 }

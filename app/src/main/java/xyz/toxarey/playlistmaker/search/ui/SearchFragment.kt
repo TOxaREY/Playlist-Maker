@@ -52,16 +52,6 @@ class SearchFragment: Fragment() {
             view,
             savedInstanceState
         )
-        val restoreText = savedInstanceState?.getString(
-            SEARCH_TEXT,
-            ""
-        )
-        binding.searchEditText.setText(restoreText)
-        binding.searchEditText.setSelection(binding.searchEditText.text.length)
-        if (restoreText != null) {
-            searchText = restoreText
-        }
-
         viewModel.getSearchStateLiveData().observe(viewLifecycleOwner) {
             searchState(it)
         }
@@ -101,18 +91,12 @@ class SearchFragment: Fragment() {
         buttonsListeners(inputMethodManager)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        handler.removeCallbacks(requestTrackRunnable)
-        viewModel.setDefaultSearchStateLiveData()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(
-            SEARCH_TEXT,
-            searchText
-        )
+    override fun onPause() {
+        super.onPause()
+        if (viewModel.getSearchStateLiveData().value != SearchState.Content(tracks)) {
+            viewModel.setPauseSearchStateLiveData()
+            searchState(SearchState.Paused)
+        }
     }
 
     private fun initializationAdapters() {
@@ -241,10 +225,11 @@ class SearchFragment: Fragment() {
                 SearchScreenState.SUCCESS,
                 state.tracks
             )
-            is SearchState.Default -> updateSearchScreenState(
-                SearchScreenState.DEFAULT,
-                null
-            )
+            is SearchState.Paused -> {
+                handler.removeCallbacks(requestTrackRunnable)
+                binding.searchEditText.setText("")
+                searchText = ""
+            }
         }
     }
 
@@ -277,8 +262,6 @@ class SearchFragment: Fragment() {
                     addTracksToList(newTracks)
                 }
             }
-
-            SearchScreenState.DEFAULT -> {}
         }
     }
 
@@ -332,7 +315,6 @@ class SearchFragment: Fragment() {
     }
 
     companion object {
-        private const val SEARCH_TEXT = "SEARCH_TEXT"
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }
