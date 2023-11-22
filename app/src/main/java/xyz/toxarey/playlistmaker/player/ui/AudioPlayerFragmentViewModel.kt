@@ -11,7 +11,7 @@ import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AudioPlayerViewModel(
+class AudioPlayerFragmentViewModel(
     private val track: Track,
     private val interactorTrackMediaPlayer: TrackMediaPlayerInteractor
 ): ViewModel() {

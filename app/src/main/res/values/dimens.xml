@@ -49,4 +49,5 @@
     <dimen name="track_album_full_imageView_roundedCorners">8dp</dimen>
     <dimen name="progress_bar_layout_height_and_layout_width">44dp</dimen>
     <dimen name="tab_layout_marginLeft_and_marginRight">16dp</dimen>
+    <dimen name="activity_root_layout_width_and_height_and_bottomNavigationView_layout_width">0dp</dimen>
 </resources>

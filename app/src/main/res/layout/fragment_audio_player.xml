@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/ConstraintLayoutAttr">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/audioPlayerFragment"
+    style="@style/ConstraintLayoutAttr"
+    tools:context=".player.ui.AudioPlayerFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftBorderInfo"

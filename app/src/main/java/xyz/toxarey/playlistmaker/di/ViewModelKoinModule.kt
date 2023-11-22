@@ -5,24 +5,24 @@ import org.koin.dsl.module
 import xyz.toxarey.playlistmaker.media_library.ui.FavoriteTracksFragmentViewModel
 import xyz.toxarey.playlistmaker.media_library.ui.PlaylistsFragmentViewModel
 import xyz.toxarey.playlistmaker.player.domain.Track
-import xyz.toxarey.playlistmaker.player.ui.AudioPlayerViewModel
-import xyz.toxarey.playlistmaker.search.ui.SearchViewModel
-import xyz.toxarey.playlistmaker.settings.ui.SettingsActivityViewModel
+import xyz.toxarey.playlistmaker.player.ui.AudioPlayerFragmentViewModel
+import xyz.toxarey.playlistmaker.search.ui.SearchFragmentViewModel
+import xyz.toxarey.playlistmaker.settings.ui.SettingsFragmentViewModel
 
 val viewModelKoinModule = module {
     viewModel { (track: Track) ->
-        AudioPlayerViewModel(
+        AudioPlayerFragmentViewModel(
             track,
             get()
         )
     }
 
     viewModel {
-        SearchViewModel(get())
+        SearchFragmentViewModel(get())
     }
 
     viewModel {
-        SettingsActivityViewModel(
+        SettingsFragmentViewModel(
             get(),
             get()
         )

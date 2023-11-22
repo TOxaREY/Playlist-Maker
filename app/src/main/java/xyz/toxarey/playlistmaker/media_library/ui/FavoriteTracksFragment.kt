@@ -10,24 +10,18 @@ import xyz.toxarey.playlistmaker.databinding.FragmentFavoriteTracksBinding
 
 class FavoriteTracksFragment: Fragment() {
     private val favoriteTracksFragmentViewModel: FavoriteTracksFragmentViewModel by viewModel()
-    private var _binding: FragmentFavoriteTracksBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentFavoriteTracksBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFavoriteTracksBinding.inflate(
+        binding = FragmentFavoriteTracksBinding.inflate(
             inflater,
             container,
             false)
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

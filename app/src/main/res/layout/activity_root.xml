@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ConstraintLayoutRootAttr"
+    tools:context=".root.ui.RootActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/rootFragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        style="@style/FragmentContainerViewRootAttr"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/root_navigation_graph"
+        tools:ignore="MissingConstraints" />
+
+        <View
+            android:id="@+id/lineAboveBottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/yp_light_gray"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        style="@style/BottomNavigationViewAttr"
+        app:menu="@menu/navigation_items"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
