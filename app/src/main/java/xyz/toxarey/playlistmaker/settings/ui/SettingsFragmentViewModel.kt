@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import xyz.toxarey.playlistmaker.settings.domain.SettingsInteractor
 import xyz.toxarey.playlistmaker.sharing.domain.SharingInteractor
 
-class SettingsActivityViewModel(
+class SettingsFragmentViewModel(
     private val settingsInteractor: SettingsInteractor,
     private val sharingInteractor: SharingInteractor
 ): ViewModel() {
@@ -22,8 +22,8 @@ class SettingsActivityViewModel(
     }
 
     fun switchTheme(checked: Boolean) {
-        settingsInteractor.switchTheme(checked)
         darkThemeEnabled.postValue(checked)
+        settingsInteractor.switchTheme(checked)
     }
 
     fun shareApp() {

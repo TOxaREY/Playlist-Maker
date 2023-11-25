@@ -1,40 +1,60 @@
 package xyz.toxarey.playlistmaker.player.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.player.domain.Track
-import xyz.toxarey.playlistmaker.databinding.ActivityAudioPlayerBinding
+import xyz.toxarey.playlistmaker.databinding.FragmentAudioPlayerBinding
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AudioPlayerActivity : AppCompatActivity() {
-    private val viewModel: AudioPlayerViewModel by viewModel {
-        parametersOf(intent.getSerializableExtra(EXTRA_TRACK) as Track)
+class AudioPlayerFragment: Fragment() {
+    private val viewModel: AudioPlayerFragmentViewModel by viewModel {
+        parametersOf(requireArguments().getSerializable(EXTRA_TRACK))
     }
-    private lateinit var binding: ActivityAudioPlayerBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private var _binding: FragmentAudioPlayerBinding? = null
+    private val binding get() = _binding!!
 
-        viewModel.getAudioPlayerStateLiveData().observe(this) {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentAudioPlayerBinding.inflate(
+            inflater,
+            container,
+            false)
+        return binding.root
+    }
+
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
+        viewModel.getAudioPlayerStateLiveData().observe(viewLifecycleOwner) {
             setImagePlayPauseButton(it)
         }
 
-        viewModel.getUpdateTimerTaskLiveData().observe(this) {
+        viewModel.getUpdateTimerTaskLiveData().observe(viewLifecycleOwner) {
             setTextViewPlaybackTime(it)
         }
 
         binding.backToSearchButtonFromPlayer.setOnClickListener {
-            finish()
+            findNavController().navigateUp()
         }
 
         binding.playButton.setOnClickListener {
@@ -78,7 +98,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             .centerCrop()
             .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.track_album_full_imageView_roundedCorners)))
             .placeholder(R.drawable.album_placeholder_full)
-            .into(findViewById(R.id.ivAlbumFull))
+            .into(binding.ivAlbumFull)
     }
 
     private fun setImagePlayPauseButton(state: AudioPlayerState) {

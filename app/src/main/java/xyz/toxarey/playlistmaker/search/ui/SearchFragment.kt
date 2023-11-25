@@ -1,27 +1,30 @@
 package xyz.toxarey.playlistmaker.search.ui
 
 import android.content.Context
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
-import xyz.toxarey.playlistmaker.databinding.ActivitySearchBinding
+import xyz.toxarey.playlistmaker.databinding.FragmentSearchBinding
 import xyz.toxarey.playlistmaker.player.domain.Track
-import xyz.toxarey.playlistmaker.player.ui.AudioPlayerActivity
 import xyz.toxarey.playlistmaker.search.domain.SearchScreenState
 import xyz.toxarey.playlistmaker.search.domain.SearchState
 
-class SearchActivity : AppCompatActivity() {
-    private val viewModel: SearchViewModel by viewModel()
-    private lateinit var binding: ActivitySearchBinding
+class SearchFragment: Fragment() {
+    private val viewModel: SearchFragmentViewModel by viewModel()
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     private lateinit var tracksAdapter: TracksAdapter
     private lateinit var tracksAdapterHistory: TracksAdapter
     private lateinit var handler: Handler
@@ -30,18 +33,32 @@ class SearchActivity : AppCompatActivity() {
     private var tracksHistory = ArrayList<Track>()
     private var searchText = ""
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentSearchBinding.inflate(
+            inflater,
+            container,
+            false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        viewModel.getSearchStateLiveData().observe(this) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
+        viewModel.getSearchStateLiveData().observe(viewLifecycleOwner) {
             searchState(it)
         }
 
         initializationAdapters()
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         handler = Handler(Looper.getMainLooper())
         requestTrackRunnable = Runnable { requestTrack(inputMethodManager) }
 
@@ -53,6 +70,7 @@ class SearchActivity : AppCompatActivity() {
                 after: Int
             ) {
                 nothingFoundMessage(false)
+                communicationErrorMessage(false)
             }
 
             override fun onTextChanged(
@@ -70,30 +88,21 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
+        searchEditTextListeners(simpleTextWatcher)
         buttonsListeners(inputMethodManager)
-        searchEditTextListeners(
-            simpleTextWatcher,
-            viewModel.getTracksFromHistory()
-        )
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(
-            SEARCH_TEXT,
-            searchText
-        )
+    override fun onPause() {
+        super.onPause()
+        if (viewModel.getSearchStateLiveData().value != SearchState.Content(tracks)) {
+            viewModel.setPauseSearchStateLiveData()
+            searchState(SearchState.Paused)
+        }
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        val restoreText = savedInstanceState.getString(
-            SEARCH_TEXT,
-            ""
-        )
-        binding.searchEditText.setText(restoreText)
-        binding.searchEditText.setSelection(binding.searchEditText.text.length)
-        searchText = restoreText
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun initializationAdapters() {
@@ -102,43 +111,35 @@ class SearchActivity : AppCompatActivity() {
             tracksHistory.clear()
             tracksHistory.addAll(viewModel.getTracksFromHistory())
             tracksAdapterHistory.notifyDataSetChanged()
-            segueToAudioPlayerActivity(track)
+            segueToAudioPlayerFragment(track)
         }
 
         val onClickListenerTracksHistory = CellClickListener { track ->
-            segueToAudioPlayerActivity(track)
+            segueToAudioPlayerFragment(track)
         }
 
         tracksAdapter = TracksAdapter(
             tracks,
             onClickListenerTracks
         )
+
         tracksAdapterHistory = TracksAdapter(
             tracksHistory,
             onClickListenerTracksHistory
         )
+
         binding.rvTracks.adapter = tracksAdapter
         binding.rvSearchHistory.adapter = tracksAdapterHistory
     }
 
-    private fun segueToAudioPlayerActivity(track: Track) {
-        Log.i("TEST", track.artistName)
-        val audioPlayerIntent = Intent(
-            this,
-            AudioPlayerActivity::class.java
+    private fun segueToAudioPlayerFragment(track: Track) {
+        findNavController().navigate(
+            R.id.action_searchFragment_to_audioPlayerFragment,
+            bundleOf(EXTRA_TRACK to track)
         )
-        audioPlayerIntent.putExtra(
-            EXTRA_TRACK,
-            track
-        )
-        startActivity(audioPlayerIntent)
     }
 
     private fun buttonsListeners(inputMethodManager: InputMethodManager?) {
-        binding.backToMainButtonFromSearch.setOnClickListener {
-            finish()
-        }
-
         binding.updateButton.setOnClickListener {
             communicationErrorMessage(false)
             requestTrack(inputMethodManager)
@@ -161,12 +162,10 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchEditTextListeners(
-        simpleTextWatcher: TextWatcher,
-        tracks: ArrayList<Track>
-    ) {
+    private fun searchEditTextListeners(simpleTextWatcher: TextWatcher) {
         binding.searchEditText.addTextChangedListener(simpleTextWatcher)
         binding.searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            val tracks = viewModel.getTracksFromHistory()
             addHistoryTracks(tracks)
             binding.searchHistoryLinear.visibility = if (
                 hasFocus && binding.searchEditText.text.isEmpty() && tracks.isNotEmpty()
@@ -232,6 +231,11 @@ class SearchActivity : AppCompatActivity() {
                 SearchScreenState.SUCCESS,
                 state.tracks
             )
+            is SearchState.Paused -> {
+                handler.removeCallbacks(requestTrackRunnable)
+                binding.searchEditText.setText("")
+                searchText = ""
+            }
         }
     }
 
@@ -317,7 +321,6 @@ class SearchActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val SEARCH_TEXT = "SEARCH_TEXT"
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }

@@ -7,9 +7,12 @@ import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.search.domain.SearchState
 import xyz.toxarey.playlistmaker.search.domain.TracksInteractor
 
-class SearchViewModel(private val tracksInteractor: TracksInteractor): ViewModel() {
+class SearchFragmentViewModel(private val tracksInteractor: TracksInteractor): ViewModel() {
     private val searchStateLiveData = MutableLiveData<SearchState>()
     fun getSearchStateLiveData(): LiveData<SearchState> = searchStateLiveData
+    fun setPauseSearchStateLiveData() {
+        searchStateLiveData.postValue(SearchState.Paused)
+    }
 
     fun addTrackToHistory(track: Track) {
         tracksInteractor.addTrackToHistory(track)

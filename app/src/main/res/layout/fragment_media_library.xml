@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearLayoutAttr"
-    android:background="?attr/backgroundColor">
+    android:background="?attr/backgroundColor"
+    tools:context=".media_library.ui.MediaLibraryFragment">
 
     <FrameLayout
         style="@style/FrameLayoutAttr">
-
-        <Button
-            style="@style/BackButtonAttr"
-            android:id="@+id/back_to_main_button_from_media_library" />
 
         <TextView
             style="@style/TextViewTitleAttr"
