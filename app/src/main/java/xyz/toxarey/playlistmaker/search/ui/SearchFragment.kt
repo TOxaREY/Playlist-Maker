@@ -23,7 +23,8 @@ import xyz.toxarey.playlistmaker.search.domain.SearchState
 
 class SearchFragment: Fragment() {
     private val viewModel: SearchFragmentViewModel by viewModel()
-    private lateinit var binding: FragmentSearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     private lateinit var tracksAdapter: TracksAdapter
     private lateinit var tracksAdapterHistory: TracksAdapter
     private lateinit var handler: Handler
@@ -37,7 +38,7 @@ class SearchFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchBinding.inflate(
+        _binding = FragmentSearchBinding.inflate(
             inflater,
             container,
             false)
@@ -97,6 +98,11 @@ class SearchFragment: Fragment() {
             viewModel.setPauseSearchStateLiveData()
             searchState(SearchState.Paused)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun initializationAdapters() {

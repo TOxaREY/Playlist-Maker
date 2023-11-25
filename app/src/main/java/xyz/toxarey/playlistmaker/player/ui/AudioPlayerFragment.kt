@@ -22,14 +22,15 @@ class AudioPlayerFragment: Fragment() {
     private val viewModel: AudioPlayerFragmentViewModel by viewModel {
         parametersOf(requireArguments().getSerializable(EXTRA_TRACK))
     }
-    private lateinit var binding: FragmentAudioPlayerBinding
+    private var _binding: FragmentAudioPlayerBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAudioPlayerBinding.inflate(
+        _binding = FragmentAudioPlayerBinding.inflate(
             inflater,
             container,
             false)
