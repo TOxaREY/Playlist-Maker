@@ -98,6 +98,7 @@ class SearchFragment: Fragment() {
             viewModel.setPauseSearchStateLiveData()
             searchState(SearchState.Paused)
         }
+        handler.removeCallbacks(requestTrackRunnable)
     }
 
     override fun onDestroyView() {
@@ -232,7 +233,6 @@ class SearchFragment: Fragment() {
                 state.tracks
             )
             is SearchState.Paused -> {
-                handler.removeCallbacks(requestTrackRunnable)
                 binding.searchEditText.setText("")
                 searchText = ""
             }
