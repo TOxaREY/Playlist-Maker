@@ -3,6 +3,8 @@ package xyz.toxarey.playlistmaker.search.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.search.domain.SearchState
 import xyz.toxarey.playlistmaker.search.domain.TracksInteractor
@@ -29,23 +31,22 @@ class SearchFragmentViewModel(private val tracksInteractor: TracksInteractor): V
     fun searchTrack(text: String) {
         if (text.isNotEmpty()) {
             searchStateLiveData.postValue(SearchState.Loading)
-            tracksInteractor.searchTracks(text, object: TracksInteractor.TracksConsumer {
-                override fun consume(
-                    tracks: List<Track>?,
-                    isError: Boolean?
-                ) {
-                    val searchTracks = arrayListOf<Track>()
-                    if (tracks != null) {
-                        searchTracks.addAll(tracks)
-                    }
+            viewModelScope.launch {
+                tracksInteractor
+                    .searchTracks(text)
+                    .collect { pair ->
+                        val searchTracks = arrayListOf<Track>()
+                        if (pair.first != null) {
+                            searchTracks.addAll(pair.first!!)
+                        }
 
-                    when {
-                        isError == true -> searchStateLiveData.postValue(SearchState.Error)
-                        searchTracks.isEmpty() -> searchStateLiveData.postValue(SearchState.Empty)
-                        searchTracks.isNotEmpty() -> searchStateLiveData.postValue(SearchState.Content(searchTracks))
+                        when {
+                            pair.second == true -> searchStateLiveData.postValue(SearchState.Error)
+                            searchTracks.isEmpty() -> searchStateLiveData.postValue(SearchState.Empty)
+                            searchTracks.isNotEmpty() -> searchStateLiveData.postValue(SearchState.Content(searchTracks))
+                        }
                     }
-                }
-            } )
+            }
         }
     }
 }
