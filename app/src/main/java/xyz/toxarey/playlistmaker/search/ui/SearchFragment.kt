@@ -27,8 +27,8 @@ class SearchFragment: Fragment() {
     private val viewModel: SearchFragmentViewModel by viewModel()
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tracksAdapter: TracksAdapter
-    private lateinit var tracksAdapterHistory: TracksAdapter
+    private var tracksAdapter: TracksAdapter? = null
+    private var tracksAdapterHistory: TracksAdapter? = null
     private val tracks = ArrayList<Track>()
     private var tracksHistory = ArrayList<Track>()
     private var searchText = ""
@@ -113,7 +113,7 @@ class SearchFragment: Fragment() {
                 viewModel.addTrackToHistory(track)
                 tracksHistory.clear()
                 tracksHistory.addAll(viewModel.getTracksFromHistory())
-                tracksAdapterHistory.notifyDataSetChanged()
+                tracksAdapterHistory?.notifyDataSetChanged()
                 segueToAudioPlayerFragment(track)
             }
         }
@@ -200,7 +200,7 @@ class SearchFragment: Fragment() {
     private fun addHistoryTracks(tracks: ArrayList<Track>) {
         tracksHistory.clear()
         tracksHistory.addAll(tracks)
-        tracksAdapterHistory.notifyDataSetChanged()
+        tracksAdapterHistory?.notifyDataSetChanged()
     }
 
     private fun clearSearchButtonVisibility(s: CharSequence?): Int {
@@ -214,7 +214,7 @@ class SearchFragment: Fragment() {
     private fun requestTrackDebounce(inputMethodManager: InputMethodManager?) {
         searchJob?.cancel()
         searchJob = viewLifecycleOwner.lifecycleScope.launch {
-            delay(SEARCH_DEBOUNCE_DELAY)
+            delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
             requestTrack(inputMethodManager)
         }
     }
@@ -293,7 +293,7 @@ class SearchFragment: Fragment() {
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
             binding.progressBar.visibility = View.GONE
-            tracksAdapter.notifyDataSetChanged()
+            tracksAdapter?.notifyDataSetChanged()
             binding.nothingFoundImage.visibility = View.VISIBLE
             binding.nothingFoundText.visibility = View.VISIBLE
         } else {
@@ -305,13 +305,13 @@ class SearchFragment: Fragment() {
 
     private fun clearTrackList() {
         tracks.clear()
-        tracksAdapter.notifyDataSetChanged()
+        tracksAdapter?.notifyDataSetChanged()
     }
 
     private fun addTracksToList(newTracks: List<Track>) {
         tracks.clear()
         tracks.addAll(newTracks)
-        tracksAdapter.notifyDataSetChanged()
+        tracksAdapter?.notifyDataSetChanged()
     }
 
     private fun requestTrack(inputMethodManager: InputMethodManager?) {
@@ -330,7 +330,7 @@ class SearchFragment: Fragment() {
         if (isClickAllowed) {
             isClickAllowed = false
             viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
+                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
                 isClickAllowed = true
             }
         }
@@ -338,7 +338,7 @@ class SearchFragment: Fragment() {
     }
 
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }

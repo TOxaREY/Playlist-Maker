@@ -12,7 +12,7 @@ import xyz.toxarey.playlistmaker.databinding.FragmentMediaLibraryBinding
 class MediaLibraryFragment: Fragment() {
     private var _binding: FragmentMediaLibraryBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tabLayoutMediator: TabLayoutMediator
+    private var tabLayoutMediator: TabLayoutMediator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,11 +50,11 @@ class MediaLibraryFragment: Fragment() {
             }
         }
 
-        tabLayoutMediator.attach()
+        tabLayoutMediator!!.attach()
     }
 
     override fun onDestroyView() {
-        tabLayoutMediator.detach()
+        tabLayoutMediator?.detach()
         super.onDestroyView()
         _binding = null
     }

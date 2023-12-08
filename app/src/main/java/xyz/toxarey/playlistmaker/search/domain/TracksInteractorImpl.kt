@@ -5,14 +5,24 @@ import kotlinx.coroutines.flow.map
 import xyz.toxarey.playlistmaker.player.domain.Track
 
 class TracksInteractorImpl(private val repository: TracksRepository): TracksInteractor {
-    override fun searchTracks(text: String): Flow<Pair<List<Track>?, Boolean?>> {
+    override fun searchTracks(text: String): Flow<QueryResult> {
         return repository.searchTracks(text).map { result ->
             when (result) {
-                is Result.Success -> result.data to null
-                is Result.Error -> null to true
+                is Result.Success -> {
+                    QueryResult(
+                        result.data,
+                        null
+                    )
+                }
+                is Result.Error -> {
+                    QueryResult(
+                        null,
+                        result.isError
+                    )
+                }
                 else -> {}
             }
-        } as Flow<Pair<List<Track>?, Boolean?>>
+        } as Flow<QueryResult>
     }
 
     override fun getTracksFromHistory(): ArrayList<Track> {

@@ -34,14 +34,14 @@ class SearchFragmentViewModel(private val tracksInteractor: TracksInteractor): V
             viewModelScope.launch {
                 tracksInteractor
                     .searchTracks(text)
-                    .collect { pair ->
+                    .collect { queryResult ->
                         val searchTracks = arrayListOf<Track>()
-                        if (pair.first != null) {
-                            searchTracks.addAll(pair.first!!)
+                        if (queryResult.tracks != null) {
+                            searchTracks.addAll(queryResult.tracks)
                         }
 
                         when {
-                            pair.second == true -> searchStateLiveData.postValue(SearchState.Error)
+                            queryResult.isError == true -> searchStateLiveData.postValue(SearchState.Error)
                             searchTracks.isEmpty() -> searchStateLiveData.postValue(SearchState.Empty)
                             searchTracks.isNotEmpty() -> searchStateLiveData.postValue(SearchState.Content(searchTracks))
                         }
