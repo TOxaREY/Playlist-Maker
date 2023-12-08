@@ -1,29 +1,28 @@
 package xyz.toxarey.playlistmaker.search.domain
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import xyz.toxarey.playlistmaker.player.domain.Track
-import java.util.concurrent.Executors
 
 class TracksInteractorImpl(private val repository: TracksRepository): TracksInteractor {
-    private val executor = Executors.newCachedThreadPool()
-
-    override fun searchTracks(
-        text: String,
-        consumer: TracksInteractor.TracksConsumer
-    ) {
-        executor.execute {
-            when (val result = repository.searchTracks(text)) {
-                is Result.Success -> consumer.consume(
-                    result.data,
-                    false
-                )
-                is Result.Error -> consumer.consume(
-                    null,
-                    true
-                )
-
+    override fun searchTracks(text: String): Flow<QueryResult> {
+        return repository.searchTracks(text).map { result ->
+            when (result) {
+                is Result.Success -> {
+                    QueryResult(
+                        result.data,
+                        null
+                    )
+                }
+                is Result.Error -> {
+                    QueryResult(
+                        null,
+                        result.isError
+                    )
+                }
                 else -> {}
             }
-        }
+        } as Flow<QueryResult>
     }
 
     override fun getTracksFromHistory(): ArrayList<Track> {

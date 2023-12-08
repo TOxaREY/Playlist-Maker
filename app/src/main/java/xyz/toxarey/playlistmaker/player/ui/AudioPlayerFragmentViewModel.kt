@@ -1,10 +1,12 @@
 package xyz.toxarey.playlistmaker.player.ui
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
@@ -15,7 +17,7 @@ class AudioPlayerFragmentViewModel(
     private val track: Track,
     private val interactorTrackMediaPlayer: TrackMediaPlayerInteractor
 ): ViewModel() {
-    private val handler = Handler(Looper.getMainLooper())
+    private var timerJob: Job? = null
     private val audioPlayerStateLiveData = MutableLiveData<AudioPlayerState>()
     private val updateTimerTaskLiveData = MutableLiveData<String>()
 
@@ -29,7 +31,7 @@ class AudioPlayerFragmentViewModel(
             onCompletion = {
                 updateAudioPlayerState(AudioPlayerState.STATE_PREPARED)
                 updateTimerTaskLiveData.postValue("0:00")
-                handler.removeCallbacks(updateTimerTask())
+                timerJob?.cancel()
             }
         )
     }
@@ -37,7 +39,7 @@ class AudioPlayerFragmentViewModel(
     override fun onCleared() {
         super.onCleared()
         interactorTrackMediaPlayer.releasePlayer()
-        handler.removeCallbacks(updateTimerTask())
+        timerJob?.cancel()
     }
 
     fun getAudioPlayerStateLiveData(): LiveData<AudioPlayerState> = audioPlayerStateLiveData
@@ -68,32 +70,30 @@ class AudioPlayerFragmentViewModel(
     private fun startPlayer() {
         interactorTrackMediaPlayer.startPlayer()
         updateAudioPlayerState(AudioPlayerState.STATE_PLAYING)
-        handler.post(updateTimerTask())
+        updateTimerTask()
     }
 
     private fun pausePlayer() {
         interactorTrackMediaPlayer.pausePlayer()
         updateAudioPlayerState(AudioPlayerState.STATE_PAUSED)
-        handler.removeCallbacks(updateTimerTask())
+        timerJob?.cancel()
     }
 
     private fun updateAudioPlayerState(state: AudioPlayerState) {
         audioPlayerStateLiveData.postValue(state)
     }
 
-    private fun updateTimerTask(): Runnable {
-        return object : Runnable {
-            override fun run() {
-                if (audioPlayerStateLiveData.value == AudioPlayerState.STATE_PLAYING) {
-                    updateTimerTaskLiveData.postValue(
-                        SimpleDateFormat(
-                            "mm:ss",
-                            Locale.getDefault()
-                        )
-                            .format(interactorTrackMediaPlayer.getCurrentPosition())
+    private fun updateTimerTask() {
+        timerJob = viewModelScope.launch {
+            while (true) {
+                updateTimerTaskLiveData.postValue(
+                    SimpleDateFormat(
+                        "mm:ss",
+                        Locale.getDefault()
                     )
-                    handler.postDelayed(this, CHECkED_PLAY_TIME)
-                }
+                        .format(interactorTrackMediaPlayer.getCurrentPosition())
+                )
+                delay(CHECkED_PLAY_TIME)
             }
         }
     }

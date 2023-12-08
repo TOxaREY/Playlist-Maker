@@ -2,8 +2,6 @@ package xyz.toxarey.playlistmaker.search.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -12,7 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
@@ -25,13 +27,13 @@ class SearchFragment: Fragment() {
     private val viewModel: SearchFragmentViewModel by viewModel()
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tracksAdapter: TracksAdapter
-    private lateinit var tracksAdapterHistory: TracksAdapter
-    private lateinit var handler: Handler
-    private lateinit var requestTrackRunnable: Runnable
+    private var tracksAdapter: TracksAdapter? = null
+    private var tracksAdapterHistory: TracksAdapter? = null
     private val tracks = ArrayList<Track>()
     private var tracksHistory = ArrayList<Track>()
     private var searchText = ""
+    private var isClickAllowed = true
+    private var searchJob: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,8 +61,6 @@ class SearchFragment: Fragment() {
 
         initializationAdapters()
         val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        handler = Handler(Looper.getMainLooper())
-        requestTrackRunnable = Runnable { requestTrack(inputMethodManager) }
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(
@@ -80,7 +80,7 @@ class SearchFragment: Fragment() {
                 count: Int
             ) {
                 onTextChangedAction(s)
-                requestTrackDebounce()
+                requestTrackDebounce(inputMethodManager)
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -98,7 +98,8 @@ class SearchFragment: Fragment() {
             viewModel.setPauseSearchStateLiveData()
             searchState(SearchState.Paused)
         }
-        handler.removeCallbacks(requestTrackRunnable)
+        searchJob?.cancel()
+        isClickAllowed = true
     }
 
     override fun onDestroyView() {
@@ -108,15 +109,19 @@ class SearchFragment: Fragment() {
 
     private fun initializationAdapters() {
         val onClickListenerTracks = CellClickListener { track ->
-            viewModel.addTrackToHistory(track)
-            tracksHistory.clear()
-            tracksHistory.addAll(viewModel.getTracksFromHistory())
-            tracksAdapterHistory.notifyDataSetChanged()
-            segueToAudioPlayerFragment(track)
+            if (clickDebounce()) {
+                viewModel.addTrackToHistory(track)
+                tracksHistory.clear()
+                tracksHistory.addAll(viewModel.getTracksFromHistory())
+                tracksAdapterHistory?.notifyDataSetChanged()
+                segueToAudioPlayerFragment(track)
+            }
         }
 
         val onClickListenerTracksHistory = CellClickListener { track ->
-            segueToAudioPlayerFragment(track)
+            if (clickDebounce()) {
+                segueToAudioPlayerFragment(track)
+            }
         }
 
         tracksAdapter = TracksAdapter(
@@ -195,7 +200,7 @@ class SearchFragment: Fragment() {
     private fun addHistoryTracks(tracks: ArrayList<Track>) {
         tracksHistory.clear()
         tracksHistory.addAll(tracks)
-        tracksAdapterHistory.notifyDataSetChanged()
+        tracksAdapterHistory?.notifyDataSetChanged()
     }
 
     private fun clearSearchButtonVisibility(s: CharSequence?): Int {
@@ -206,12 +211,12 @@ class SearchFragment: Fragment() {
         }
     }
 
-    private fun requestTrackDebounce() {
-        handler.removeCallbacks(requestTrackRunnable)
-        handler.postDelayed(
-            requestTrackRunnable,
-            SEARCH_DEBOUNCE_DELAY
-        )
+    private fun requestTrackDebounce(inputMethodManager: InputMethodManager?) {
+        searchJob?.cancel()
+        searchJob = viewLifecycleOwner.lifecycleScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
+            requestTrack(inputMethodManager)
+        }
     }
 
     private fun searchState(state: SearchState) {
@@ -288,7 +293,7 @@ class SearchFragment: Fragment() {
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
             binding.progressBar.visibility = View.GONE
-            tracksAdapter.notifyDataSetChanged()
+            tracksAdapter?.notifyDataSetChanged()
             binding.nothingFoundImage.visibility = View.VISIBLE
             binding.nothingFoundText.visibility = View.VISIBLE
         } else {
@@ -300,13 +305,13 @@ class SearchFragment: Fragment() {
 
     private fun clearTrackList() {
         tracks.clear()
-        tracksAdapter.notifyDataSetChanged()
+        tracksAdapter?.notifyDataSetChanged()
     }
 
     private fun addTracksToList(newTracks: List<Track>) {
         tracks.clear()
         tracks.addAll(newTracks)
-        tracksAdapter.notifyDataSetChanged()
+        tracksAdapter?.notifyDataSetChanged()
     }
 
     private fun requestTrack(inputMethodManager: InputMethodManager?) {
@@ -320,7 +325,20 @@ class SearchFragment: Fragment() {
         }
     }
 
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
+                isClickAllowed = true
+            }
+        }
+        return current
+    }
+
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }
