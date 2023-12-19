@@ -1,6 +1,8 @@
 package xyz.toxarey.playlistmaker.di
 
 import org.koin.dsl.module
+import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksInteractor
+import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksInteractorImpl
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractorImpl
 import xyz.toxarey.playlistmaker.search.domain.TracksInteractor
@@ -17,6 +19,10 @@ val interactorKoinModule = module {
 
     factory<TracksInteractor> {
         TracksInteractorImpl(get())
+    }
+
+    single<FavoriteTracksInteractor> {
+        FavoriteTracksInteractorImpl(get())
     }
 
     single<SettingsInteractor> {

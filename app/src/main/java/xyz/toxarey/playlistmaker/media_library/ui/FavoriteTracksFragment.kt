@@ -1,17 +1,39 @@
 package xyz.toxarey.playlistmaker.media_library.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.databinding.FragmentFavoriteTracksBinding
+import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksScreenState
+import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksState
+import xyz.toxarey.playlistmaker.player.domain.Track
+import xyz.toxarey.playlistmaker.search.domain.SearchScreenState
+import xyz.toxarey.playlistmaker.search.domain.SearchState
+import xyz.toxarey.playlistmaker.search.ui.CellClickListener
+import xyz.toxarey.playlistmaker.search.ui.TracksAdapter
+import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 
 class FavoriteTracksFragment: Fragment() {
-    private val favoriteTracksFragmentViewModel: FavoriteTracksFragmentViewModel by viewModel()
+    private val viewModel: FavoriteTracksFragmentViewModel by viewModel()
     private var _binding: FragmentFavoriteTracksBinding? = null
     private val binding get() = _binding!!
+    private val tracks = ArrayList<Track>()
+    private var tracksAdapter: TracksAdapter? = null
+    private var isClickAllowed = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,18 +47,121 @@ class FavoriteTracksFragment: Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(
+            view,
+            savedInstanceState
+        )
+        viewModel.getFavoriteTracksStateLiveData().observe(viewLifecycleOwner) {
+            favoriteTracksState(it)
+        }
+
+        initializationAdapter()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    companion object {
-        fun newInstance(): FavoriteTracksFragment {
-            val args = Bundle()
+    override fun onPause() {
+        super.onPause()
+        isClickAllowed = true
+        Log.i("TEST", "onPause")
+    }
 
-            val fragment = FavoriteTracksFragment()
-            fragment.arguments = args
-            return fragment
+    override fun onResume() {
+        super.onResume()
+        Log.i("TEST", "onResume")
+        viewModel.getFavoriteTracks()
+    }
+
+    private fun initializationAdapter() {
+        val onClickListenerTracks = CellClickListener { track ->
+            if (clickDebounce()) {
+                segueToAudioPlayerFragment(track)
+            }
         }
+
+        tracksAdapter = TracksAdapter(
+            tracks,
+            onClickListenerTracks
+        )
+
+        binding.rvFavoriteTracks.adapter = tracksAdapter
+    }
+
+    private fun segueToAudioPlayerFragment(track: Track) {
+        findNavController().navigate(
+            R.id.action_mediaLibraryFragment_to_audioPlayerFragment,
+            bundleOf(EXTRA_TRACK to track)
+        )
+    }
+
+    private fun favoriteTracksState(state: FavoriteTracksState) {
+        when (state) {
+            is FavoriteTracksState.Content -> updateFavoriteTracksScreenState(
+                FavoriteTracksScreenState.SUCCESS,
+                state.tracks
+            )
+            is FavoriteTracksState.Empty -> updateFavoriteTracksScreenState(
+                FavoriteTracksScreenState.NOTHING_FOUND,
+                null
+            )
+        }
+    }
+
+    private fun updateFavoriteTracksScreenState(
+        state: FavoriteTracksScreenState,
+        newTracks: List<Track>?
+    ) {
+        Log.i("TEST", state.toString())
+        when (state) {
+            FavoriteTracksScreenState.SUCCESS -> {
+                nothingFoundMessage(false)
+                tracks.clear()
+                if (newTracks != null) {
+                    tracks.addAll(newTracks)
+                    tracks.reverse()
+                }
+                tracksAdapter?.notifyDataSetChanged()
+            }
+
+            FavoriteTracksScreenState.NOTHING_FOUND -> {
+                nothingFoundMessage(true)
+            }
+        }
+    }
+
+    private fun nothingFoundMessage(isVisible: Boolean) {
+        if(isVisible) {
+            tracks.clear()
+            tracksAdapter?.notifyDataSetChanged()
+            binding.nothingFoundImage.visibility = View.VISIBLE
+            binding.mediaLibraryIsEmptyText.visibility = View.VISIBLE
+        } else {
+            binding.nothingFoundImage.visibility = View.GONE
+            binding.mediaLibraryIsEmptyText.visibility = View.GONE
+        }
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
+                isClickAllowed = true
+            }
+        }
+        return current
+    }
+
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }

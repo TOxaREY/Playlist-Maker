@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -59,6 +60,14 @@ class AudioPlayerFragment: Fragment() {
 
         binding.playButton.setOnClickListener {
             viewModel.playbackControl()
+        }
+
+        viewModel.getFavoriteStatusLiveData().observe(viewLifecycleOwner) {
+            setImageLikeButton(it)
+        }
+
+        binding.likeButton.setOnClickListener {
+            setFavoriteStatus()
         }
 
         setInfo(viewModel.getTrack())
@@ -123,5 +132,43 @@ class AudioPlayerFragment: Fragment() {
 
     private fun setTextViewPlaybackTime(time: String) {
         binding.tvPlaybackTime.text = time
+    }
+
+    private fun setImageFavoriteButton() {
+        binding.likeButton.setImageResource(R.drawable.ic_like_button)
+        binding.likeButton.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.yp_red
+            ),
+            android.graphics.PorterDuff.Mode.SRC_IN
+        )
+    }
+
+    private fun setImageNotFavoriteButton() {
+        binding.likeButton.setImageResource(R.drawable.ic_not_like_button)
+        binding.likeButton.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.yp_white
+            ),
+            android.graphics.PorterDuff.Mode.SRC_IN
+        )
+    }
+
+    private fun setImageLikeButton(isFavorite: Boolean) {
+        if (isFavorite) {
+            setImageFavoriteButton()
+        } else {
+            setImageNotFavoriteButton()
+        }
+    }
+
+    private fun setFavoriteStatus() {
+        if (viewModel.getFavoriteStatusLiveData().value == true) {
+            viewModel.setFavoriteStatusLiveData(false)
+        } else {
+            viewModel.setFavoriteStatusLiveData(true)
+        }
     }
 }
