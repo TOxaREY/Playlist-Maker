@@ -1,24 +1,17 @@
 package xyz.toxarey.playlistmaker.media_library.ui
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import xyz.toxarey.playlistmaker.utils.NUMBER_OF_PAGES_IN_MEDIALIBRARY_FRAGMENT
 
-class MediaLibraryPagerAdapter(
-    fragmentManager: FragmentManager,
-    lifecycle: Lifecycle
-): FragmentStateAdapter(
-    fragmentManager,
-    lifecycle
-) {
+class MediaLibraryPagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {
-        return 2
+        return NUMBER_OF_PAGES_IN_MEDIALIBRARY_FRAGMENT
     }
 
     override fun createFragment(position: Int): Fragment {
         return when(position) {
-            0 -> FavoriteTracksFragment.newInstance()
+            0 -> FavoriteTracksFragment()
             else -> PlaylistsFragment.newInstance()
         }
     }

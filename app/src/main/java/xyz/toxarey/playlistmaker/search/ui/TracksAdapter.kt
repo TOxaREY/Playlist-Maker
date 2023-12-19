@@ -8,7 +8,7 @@ import xyz.toxarey.playlistmaker.player.domain.Track
 
 class TracksAdapter(
     private val data: ArrayList<Track>,
-    private val cellClickListener: CellClickListener
+    private val onClick: (Track) -> Unit
 ): RecyclerView.Adapter<TracksViewHolder> () {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,7 +29,7 @@ class TracksAdapter(
         val track = data[position]
         holder.bind(track)
         holder.itemView.setOnClickListener {
-            cellClickListener.onCellClickListener(track)
+            onClick.invoke(track)
         }
     }
 

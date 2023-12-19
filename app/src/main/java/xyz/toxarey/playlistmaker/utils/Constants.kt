@@ -7,3 +7,4 @@ const val EXTRA_TRACK = "extra_track"
 const val SHARE_ADDRESS = "https://practicum.yandex.ru/android-developer/"
 const val MY_EMAIL = "anton@reynikov.ru"
 const val TERMS_OF_USE_ADDRESS = "https://yandex.ru/legal/practicum_offer/"
+const val NUMBER_OF_PAGES_IN_MEDIALIBRARY_FRAGMENT = 2

@@ -13,6 +13,7 @@ val viewModelKoinModule = module {
     viewModel { (track: Track) ->
         AudioPlayerFragmentViewModel(
             track,
+            get(),
             get()
         )
     }
@@ -33,6 +34,6 @@ val viewModelKoinModule = module {
     }
 
     viewModel {
-        FavoriteTracksFragmentViewModel()
+        FavoriteTracksFragmentViewModel(get())
     }
 }

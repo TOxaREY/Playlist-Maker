@@ -8,7 +8,11 @@
         android:id="@+id/mediaLibraryFragment"
         android:name="xyz.toxarey.playlistmaker.media_library.ui.MediaLibraryFragment"
         android:label="fragment_media_library"
-        tools:layout="@layout/fragment_media_library" />
+        tools:layout="@layout/fragment_media_library" >
+        <action
+            android:id="@+id/action_mediaLibraryFragment_to_audioPlayerFragment"
+            app:destination="@id/audioPlayerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="xyz.toxarey.playlistmaker.settings.ui.SettingsFragment"

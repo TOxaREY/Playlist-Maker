@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksInteractor
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
@@ -15,13 +16,22 @@ import java.util.Locale
 
 class AudioPlayerFragmentViewModel(
     private val track: Track,
-    private val interactorTrackMediaPlayer: TrackMediaPlayerInteractor
+    private val interactorTrackMediaPlayer: TrackMediaPlayerInteractor,
+    private val interactorFavoriteTracks: FavoriteTracksInteractor
 ): ViewModel() {
     private var timerJob: Job? = null
     private val audioPlayerStateLiveData = MutableLiveData<AudioPlayerState>()
     private val updateTimerTaskLiveData = MutableLiveData<String>()
+    private val favoriteStatusLiveData = MutableLiveData<Boolean>()
 
     init {
+        viewModelScope.launch {
+            interactorFavoriteTracks
+                .checkFavoriteTrack(track.trackId)
+                .collect { isFavorite ->
+                    favoriteStatusLiveData.postValue(isFavorite)
+                }
+        }
         updateAudioPlayerState(AudioPlayerState.STATE_DEFAULT)
         interactorTrackMediaPlayer.preparePlayer(
             previewUrl = track.previewUrl,
@@ -65,6 +75,19 @@ class AudioPlayerFragmentViewModel(
     fun pause() {
         interactorTrackMediaPlayer.pausePlayer()
         updateAudioPlayerState(AudioPlayerState.STATE_PAUSED)
+    }
+
+    fun getFavoriteStatusLiveData(): LiveData<Boolean> = favoriteStatusLiveData
+
+    fun setFavoriteStatusLiveData(isFavorite: Boolean) {
+        viewModelScope.launch {
+            if (isFavorite) {
+                interactorFavoriteTracks.insertFavoriteTrack(track)
+            } else {
+                interactorFavoriteTracks.deleteFavoriteTrack(track)
+            }
+            favoriteStatusLiveData.postValue(isFavorite)
+        }
     }
 
     private fun startPlayer() {

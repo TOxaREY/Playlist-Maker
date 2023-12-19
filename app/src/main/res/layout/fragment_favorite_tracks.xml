@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearLayoutAttr"
     android:background="?attr/backgroundColor">
 
     <FrameLayout
         style="@style/FrameLayoutSearchAndMediaLibraryAttr">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFavoriteTracks"
+            style="@style/RecyclerViewSearchAttr"
+            android:layout_marginTop="16dp"
+            tools:listitem="@layout/track_item"
+            tools:itemCount="5"/>
 
         <ImageView
             android:id="@+id/nothingFoundImage"

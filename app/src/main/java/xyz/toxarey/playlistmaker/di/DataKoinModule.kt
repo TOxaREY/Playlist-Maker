@@ -1,9 +1,12 @@
 package xyz.toxarey.playlistmaker.di
 
+import androidx.room.Room
 import com.google.gson.Gson
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import xyz.toxarey.playlistmaker.media_library.data.AppDatabase
 import xyz.toxarey.playlistmaker.search.data.ItunesSearchAPI
 import xyz.toxarey.playlistmaker.search.data.NetworkClient
 import xyz.toxarey.playlistmaker.search.data.RetrofitNetworkClient
@@ -34,5 +37,13 @@ val dataKoinModule = module {
             get(),
             get()
         )
+    }
+
+    single {
+        Room.databaseBuilder(
+                androidContext(),
+                AppDatabase::class.java,
+                "database.db"
+            ).build()
     }
 }
