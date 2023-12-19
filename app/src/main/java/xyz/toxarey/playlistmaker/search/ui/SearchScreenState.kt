@@ -1,4 +1,4 @@
-package xyz.toxarey.playlistmaker.search.domain
+package xyz.toxarey.playlistmaker.search.ui
 
 enum class SearchScreenState {
     PROGRESS,

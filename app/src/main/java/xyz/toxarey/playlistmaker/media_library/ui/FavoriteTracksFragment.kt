@@ -13,10 +13,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.databinding.FragmentFavoriteTracksBinding
-import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksScreenState
 import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksState
 import xyz.toxarey.playlistmaker.player.domain.Track
-import xyz.toxarey.playlistmaker.search.ui.CellClickListener
 import xyz.toxarey.playlistmaker.search.ui.TracksAdapter
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 
@@ -71,16 +69,13 @@ class FavoriteTracksFragment: Fragment() {
     }
 
     private fun initializationAdapter() {
-        val onClickListenerTracks = CellClickListener { track ->
+        tracksAdapter = TracksAdapter(
+            tracks
+        ) { track ->
             if (clickDebounce()) {
                 segueToAudioPlayerFragment(track)
             }
         }
-
-        tracksAdapter = TracksAdapter(
-            tracks,
-            onClickListenerTracks
-        )
 
         binding.rvFavoriteTracks.adapter = tracksAdapter
     }

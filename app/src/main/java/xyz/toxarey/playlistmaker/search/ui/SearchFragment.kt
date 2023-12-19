@@ -20,7 +20,6 @@ import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import xyz.toxarey.playlistmaker.databinding.FragmentSearchBinding
 import xyz.toxarey.playlistmaker.player.domain.Track
-import xyz.toxarey.playlistmaker.search.domain.SearchScreenState
 import xyz.toxarey.playlistmaker.search.domain.SearchState
 
 class SearchFragment: Fragment() {
@@ -108,7 +107,9 @@ class SearchFragment: Fragment() {
     }
 
     private fun initializationAdapters() {
-        val onClickListenerTracks = CellClickListener { track ->
+        tracksAdapter = TracksAdapter(
+            tracks
+        ) { track ->
             if (clickDebounce()) {
                 viewModel.addTrackToHistory(track)
                 tracksHistory.clear()
@@ -118,21 +119,13 @@ class SearchFragment: Fragment() {
             }
         }
 
-        val onClickListenerTracksHistory = CellClickListener { track ->
+        tracksAdapterHistory = TracksAdapter(
+            tracksHistory
+        ) { track ->
             if (clickDebounce()) {
                 segueToAudioPlayerFragment(track)
             }
         }
-
-        tracksAdapter = TracksAdapter(
-            tracks,
-            onClickListenerTracks
-        )
-
-        tracksAdapterHistory = TracksAdapter(
-            tracksHistory,
-            onClickListenerTracksHistory
-        )
 
         binding.rvTracks.adapter = tracksAdapter
         binding.rvSearchHistory.adapter = tracksAdapterHistory

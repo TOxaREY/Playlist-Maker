@@ -1,4 +1,4 @@
-package xyz.toxarey.playlistmaker.media_library.domain
+package xyz.toxarey.playlistmaker.media_library.ui
 
 enum class FavoriteTracksScreenState {
     SUCCESS,
