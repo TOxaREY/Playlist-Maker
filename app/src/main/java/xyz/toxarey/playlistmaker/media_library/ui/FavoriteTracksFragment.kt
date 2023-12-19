@@ -1,14 +1,9 @@
 package xyz.toxarey.playlistmaker.media_library.ui
 
-import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -21,8 +16,6 @@ import xyz.toxarey.playlistmaker.databinding.FragmentFavoriteTracksBinding
 import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksScreenState
 import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksState
 import xyz.toxarey.playlistmaker.player.domain.Track
-import xyz.toxarey.playlistmaker.search.domain.SearchScreenState
-import xyz.toxarey.playlistmaker.search.domain.SearchState
 import xyz.toxarey.playlistmaker.search.ui.CellClickListener
 import xyz.toxarey.playlistmaker.search.ui.TracksAdapter
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
@@ -70,12 +63,10 @@ class FavoriteTracksFragment: Fragment() {
     override fun onPause() {
         super.onPause()
         isClickAllowed = true
-        Log.i("TEST", "onPause")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.i("TEST", "onResume")
         viewModel.getFavoriteTracks()
     }
 
@@ -118,7 +109,6 @@ class FavoriteTracksFragment: Fragment() {
         state: FavoriteTracksScreenState,
         newTracks: List<Track>?
     ) {
-        Log.i("TEST", state.toString())
         when (state) {
             FavoriteTracksScreenState.SUCCESS -> {
                 nothingFoundMessage(false)

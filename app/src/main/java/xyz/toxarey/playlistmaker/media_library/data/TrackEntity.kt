@@ -2,7 +2,6 @@ package xyz.toxarey.playlistmaker.media_library.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity(tableName = "track_table")
 data class TrackEntity(
