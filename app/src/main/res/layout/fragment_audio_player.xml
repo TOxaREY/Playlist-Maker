@@ -175,7 +175,7 @@
         android:id="@+id/ivAlbumFull"
         android:layout_width="@dimen/player_album_full_width_height"
         android:layout_height="@dimen/player_album_full_width_height"
-        android:layout_marginTop="82dp"
+        android:layout_marginTop="@dimen/new_playlist_and_audioplayer_image_view_layout_marginTop"
         android:layout_marginBottom="26dp"
         android:src="@drawable/album_placeholder_full"
         app:layout_constraintBottom_toTopOf="@+id/tvTrackTitle"

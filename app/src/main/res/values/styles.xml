@@ -100,6 +100,18 @@
         <item name="android:textSize">14sp</item>
         <item name="cornerRadius">54dp</item>
     </style>
+    <style name="CreatePlaylistButtonAttr" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:backgroundTint">@color/yp_text_gray</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:insetTop">@dimen/button_insetTop</item>
+        <item name="android:insetBottom">@dimen/button_insetBottom</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/yp_white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
     <style name="TextViewErrorAttr">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -217,21 +229,51 @@
         <item name="android:layout_height">match_parent</item>
     </style>
     <style name="FragmentContainerViewRootAttr">
-        <item name="android:layout_width">@dimen/activity_root_layout_width_and_height_and_bottomNavigationView_layout_width</item>
-        <item name="android:layout_height">@dimen/activity_root_layout_width_and_height_and_bottomNavigationView_layout_width</item>
+        <item name="android:layout_width">@dimen/activity_root_layout_width_and_height_and_bottomNavigationView_layout_width_and_new_playlist_items_layout_width</item>
+        <item name="android:layout_height">@dimen/activity_root_layout_width_and_height_and_bottomNavigationView_layout_width_and_new_playlist_items_layout_width</item>
         <item name="layout_constraintBottom_toTopOf">@id/bottomNavigationView</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
     <style name="BottomNavigationViewAttr">
-        <item name="android:layout_width">@dimen/activity_root_layout_width_and_height_and_bottomNavigationView_layout_width</item>
-        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">@dimen/activity_root_layout_width_and_height_and_bottomNavigationView_layout_width_and_new_playlist_items_layout_width</item>
+        <item name="android:layout_height">@dimen/bottomNavigationView_and_new_playlist_items_layout_and_height</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="itemIconTint">@drawable/nav_item_color_state</item>
         <item name="itemTextColor">@drawable/nav_item_color_state</item>
         <item name="itemBackground">?attr/backgroundColor</item>
+    </style>
+    <style name="NewPlaylistTextInputAttr" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">@dimen/activity_root_layout_width_and_height_and_bottomNavigationView_layout_width_and_new_playlist_items_layout_width</item>
+        <item name="android:layout_height">@dimen/bottomNavigationView_and_new_playlist_items_layout_and_height</item>
+        <item name="android:layout_marginStart">@dimen/padding_and_margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/padding_and_margin_horizontal</item>
+        <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="android:textColorHint">?attr/colorPrimary</item>
+        <item name="hintTextColor">@color/yp_blue</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/ys_display_regular</item>
+    </style>
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+    <style name="NewPlaylistEditTextAttr">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+        <item name="android:inputType">text</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLength">30</item>
     </style>
 </resources>

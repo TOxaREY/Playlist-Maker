@@ -1,4 +1,4 @@
-package xyz.toxarey.playlistmaker.media_library.ui
+package xyz.toxarey.playlistmaker.media_library.ui.FavoriteTracks
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

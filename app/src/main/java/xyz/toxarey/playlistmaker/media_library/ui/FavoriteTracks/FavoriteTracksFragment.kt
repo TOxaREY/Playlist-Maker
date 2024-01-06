@@ -1,4 +1,4 @@
-package xyz.toxarey.playlistmaker.media_library.ui
+package xyz.toxarey.playlistmaker.media_library.ui.FavoriteTracks
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -15,6 +15,7 @@
     <dimen name="main_button_layout_height">0dp</dimen>
     <dimen name="settings_menu_layout_height">61dp</dimen>
     <dimen name="settings_menu_textSize">16sp</dimen>
+    <dimen name="textview_surface_textSize">12sp</dimen>
     <dimen name="padding_and_margin_horizontal">16dp</dimen>
     <dimen name="settings_menu_layout_marginTop">21dp</dimen>
     <dimen name="settings_menu_imageView_layout_width">24dp</dimen>
@@ -49,5 +50,11 @@
     <dimen name="track_album_full_imageView_roundedCorners">8dp</dimen>
     <dimen name="progress_bar_layout_height_and_layout_width">44dp</dimen>
     <dimen name="tab_layout_marginLeft_and_marginRight">16dp</dimen>
-    <dimen name="activity_root_layout_width_and_height_and_bottomNavigationView_layout_width">0dp</dimen>
+    <dimen name="activity_root_layout_width_and_height_and_bottomNavigationView_layout_width_and_new_playlist_items_layout_width">0dp</dimen>
+    <dimen name="new_playlist_and_audioplayer_image_view_layout_marginTop">82dp</dimen>
+    <dimen name="new_playlist_image_view_layout_marginStart_marginEnd">24dp</dimen>
+    <dimen name="new_playlist_add_photo_background_dash">37.3dp</dimen>
+    <dimen name="new_playlist_add_photo_create_button_layout_marginStart_marginEnd">17dp</dimen>
+    <dimen name="textview_surface_height">16dp</dimen>
+    <dimen name="bottomNavigationView_and_new_playlist_items_layout_and_height">56dp</dimen>
 </resources>
