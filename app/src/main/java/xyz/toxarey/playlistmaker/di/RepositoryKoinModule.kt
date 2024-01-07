@@ -5,8 +5,10 @@ import android.media.MediaPlayer
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import xyz.toxarey.playlistmaker.media_library.data.FavoriteTracksRepositoryImpl
+import xyz.toxarey.playlistmaker.media_library.data.PlaylistRepositoryImpl
 import xyz.toxarey.playlistmaker.media_library.data.TrackDbConvertor
 import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksRepository
+import xyz.toxarey.playlistmaker.media_library.domain.PlaylistRepository
 import xyz.toxarey.playlistmaker.player.data.TrackMediaPlayerRepositoryImpl
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerRepository
 import xyz.toxarey.playlistmaker.search.data.TracksRepositoryImpl
@@ -54,5 +56,12 @@ val repositoryKoinModule = module {
 
     single<ExternalTransitions> {
         ExternalTransitionsImpl(get())
+    }
+
+    single<PlaylistRepository> {
+        PlaylistRepositoryImpl(
+            get(),
+            get()
+        )
     }
 }

@@ -7,6 +7,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import xyz.toxarey.playlistmaker.media_library.data.AppDatabase
+import xyz.toxarey.playlistmaker.media_library.data.PlaylistDbConvertor
 import xyz.toxarey.playlistmaker.search.data.ItunesSearchAPI
 import xyz.toxarey.playlistmaker.search.data.NetworkClient
 import xyz.toxarey.playlistmaker.search.data.RetrofitNetworkClient
@@ -45,5 +46,9 @@ val dataKoinModule = module {
                 AppDatabase::class.java,
                 "database.db"
             ).build()
+    }
+
+    factory {
+        PlaylistDbConvertor(get())
     }
 }
