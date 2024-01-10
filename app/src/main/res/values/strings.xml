@@ -33,4 +33,10 @@
     <string name="create">Создать</string>
     <string name="name_playlist">Название*</string>
     <string name="description_playlist">Описание</string>
+    <string name="confirm_complete_creation_playlist_title">Завершить создание плейлиста?</string>
+    <string name="confirm_complete_creation_playlist_message">Все несохраненные данные будут потеряны</string>
+    <string name="title_button_cancel">Отмена</string>
+    <string name="title_button_complete">Завершить</string>
+    <string name="toast_creation_text_playlist">Плейлист</string>
+    <string name="toast_creation_text_created">создан</string>
 </resources>
