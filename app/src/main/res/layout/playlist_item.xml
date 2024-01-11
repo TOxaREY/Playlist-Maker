@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/playlist_item_paddingStart_and_paddingEnd"
+    android:paddingEnd="@dimen/playlist_item_paddingStart_and_paddingEnd"
+    android:paddingTop="@dimen/playlist_item_paddingTop_and_paddingBottom"
+    android:paddingBottom="@dimen/playlist_item_paddingTop_and_paddingBottom"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/ivPlaylistCover"
+        android:layout_width="@dimen/player_album_full_width_height"
+        android:layout_height="@dimen/player_album_full_width_height"
+        android:src="@drawable/album_placeholder_full"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/playlist_cover_description" />
+
+    <TextView
+        android:id="@+id/tvPlaylistName"
+        style="@style/TextViewPlaylistAttr"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/ivPlaylistCover"
+        tools:text="@string/placeholder"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tvPlaylistCountTracks"
+        style="@style/TextViewPlaylistAttr"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlaylistName"
+        tools:text="@string/placeholder"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>

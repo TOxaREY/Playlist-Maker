@@ -1,5 +1,6 @@
 package xyz.toxarey.playlistmaker.search.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -38,7 +39,7 @@ class SearchFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(
             inflater,
             container,
@@ -106,10 +107,9 @@ class SearchFragment: Fragment() {
         _binding = null
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initializationAdapters() {
-        tracksAdapter = TracksAdapter(
-            tracks
-        ) { track ->
+        tracksAdapter = TracksAdapter(tracks) { track ->
             if (clickDebounce()) {
                 viewModel.addTrackToHistory(track)
                 tracksHistory.clear()
@@ -119,9 +119,7 @@ class SearchFragment: Fragment() {
             }
         }
 
-        tracksAdapterHistory = TracksAdapter(
-            tracksHistory
-        ) { track ->
+        tracksAdapterHistory = TracksAdapter(tracksHistory) { track ->
             if (clickDebounce()) {
                 segueToAudioPlayerFragment(track)
             }
@@ -190,6 +188,7 @@ class SearchFragment: Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun addHistoryTracks(tracks: ArrayList<Track>) {
         tracksHistory.clear()
         tracksHistory.addAll(tracks)
@@ -283,6 +282,7 @@ class SearchFragment: Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
             binding.progressBar.visibility = View.GONE
@@ -296,11 +296,13 @@ class SearchFragment: Fragment() {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun clearTrackList() {
         tracks.clear()
         tracksAdapter?.notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun addTracksToList(newTracks: List<Track>) {
         tracks.clear()
         tracks.addAll(newTracks)

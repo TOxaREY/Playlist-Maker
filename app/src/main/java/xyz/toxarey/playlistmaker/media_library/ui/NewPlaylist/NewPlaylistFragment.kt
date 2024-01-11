@@ -1,12 +1,10 @@
 package xyz.toxarey.playlistmaker.media_library.ui.NewPlaylist
 
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,15 +26,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.databinding.FragmentNewPlaylistBinding
 import xyz.toxarey.playlistmaker.media_library.domain.Playlist
-import xyz.toxarey.playlistmaker.media_library.ui.FavoriteTracks.FavoriteTracksFragmentViewModel
-import xyz.toxarey.playlistmaker.search.domain.SearchState
-import xyz.toxarey.playlistmaker.search.ui.SearchScreenState
 import xyz.toxarey.playlistmaker.utils.DIRECTORY_WITH_COVERS
 import xyz.toxarey.playlistmaker.utils.QUALITY_COMPRESSION
 import java.io.File
 import java.io.FileOutputStream
-import java.util.Calendar
-import java.util.Date
 
 class NewPlaylistFragment: Fragment() {
     private val viewModel: NewPlaylistFragmentViewModel by viewModel()
@@ -50,7 +43,7 @@ class NewPlaylistFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNewPlaylistBinding.inflate(
             inflater,
             container,
@@ -74,22 +67,26 @@ class NewPlaylistFragment: Fragment() {
             onBackToMediaLibrary()
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object: OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 onBackToMediaLibrary()
             }
         })
 
         val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            Glide.with(requireActivity())
-                .load(uri)
-                .centerCrop()
-                .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.track_album_full_imageView_roundedCorners)))
-                .placeholder(R.drawable.album_placeholder_full)
-                .error(R.drawable.album_placeholder_full)
-                .into(binding.ivNewPlaylist)
+            if (uri != null) {
+                Glide.with(requireActivity())
+                    .load(uri)
+                    .centerCrop()
+                    .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.track_album_full_imageView_roundedCorners)))
+                    .placeholder(R.drawable.album_placeholder_full)
+                    .error(R.drawable.album_placeholder_full)
+                    .into(binding.ivNewPlaylist)
 
-            saveCoverToPrivateStorage(uri)
+                saveCoverToPrivateStorage(uri)
+            }
         }
 
         binding.ivNewPlaylist.setOnClickListener {
@@ -187,7 +184,7 @@ class NewPlaylistFragment: Fragment() {
         }
     }
 
-    private fun saveCoverToPrivateStorage(uri: Uri?) {
+    private fun saveCoverToPrivateStorage(uri: Uri) {
         val filePath = File(
             requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
             DIRECTORY_WITH_COVERS
@@ -195,14 +192,14 @@ class NewPlaylistFragment: Fragment() {
         if (!filePath.exists()){
             filePath.mkdirs()
         }
-        val now = (System.currentTimeMillis() / 1000).toString()
+        val now = (System.currentTimeMillis() / 1000).toString() + ".jpg"
         val file = File(
             filePath,
-            "$now.jpg"
+            now
         )
         newPlaylist.playlistCoverPath = now
         setNewPlaylistStateLiveData()
-        val inputStream = uri?.let { requireActivity().contentResolver.openInputStream(it) }
+        val inputStream =requireActivity().contentResolver.openInputStream(uri)
         val outputStream = FileOutputStream(file)
         BitmapFactory
             .decodeStream(inputStream)

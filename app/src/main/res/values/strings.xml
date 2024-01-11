@@ -39,4 +39,6 @@
     <string name="title_button_complete">Завершить</string>
     <string name="toast_creation_text_playlist">Плейлист</string>
     <string name="toast_creation_text_created">создан</string>
+    <string name="nothing_found_image_description">изображение "ничего не нашлось"</string>
+    <string name="playlist_cover_description">изображение обложки альбома</string>
 </resources>

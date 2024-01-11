@@ -31,7 +31,7 @@ val viewModelKoinModule = module {
     }
 
     viewModel {
-        PlaylistsFragmentViewModel()
+        PlaylistsFragmentViewModel(get())
     }
 
     viewModel {
