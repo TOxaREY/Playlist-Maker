@@ -38,7 +38,9 @@
             android:maxLength="25"
             android:textColor="@color/yp_black"
             android:paddingStart="36dp"
-            android:background="@drawable/rounded_edit_text" />
+            android:background="@drawable/rounded_edit_text"
+            android:importantForAutofill="no"
+            tools:ignore="RtlSymmetry" />
 
         <Button
             android:id="@+id/clear_search_button"
@@ -64,7 +66,8 @@
             android:layout_marginTop="@dimen/search_image_view_layout_marginTop_and_layout_marginBottom"
             android:layout_marginBottom="@dimen/search_image_view_layout_marginTop_and_layout_marginBottom"
             android:layout_marginStart="29dp"
-            android:src="@drawable/ic_search_edit_text" />
+            android:src="@drawable/ic_search_edit_text"
+            android:contentDescription="@string/search_icon_description" />
     </FrameLayout>
 
     <FrameLayout
@@ -83,7 +86,8 @@
             <ImageView
                 android:id="@+id/nothingFoundImage"
                 style="@style/ImageViewErrorAttr"
-                android:src="@drawable/ic_nothing_found" />
+                android:src="@drawable/ic_nothing_found"
+                android:contentDescription="@string/nothing_found_image_description" />
 
             <TextView
                 android:id="@+id/nothingFoundText"
@@ -93,7 +97,8 @@
             <ImageView
                 android:id="@+id/communicationErrorImage"
                 style="@style/ImageViewErrorAttr"
-                android:src="@drawable/ic_communication_error" />
+                android:src="@drawable/ic_communication_error"
+                android:contentDescription="@string/communication_error_image_description" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -111,7 +116,7 @@
 
             <Button
                 android:id="@+id/update_button"
-                style="@style/UpdateAndClearAndNewPlaulistButtonAttr"
+                style="@style/UpdateAndClearAndNewPlaylistButtonAttr"
                 android:layout_marginTop="350dp"
                 android:text="@string/update"
                 android:visibility="invisible"/>
@@ -150,7 +155,7 @@
 
                     <Button
                         android:id="@+id/clear_history_button"
-                        style="@style/UpdateAndClearAndNewPlaulistButtonAttr"
+                        style="@style/UpdateAndClearAndNewPlaylistButtonAttr"
                         android:layout_marginTop="@dimen/clear_button_history_marginTop_and_marginBottom"
                         android:layout_marginBottom="@dimen/clear_button_history_marginTop_and_marginBottom"
                         android:text="@string/clear_history" />

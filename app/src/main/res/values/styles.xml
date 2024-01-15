@@ -87,7 +87,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
     </style>
-    <style name="UpdateAndClearAndNewPlaulistButtonAttr" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="UpdateAndClearAndNewPlaylistButtonAttr" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">36dp</item>
         <item name="android:layout_gravity">center_horizontal</item>
@@ -287,7 +287,6 @@
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
-
     <style name="RecyclerViewPlaylistsAttr">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -295,5 +294,20 @@
         <item name="android:orientation">vertical</item>
         <item name="android:layout_marginStart">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>
+    </style>
+    <style name="ImageViewCoverItemAttr">
+        <item name="android:layout_width">@dimen/track_item_album_imageView_layout_height_and_layout_width</item>
+        <item name="android:layout_height">@dimen/track_item_album_imageView_layout_height_and_layout_width</item>
+        <item name="android:layout_marginTop">@dimen/track_item_album_imageView_layout_marginTop_and_marginBottom</item>
+        <item name="android:layout_marginBottom">@dimen/track_item_album_imageView_layout_marginTop_and_marginBottom</item>
+        <item name="android:layout_marginStart">13dp</item>
+        <item name="android:paddingTop">@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd</item>
+        <item name="android:paddingBottom">@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd</item>
+        <item name="android:paddingStart">@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd</item>
+        <item name="android:paddingEnd">@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd</item>
+        <item name="android:src">@drawable/album_placeholder</item>
+    </style>
+    <style name="BottomSheetAttr" parent="Theme.AppCompat">
+        <item name="backgroundTint">?attr/backgroundColor</item>
     </style>
 </resources>

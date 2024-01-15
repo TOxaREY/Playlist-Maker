@@ -15,6 +15,7 @@ val viewModelKoinModule = module {
         AudioPlayerFragmentViewModel(
             track,
             get(),
+            get(),
             get()
         )
     }

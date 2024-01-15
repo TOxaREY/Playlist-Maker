@@ -54,7 +54,6 @@ class PlaylistsFragment: Fragment() {
         viewModel.getPlaylistsStateLiveData().observe(viewLifecycleOwner) {
             playlistsState(it)
         }
-
         initializationAdapter()
     }
 

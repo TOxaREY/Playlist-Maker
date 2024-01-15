@@ -1,6 +1,7 @@
 package xyz.toxarey.playlistmaker.media_library.domain
 
 import kotlinx.coroutines.flow.Flow
+import xyz.toxarey.playlistmaker.player.domain.Track
 
 class PlaylistInteractorImpl(private val playlistRepository: PlaylistRepository): PlaylistInteractor {
     override suspend fun insertPlaylist(playlist: Playlist) {
@@ -22,4 +23,15 @@ class PlaylistInteractorImpl(private val playlistRepository: PlaylistRepository)
     override fun getPlaylists(): Flow<List<Playlist>> {
         return playlistRepository.getPlaylists()
     }
+
+    override fun insertTrackToPlaylist(
+        playlistId: Long,
+        track: Track
+    ): Flow<Boolean> {
+        return playlistRepository.insertTrackToPlaylist(
+            playlistId,
+            track
+        )
+    }
+
 }

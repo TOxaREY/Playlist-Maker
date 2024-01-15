@@ -41,4 +41,16 @@
     <string name="toast_creation_text_created">создан</string>
     <string name="nothing_found_image_description">изображение "ничего не нашлось"</string>
     <string name="playlist_cover_description">изображение обложки альбома</string>
+    <string name="add_in_playlist">Добавить в плейлист</string>
+    <string name="added_in_playlist">Добавлено в плейлист</string>
+    <string name="track_has_already_added_to_playlist">Трек уже добавлен в плейлист</string>
+    <string name="image_dot_description">точка для разделения текста описания</string>
+    <string name="arrow_forward_description">стрелка перехода вперед</string>
+    <string name="search_icon_description">иконка поиска</string>
+    <string name="communication_error_image_description">изображение оишбка соединения</string>
+    <string name="timer_zero">0:00</string>
+    <string name="play_button_image_description">изображение кнопки пуск</string>
+    <string name="add_playlist_button_image_description">изображение кнопки добавить в плейлист</string>
+    <string name="favorite_button_image_description">изображение кнопки добавить в избранное</string>
+    <string name="placeholder_cover_image_description">изображение заглушки обложки альбома</string>
 </resources>

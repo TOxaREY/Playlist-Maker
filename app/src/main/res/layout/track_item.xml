@@ -6,16 +6,8 @@
 
     <ImageView
         android:id="@+id/ivAlbum"
-        android:layout_height="@dimen/track_item_album_imageView_layout_height_and_layout_width"
-        android:layout_width="@dimen/track_item_album_imageView_layout_height_and_layout_width"
-        android:layout_marginTop="@dimen/track_item_album_imageView_layout_marginTop_and_marginBottom"
-        android:layout_marginBottom="@dimen/track_item_album_imageView_layout_marginTop_and_marginBottom"
-        android:layout_marginStart="13dp"
-        android:paddingTop="@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd"
-        android:paddingBottom="@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd"
-        android:paddingStart="@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd"
-        android:paddingEnd="@dimen/track_item_album_imageView_paddingTop_and_paddingBottom_and_paddingStart_and_paddingEnd"
-        android:src="@drawable/album_placeholder"/>
+        style="@style/ImageViewCoverItemAttr"
+        android:contentDescription="@string/playlist_cover_description" />
 
     <LinearLayout
         style="@style/LinearLayoutTrackAttr"
@@ -48,7 +40,8 @@
                 android:layout_marginBottom="@dimen/track_item_textView_and_dot_image_layout_marginBottom"
                 android:layout_height="@dimen/track_dot_imageView_layout_height_and_layout_width"
                 android:layout_width="@dimen/track_dot_imageView_layout_height_and_layout_width"
-                android:src="@drawable/ic_dot"/>
+                android:src="@drawable/ic_dot"
+                android:contentDescription="@string/image_dot_description" />
 
             <TextView
                 android:id="@+id/tvTrackTime"
@@ -68,5 +61,6 @@
         android:paddingEnd="@dimen/settings_menu_terms_of_use_imageView_paddingStart_and_paddingEnd"
         android:paddingTop="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"
         android:paddingBottom="@dimen/settings_menu_terms_of_use_imageView_paddingTop_and_paddingBottom"
-        android:src="@drawable/ic_arrow_forward" />
+        android:src="@drawable/ic_arrow_forward"
+        android:contentDescription="@string/arrow_forward_description" />
 </LinearLayout>

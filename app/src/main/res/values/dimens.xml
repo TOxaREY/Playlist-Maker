@@ -59,4 +59,5 @@
     <dimen name="textview_playlist_height">16dp</dimen>
     <dimen name="playlist_item_paddingStart_and_paddingEnd">4dp</dimen>
     <dimen name="playlist_item_paddingTop_and_paddingBottom">8dp</dimen>
+    <dimen name="playlists_bottom_sheet_layout_marginStart_and_marginEnd">0dp</dimen>
 </resources>

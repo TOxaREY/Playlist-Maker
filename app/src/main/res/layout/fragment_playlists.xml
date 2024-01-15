@@ -10,7 +10,7 @@
 
         <Button
             android:id="@+id/newPlaylistButton"
-            style="@style/UpdateAndClearAndNewPlaulistButtonAttr"
+            style="@style/UpdateAndClearAndNewPlaylistButtonAttr"
             android:layout_marginTop="@dimen/clear_button_history_marginTop_and_marginBottom"
             android:text="@string/new_playlist" />
 

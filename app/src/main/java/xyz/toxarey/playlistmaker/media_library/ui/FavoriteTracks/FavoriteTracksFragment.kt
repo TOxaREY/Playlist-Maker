@@ -1,5 +1,6 @@
 package xyz.toxarey.playlistmaker.media_library.ui.FavoriteTracks
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,7 @@ class FavoriteTracksFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFavoriteTracksBinding.inflate(
             inflater,
             container,
@@ -100,6 +101,7 @@ class FavoriteTracksFragment: Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateFavoriteTracksScreenState(
         state: FavoriteTracksScreenState,
         newTracks: List<Track>?
@@ -121,6 +123,7 @@ class FavoriteTracksFragment: Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
             tracks.clear()
@@ -144,7 +147,6 @@ class FavoriteTracksFragment: Fragment() {
         }
         return current
     }
-
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
