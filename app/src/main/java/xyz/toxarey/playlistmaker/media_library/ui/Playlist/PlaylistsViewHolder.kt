@@ -4,6 +4,7 @@ import android.os.Environment
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.databinding.PlaylistItemBinding
@@ -28,7 +29,10 @@ class PlaylistsViewHolder(private val binding: PlaylistItemBinding): RecyclerVie
         Glide.with(itemView.context)
             .load(uri)
             .centerCrop()
-            .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.track_album_full_imageView_roundedCorners)))
+            .transform(
+                CenterCrop(),
+                RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.track_album_full_imageView_roundedCorners))
+            )
             .placeholder(R.drawable.album_placeholder_full)
             .into(binding.ivPlaylistCover)
         binding.tvPlaylistName.text = item.playlistName

@@ -4,5 +4,6 @@ enum class SearchScreenState {
     PROGRESS,
     COMMUNICATION_ERROR,
     NOTHING_FOUND,
-    SUCCESS
+    SUCCESS,
+    PAUSED
 }

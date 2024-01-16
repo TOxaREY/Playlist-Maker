@@ -75,7 +75,7 @@ class PlaylistsFragment: Fragment() {
     private fun initializationAdapter() {
         playlistsAdapter = PlaylistsAdapter(playlists) { playlist ->
             if (clickDebounce()) {
-                TODO()
+
             }
         }
 

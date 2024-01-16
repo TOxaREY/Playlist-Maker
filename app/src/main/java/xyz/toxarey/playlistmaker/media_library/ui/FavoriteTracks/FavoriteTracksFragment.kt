@@ -66,7 +66,7 @@ class FavoriteTracksFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getFavoriteTracks()
+        viewModel.setFavoriteTracksState()
     }
 
     private fun initializationAdapter() {

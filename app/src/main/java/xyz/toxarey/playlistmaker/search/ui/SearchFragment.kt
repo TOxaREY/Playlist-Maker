@@ -34,6 +34,7 @@ class SearchFragment: Fragment() {
     private var searchText = ""
     private var isClickAllowed = true
     private var searchJob: Job? = null
+    private var isSegueToAudioPlayerFragment = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,9 +97,12 @@ class SearchFragment: Fragment() {
         super.onPause()
         if (viewModel.getSearchStateLiveData().value != SearchState.Content(tracks)) {
             viewModel.setPauseSearchStateLiveData()
-            searchState(SearchState.Paused)
+            if (isSegueToAudioPlayerFragment) {
+                isSegueToAudioPlayerFragment = false
+            } else {
+                clearSearchText()
+            }
         }
-        searchJob?.cancel()
         isClickAllowed = true
     }
 
@@ -130,6 +134,7 @@ class SearchFragment: Fragment() {
     }
 
     private fun segueToAudioPlayerFragment(track: Track) {
+        isSegueToAudioPlayerFragment = true
         findNavController().navigate(
             R.id.action_searchFragment_to_audioPlayerFragment,
             bundleOf(EXTRA_TRACK to track)
@@ -143,8 +148,8 @@ class SearchFragment: Fragment() {
         }
 
         binding.clearSearchButton.setOnClickListener {
-            binding.searchEditText.setText("")
-            searchText = ""
+            viewModel.setPauseSearchStateLiveData()
+            clearSearchText()
             inputMethodManager?.hideSoftInputFromWindow(
                 binding.searchEditText.windowToken,
                 0
@@ -230,8 +235,11 @@ class SearchFragment: Fragment() {
                 state.tracks
             )
             is SearchState.Paused -> {
-                binding.searchEditText.setText("")
-                searchText = ""
+                updateSearchScreenState(
+                    SearchScreenState.PAUSED,
+                    null
+                )
+                searchJob?.cancel()
             }
         }
     }
@@ -264,6 +272,12 @@ class SearchFragment: Fragment() {
                 if (newTracks != null) {
                     addTracksToList(newTracks)
                 }
+            }
+
+            SearchScreenState.PAUSED -> {
+                binding.progressBar.visibility = View.GONE
+                communicationErrorMessage(false)
+                nothingFoundMessage(false)
             }
         }
     }
@@ -318,6 +332,11 @@ class SearchFragment: Fragment() {
             binding.progressBar.visibility = View.VISIBLE
             viewModel.searchTrack(searchText)
         }
+    }
+
+    private fun clearSearchText() {
+        binding.searchEditText.setText("")
+        searchText = ""
     }
 
     private fun clickDebounce(): Boolean {

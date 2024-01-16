@@ -1,10 +1,7 @@
 package xyz.toxarey.playlistmaker.media_library.ui.NewPlaylist
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
@@ -26,10 +24,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.databinding.FragmentNewPlaylistBinding
 import xyz.toxarey.playlistmaker.media_library.domain.Playlist
-import xyz.toxarey.playlistmaker.utils.DIRECTORY_WITH_COVERS
-import xyz.toxarey.playlistmaker.utils.QUALITY_COMPRESSION
-import java.io.File
-import java.io.FileOutputStream
 
 class NewPlaylistFragment: Fragment() {
     private val viewModel: NewPlaylistFragmentViewModel by viewModel()
@@ -80,7 +74,10 @@ class NewPlaylistFragment: Fragment() {
                 Glide.with(requireActivity())
                     .load(uri)
                     .centerCrop()
-                    .transform(RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.track_album_full_imageView_roundedCorners)))
+                    .transform(
+                        CenterCrop(),
+                        RoundedCorners(this.resources.getDimensionPixelSize(R.dimen.track_album_full_imageView_roundedCorners))
+                    )
                     .placeholder(R.drawable.album_placeholder_full)
                     .error(R.drawable.album_placeholder_full)
                     .into(binding.ivNewPlaylist)
@@ -185,29 +182,13 @@ class NewPlaylistFragment: Fragment() {
     }
 
     private fun saveCoverToPrivateStorage(uri: Uri) {
-        val filePath = File(
-            requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-            DIRECTORY_WITH_COVERS
-        )
-        if (!filePath.exists()){
-            filePath.mkdirs()
-        }
-        val now = (System.currentTimeMillis() / 1000).toString() + ".jpg"
-        val file = File(
-            filePath,
-            now
-        )
-        newPlaylist.playlistCoverPath = now
+        val coverPath = (System.currentTimeMillis() / 1000).toString() + ".jpg"
+        newPlaylist.playlistCoverPath = coverPath
         setNewPlaylistStateLiveData()
-        val inputStream =requireActivity().contentResolver.openInputStream(uri)
-        val outputStream = FileOutputStream(file)
-        BitmapFactory
-            .decodeStream(inputStream)
-            .compress(
-                Bitmap.CompressFormat.JPEG,
-                QUALITY_COMPRESSION,
-                outputStream
-            )
+        viewModel.saveCoverToPrivateStorage(
+            uri,
+            coverPath
+        )
     }
 
     private fun clickDebounce(): Boolean {
