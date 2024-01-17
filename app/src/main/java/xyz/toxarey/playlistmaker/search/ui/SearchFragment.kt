@@ -296,11 +296,10 @@ class SearchFragment: Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
             binding.progressBar.visibility = View.GONE
-            tracksAdapter?.notifyDataSetChanged()
+            clearTrackList()
             binding.nothingFoundImage.visibility = View.VISIBLE
             binding.nothingFoundText.visibility = View.VISIBLE
         } else {

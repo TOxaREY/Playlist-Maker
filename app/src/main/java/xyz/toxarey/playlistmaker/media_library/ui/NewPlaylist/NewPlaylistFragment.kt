@@ -82,7 +82,7 @@ class NewPlaylistFragment: Fragment() {
                     .error(R.drawable.album_placeholder_full)
                     .into(binding.ivNewPlaylist)
 
-                saveCoverToPrivateStorage(uri)
+                saveCover(uri)
             }
         }
 
@@ -181,11 +181,11 @@ class NewPlaylistFragment: Fragment() {
         }
     }
 
-    private fun saveCoverToPrivateStorage(uri: Uri) {
+    private fun saveCover(uri: Uri) {
         val coverPath = (System.currentTimeMillis() / 1000).toString() + ".jpg"
         newPlaylist.playlistCoverPath = coverPath
         setNewPlaylistStateLiveData()
-        viewModel.saveCoverToPrivateStorage(
+        viewModel.saveCover(
             uri,
             coverPath
         )

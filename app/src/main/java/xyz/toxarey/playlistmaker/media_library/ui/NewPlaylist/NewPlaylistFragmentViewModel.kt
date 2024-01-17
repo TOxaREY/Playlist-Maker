@@ -41,7 +41,7 @@ class NewPlaylistFragmentViewModel(
         }
     }
 
-    fun saveCoverToPrivateStorage(
+    fun saveCover(
         uri: Uri,
         coverPath: String
     ) {
