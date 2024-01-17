@@ -1,4 +1,4 @@
-package xyz.toxarey.playlistmaker.media_library.ui
+package xyz.toxarey.playlistmaker.media_library.ui.FavoriteTracks
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,12 +11,12 @@ import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksState
 class FavoriteTracksFragmentViewModel(private val interactorFavoriteTracks: FavoriteTracksInteractor): ViewModel() {
     private val favoriteTracksStateLiveData = MutableLiveData<FavoriteTracksState>()
     init {
-        getFavoriteTracks()
+        setFavoriteTracksState()
     }
 
     fun getFavoriteTracksStateLiveData(): LiveData<FavoriteTracksState> = favoriteTracksStateLiveData
 
-    fun getFavoriteTracks() {
+    fun setFavoriteTracksState() {
         viewModelScope.launch {
             interactorFavoriteTracks
                 .getFavoriteTracks()

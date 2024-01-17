@@ -1,5 +1,6 @@
 package xyz.toxarey.playlistmaker.search.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -33,12 +34,13 @@ class SearchFragment: Fragment() {
     private var searchText = ""
     private var isClickAllowed = true
     private var searchJob: Job? = null
+    private var isSegueToAudioPlayerFragment = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(
             inflater,
             container,
@@ -95,9 +97,12 @@ class SearchFragment: Fragment() {
         super.onPause()
         if (viewModel.getSearchStateLiveData().value != SearchState.Content(tracks)) {
             viewModel.setPauseSearchStateLiveData()
-            searchState(SearchState.Paused)
+            if (isSegueToAudioPlayerFragment) {
+                isSegueToAudioPlayerFragment = false
+            } else {
+                clearSearchText()
+            }
         }
-        searchJob?.cancel()
         isClickAllowed = true
     }
 
@@ -106,10 +111,9 @@ class SearchFragment: Fragment() {
         _binding = null
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initializationAdapters() {
-        tracksAdapter = TracksAdapter(
-            tracks
-        ) { track ->
+        tracksAdapter = TracksAdapter(tracks) { track ->
             if (clickDebounce()) {
                 viewModel.addTrackToHistory(track)
                 tracksHistory.clear()
@@ -119,9 +123,7 @@ class SearchFragment: Fragment() {
             }
         }
 
-        tracksAdapterHistory = TracksAdapter(
-            tracksHistory
-        ) { track ->
+        tracksAdapterHistory = TracksAdapter(tracksHistory) { track ->
             if (clickDebounce()) {
                 segueToAudioPlayerFragment(track)
             }
@@ -132,6 +134,7 @@ class SearchFragment: Fragment() {
     }
 
     private fun segueToAudioPlayerFragment(track: Track) {
+        isSegueToAudioPlayerFragment = true
         findNavController().navigate(
             R.id.action_searchFragment_to_audioPlayerFragment,
             bundleOf(EXTRA_TRACK to track)
@@ -145,8 +148,8 @@ class SearchFragment: Fragment() {
         }
 
         binding.clearSearchButton.setOnClickListener {
-            binding.searchEditText.setText("")
-            searchText = ""
+            viewModel.setPauseSearchStateLiveData()
+            clearSearchText()
             inputMethodManager?.hideSoftInputFromWindow(
                 binding.searchEditText.windowToken,
                 0
@@ -190,6 +193,7 @@ class SearchFragment: Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun addHistoryTracks(tracks: ArrayList<Track>) {
         tracksHistory.clear()
         tracksHistory.addAll(tracks)
@@ -231,8 +235,11 @@ class SearchFragment: Fragment() {
                 state.tracks
             )
             is SearchState.Paused -> {
-                binding.searchEditText.setText("")
-                searchText = ""
+                updateSearchScreenState(
+                    SearchScreenState.PAUSED,
+                    null
+                )
+                searchJob?.cancel()
             }
         }
     }
@@ -266,6 +273,12 @@ class SearchFragment: Fragment() {
                     addTracksToList(newTracks)
                 }
             }
+
+            SearchScreenState.PAUSED -> {
+                binding.progressBar.visibility = View.GONE
+                communicationErrorMessage(false)
+                nothingFoundMessage(false)
+            }
         }
     }
 
@@ -286,7 +299,7 @@ class SearchFragment: Fragment() {
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
             binding.progressBar.visibility = View.GONE
-            tracksAdapter?.notifyDataSetChanged()
+            clearTrackList()
             binding.nothingFoundImage.visibility = View.VISIBLE
             binding.nothingFoundText.visibility = View.VISIBLE
         } else {
@@ -296,11 +309,13 @@ class SearchFragment: Fragment() {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun clearTrackList() {
         tracks.clear()
         tracksAdapter?.notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun addTracksToList(newTracks: List<Track>) {
         tracks.clear()
         tracks.addAll(newTracks)
@@ -316,6 +331,11 @@ class SearchFragment: Fragment() {
             binding.progressBar.visibility = View.VISIBLE
             viewModel.searchTrack(searchText)
         }
+    }
+
+    private fun clearSearchText() {
+        binding.searchEditText.setText("")
+        searchText = ""
     }
 
     private fun clickDebounce(): Boolean {

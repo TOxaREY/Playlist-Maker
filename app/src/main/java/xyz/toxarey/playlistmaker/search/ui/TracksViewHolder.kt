@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class TracksViewHolder(private val binding: TrackItemBinding): RecyclerView.ViewHolder(binding.root) {
-
     fun bind(item: Track) {
         Glide.with(itemView)
             .load(item.artworkUrl100)

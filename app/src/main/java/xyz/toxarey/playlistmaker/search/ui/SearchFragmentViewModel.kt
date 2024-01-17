@@ -36,13 +36,17 @@ class SearchFragmentViewModel(private val tracksInteractor: TracksInteractor): V
                     .searchTracks(text)
                     .collect { queryResult ->
                         val searchTracks = arrayListOf<Track>()
-                        if (queryResult.tracks != null) {
+                        if (queryResult.tracks != null && searchStateLiveData.value != SearchState.Paused) {
                             searchTracks.addAll(queryResult.tracks)
                         }
 
                         when {
                             queryResult.isError == true -> searchStateLiveData.postValue(SearchState.Error)
-                            searchTracks.isEmpty() -> searchStateLiveData.postValue(SearchState.Empty)
+                            searchTracks.isEmpty() -> {
+                                if (searchStateLiveData.value != SearchState.Paused) {
+                                    searchStateLiveData.postValue(SearchState.Empty)
+                                }
+                            }
                             searchTracks.isNotEmpty() -> searchStateLiveData.postValue(SearchState.Content(searchTracks))
                         }
                     }

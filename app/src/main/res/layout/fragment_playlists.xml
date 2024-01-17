@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearLayoutAttr"
-    android:background="?attr/backgroundColor">
+    android:background="?attr/backgroundColor"
+    tools:context=".media_library.ui.Playlist.PlaylistsFragment">
 
     <FrameLayout
         style="@style/FrameLayoutSearchAndMediaLibraryAttr">
 
         <Button
             android:id="@+id/newPlaylistButton"
-            style="@style/UpdateAndClearAndNewPlaulistButtonAttr"
+            style="@style/UpdateAndClearAndNewPlaylistButtonAttr"
             android:layout_marginTop="@dimen/clear_button_history_marginTop_and_marginBottom"
             android:text="@string/new_playlist" />
 
@@ -18,7 +19,8 @@
             style="@style/ImageViewErrorAttr"
             android:src="@drawable/ic_nothing_found"
             android:layout_marginTop="106dp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:contentDescription="@string/nothing_found_image_description" />
 
         <TextView
             android:id="@+id/notCreatedPlaylistsText"
@@ -26,5 +28,11 @@
             android:layout_marginTop="242dp"
             android:text="@string/you_havent_created_any_playlists"
             android:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPlaylists"
+            style="@style/RecyclerViewPlaylistsAttr"
+            android:layout_marginTop="68dp"
+            tools:listitem="@layout/playlist_item" />
     </FrameLayout>
 </LinearLayout>

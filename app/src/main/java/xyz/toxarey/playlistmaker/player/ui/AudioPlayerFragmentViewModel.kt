@@ -8,6 +8,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksInteractor
+import xyz.toxarey.playlistmaker.media_library.domain.Playlist
+import xyz.toxarey.playlistmaker.media_library.domain.PlaylistInteractor
+import xyz.toxarey.playlistmaker.media_library.domain.PlaylistsState
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
@@ -17,12 +20,15 @@ import java.util.Locale
 class AudioPlayerFragmentViewModel(
     private val track: Track,
     private val interactorTrackMediaPlayer: TrackMediaPlayerInteractor,
-    private val interactorFavoriteTracks: FavoriteTracksInteractor
+    private val interactorFavoriteTracks: FavoriteTracksInteractor,
+    private val interactorPlaylist: PlaylistInteractor
 ): ViewModel() {
     private var timerJob: Job? = null
     private val audioPlayerStateLiveData = MutableLiveData<AudioPlayerState>()
     private val updateTimerTaskLiveData = MutableLiveData<String>()
     private val favoriteStatusLiveData = MutableLiveData<Boolean>()
+    private val playlistsStateLiveData = MutableLiveData<PlaylistsState>()
+    private val insertTrackStatusLiveData = MutableLiveData<Boolean>()
 
     init {
         viewModelScope.launch {
@@ -44,6 +50,7 @@ class AudioPlayerFragmentViewModel(
                 timerJob?.cancel()
             }
         )
+        getPlaylistsTracks()
     }
 
     override fun onCleared() {
@@ -65,7 +72,8 @@ class AudioPlayerFragmentViewModel(
             AudioPlayerState.STATE_PLAYING -> {
                 pausePlayer()
             }
-            AudioPlayerState.STATE_PREPARED, AudioPlayerState.STATE_PAUSED -> {
+            AudioPlayerState.STATE_PREPARED,
+            AudioPlayerState.STATE_PAUSED -> {
                 startPlayer()
             }
             else -> {}
@@ -87,6 +95,47 @@ class AudioPlayerFragmentViewModel(
                 interactorFavoriteTracks.deleteFavoriteTrack(track)
             }
             favoriteStatusLiveData.postValue(isFavorite)
+        }
+    }
+
+    fun getPlaylistsStateLiveData(): LiveData<PlaylistsState> = playlistsStateLiveData
+
+    fun getPlaylistsTracks() {
+        viewModelScope.launch {
+            interactorPlaylist
+                .getPlaylists()
+                .collect { playlists ->
+                    if (playlists.isEmpty()) {
+                        playlistsStateLiveData.postValue(PlaylistsState.Empty)
+                    } else {
+                        playlistsStateLiveData.postValue(PlaylistsState.Content(playlists))
+                    }
+                }
+        }
+    }
+
+    fun getInsertTrackStatusLiveData(): LiveData<Boolean> = insertTrackStatusLiveData
+    fun setTrackToPlaylist(
+        playlist: Playlist,
+        track: Track
+    ) {
+        viewModelScope.launch {
+            if (playlist.playlistTrackIdList?.contains(track.trackId) == true) {
+                insertTrackStatusLiveData.postValue(false)
+            } else {
+                playlist.playlistId?.let {
+                    interactorPlaylist.insertTrackToPlaylist(
+                        it,
+                        track
+                    )
+                        .collect { insertTrackToPlaylist ->
+                            if (insertTrackToPlaylist) {
+                                insertTrackStatusLiveData.postValue(true)
+                            }
+                        }
+
+                }
+            }
         }
     }
 

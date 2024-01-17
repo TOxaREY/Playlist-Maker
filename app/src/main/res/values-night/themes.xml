@@ -19,5 +19,8 @@
         <item name="editTextBackground">@color/yp_white</item>
         <item name="hintTextColor">@color/yp_black</item>
         <item name="colorBackgroundFloating">@color/yp_player_button_dark</item>
+        <item name="colorOnSurface">@color/yp_blue</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
     </style>
 </resources>
