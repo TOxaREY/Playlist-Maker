@@ -1,29 +1,29 @@
-package xyz.toxarey.playlistmaker.player.ui
+package xyz.toxarey.playlistmaker.media_library.ui.Playlists
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import xyz.toxarey.playlistmaker.databinding.PlaylistBottomSheetItemBinding
+import xyz.toxarey.playlistmaker.databinding.PlaylistItemBinding
 import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
 
-class PlaylistsBottomSheetAdapter(
+class PlaylistsAdapter(
     private val data: ArrayList<Playlist>,
     private val onClick: (Playlist) -> Unit
-): RecyclerView.Adapter<PlaylistsBottomSheetViewHolder> () {
+): RecyclerView.Adapter<PlaylistsViewHolder> () {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PlaylistsBottomSheetViewHolder {
-        val view = PlaylistBottomSheetItemBinding.inflate(
+    ): PlaylistsViewHolder {
+        val view = PlaylistItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return PlaylistsBottomSheetViewHolder(view)
+        return PlaylistsViewHolder(view)
     }
 
     override fun onBindViewHolder(
-        holder: PlaylistsBottomSheetViewHolder,
+        holder: PlaylistsViewHolder,
         position: Int
     ) {
         val playlist = data[position]

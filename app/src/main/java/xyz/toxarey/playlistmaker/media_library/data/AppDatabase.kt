@@ -2,6 +2,12 @@ package xyz.toxarey.playlistmaker.media_library.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import xyz.toxarey.playlistmaker.media_library.data.FavoriteTracks.TrackInFavoriteDao
+import xyz.toxarey.playlistmaker.media_library.data.FavoriteTracks.TrackInFavoriteEntity
+import xyz.toxarey.playlistmaker.media_library.data.Playlists.PlaylistDao
+import xyz.toxarey.playlistmaker.media_library.data.Playlists.PlaylistEntity
+import xyz.toxarey.playlistmaker.media_library.data.Playlists.TrackInPlaylistDao
+import xyz.toxarey.playlistmaker.media_library.data.Playlists.TrackInPlaylistEntity
 
 @Database(
     version = 1,

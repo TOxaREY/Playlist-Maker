@@ -310,4 +310,21 @@
     <style name="BottomSheetAttr" parent="Theme.AppCompat">
         <item name="backgroundTint">?attr/backgroundColor</item>
     </style>
+    <style name="TextViewPlaylistInfoAttr">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">21dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/yp_black</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="ImageViewIcPlaylistInfoAttr">
+        <item name="android:layout_width">@dimen/settings_menu_imageView_layout_width</item>
+        <item name="android:layout_height">@dimen/settings_menu_imageView_layout_width</item>
+        <item name="android:layout_marginTop">@dimen/playlist_info_ic_marginTop_end_marginStart</item>
+        <item name="android:layout_marginStart">@dimen/playlist_info_ic_marginTop_end_marginStart</item>
+    </style>
 </resources>

@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksState
+import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracks.FavoriteTracksInteractor
+import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracks.FavoriteTracksState
 
 class FavoriteTracksFragmentViewModel(private val interactorFavoriteTracks: FavoriteTracksInteractor): ViewModel() {
     private val favoriteTracksStateLiveData = MutableLiveData<FavoriteTracksState>()

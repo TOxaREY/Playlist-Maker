@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracksInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.Playlist
-import xyz.toxarey.playlistmaker.media_library.domain.PlaylistInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.PlaylistsState
+import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracks.FavoriteTracksInteractor
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistInteractor
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistsState
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor

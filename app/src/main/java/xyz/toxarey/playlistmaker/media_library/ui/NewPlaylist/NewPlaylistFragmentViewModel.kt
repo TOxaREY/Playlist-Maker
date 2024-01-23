@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import xyz.toxarey.playlistmaker.media_library.domain.Playlist
-import xyz.toxarey.playlistmaker.media_library.domain.PlaylistInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.SaveCoverInteractor
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistInteractor
+import xyz.toxarey.playlistmaker.media_library.domain.SaveCover.SaveCoverInteractor
 
 class NewPlaylistFragmentViewModel(
     private val interactorPlaylist: PlaylistInteractor,

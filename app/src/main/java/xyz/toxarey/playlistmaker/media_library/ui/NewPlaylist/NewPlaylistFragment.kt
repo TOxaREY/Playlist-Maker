@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.databinding.FragmentNewPlaylistBinding
-import xyz.toxarey.playlistmaker.media_library.domain.Playlist
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
 
 class NewPlaylistFragment: Fragment() {
     private val viewModel: NewPlaylistFragmentViewModel by viewModel()

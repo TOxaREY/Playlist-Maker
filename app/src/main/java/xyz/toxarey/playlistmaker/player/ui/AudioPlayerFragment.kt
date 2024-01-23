@@ -21,8 +21,8 @@ import org.koin.core.parameter.parametersOf
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.databinding.FragmentAudioPlayerBinding
-import xyz.toxarey.playlistmaker.media_library.domain.Playlist
-import xyz.toxarey.playlistmaker.media_library.domain.PlaylistsState
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistsState
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import java.text.SimpleDateFormat

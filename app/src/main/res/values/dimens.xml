@@ -60,4 +60,9 @@
     <dimen name="playlist_item_paddingStart_and_paddingEnd">4dp</dimen>
     <dimen name="playlist_item_paddingTop_and_paddingBottom">8dp</dimen>
     <dimen name="playlists_bottom_sheet_layout_marginStart_and_marginEnd">0dp</dimen>
+    <dimen name="playlist_info_placeholder_paddingTop_and_paddingStart">24dp</dimen>
+    <dimen name="playlist_info_ic_marginTop_end_marginStart">16dp</dimen>
+    <dimen name="playlist_info_ic_padding_3">3dp</dimen>
+    <dimen name="playlist_info_ic_padding_4">4dp</dimen>
+    <dimen name="playlist_info_ic_padding_10">10dp</dimen>
 </resources>

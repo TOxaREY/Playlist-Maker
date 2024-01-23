@@ -11,3 +11,4 @@ const val NUMBER_OF_PAGES_IN_MEDIALIBRARY_FRAGMENT = 2
 const val DIRECTORY_WITH_COVERS = "my_playlists"
 const val QUALITY_COMPRESSION = 30
 const val SPAN_COUNT_PLAYLISTS = 2
+const val PLAYLIST_ID = "playlist_id"

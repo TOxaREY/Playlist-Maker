@@ -1,4 +1,4 @@
-package xyz.toxarey.playlistmaker.player.ui
+package xyz.toxarey.playlistmaker.media_library.ui.Playlists
 
 import android.os.Environment
 import androidx.core.net.toUri
@@ -7,13 +7,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import xyz.toxarey.playlistmaker.R
-import xyz.toxarey.playlistmaker.databinding.PlaylistBottomSheetItemBinding
+import xyz.toxarey.playlistmaker.databinding.PlaylistItemBinding
 import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
 import xyz.toxarey.playlistmaker.utils.DIRECTORY_WITH_COVERS
 import xyz.toxarey.playlistmaker.utils.countToString
 import java.io.File
 
-class PlaylistsBottomSheetViewHolder(private val binding: PlaylistBottomSheetItemBinding): RecyclerView.ViewHolder(binding.root) {
+class PlaylistsViewHolder(private val binding: PlaylistItemBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Playlist) {
         val filePath = File(
             itemView.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
@@ -31,11 +31,11 @@ class PlaylistsBottomSheetViewHolder(private val binding: PlaylistBottomSheetIte
             .centerCrop()
             .transform(
                 CenterCrop(),
-                RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.track_item_imageView_roundedCorners))
+                RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.track_album_full_imageView_roundedCorners))
             )
-            .placeholder(R.drawable.album_placeholder)
-            .into(binding.ivCoverBottomSheet)
-        binding.tvPlaylistNameBottomSheet.text = item.playlistName
-        binding.tvPlaylistCountTracksBottomSheet.text = countToString(item.playlistTrackCount)
+            .placeholder(R.drawable.album_placeholder_full)
+            .into(binding.ivPlaylistCover)
+        binding.tvPlaylistName.text = item.playlistName
+        binding.tvPlaylistCountTracks.text = countToString(item.playlistTrackCount)
     }
 }
