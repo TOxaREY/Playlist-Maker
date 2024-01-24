@@ -55,14 +55,54 @@ class PlaylistRepositoryImpl(
     }
 
     override fun getListTrackFromPlaylist(trackIds: List<Long>): Flow<List<Track>> = flow {
-       emit(trackIds.map { id ->
+        emit(trackIds.map { id ->
             playlistDbConvertor.map(appDatabase.trackInPlaylistDao().getTrackFromPlaylist(id))
         })
+    }
+
+    override fun deleteTrackFromPlaylist(
+        playlistId: Long,
+        track: Track
+    ): Flow<Boolean> = flow {
+        getPlaylist(playlistId).collect { playlist ->
+            playlist.playlistTrackIdList?.remove(track.trackId)
+            playlist.playlistTrackCount -= 1
+            appDatabase.playlistDao().updatePlaylist(playlistDbConvertor.map(playlist))
+            getPlaylists().collect { playlists ->
+                if (isTrackNotIncludedInPlaylists(
+                    playlists,
+                    track
+                )) {
+                    appDatabase.trackInPlaylistDao().deleteTrackFromPlaylist(playlistDbConvertor.map(track))
+                }
+                getPlaylist(playlistId).collect { updatedPlaylist ->
+                    if (updatedPlaylist.playlistTrackIdList?.contains(track.trackId) == true) {
+                        emit(false)
+                    } else {
+                        emit(true)
+                    }
+                }
+            }
+        }
     }
 
     private fun convertFromPlaylistEntity(playlists: List<PlaylistEntity>): List<Playlist> {
         return playlists.map { playlist ->
             playlistDbConvertor.map(playlist)
         }
+    }
+
+    private fun isTrackNotIncludedInPlaylists(
+        playlists: List<Playlist>,
+        track: Track
+    ): Boolean {
+        var isTrackNotIncludedInPlaylists = true
+        playlists.forEach { playlist ->
+            if (playlist.playlistTrackIdList?.contains(track.trackId) == true) {
+                isTrackNotIncludedInPlaylists = false
+                return@forEach
+            }
+        }
+        return isTrackNotIncludedInPlaylists
     }
 }

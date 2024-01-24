@@ -44,6 +44,7 @@
             android:fontFamily="@font/ys_display_bold"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivPlaylistCoverFull"
             tools:text="@string/placeholder"
             tools:ignore="MissingConstraints" />
@@ -52,6 +53,7 @@
             android:id="@+id/tvPlaylistInfoDescription"
             style="@style/TextViewPlaylistInfoAttr"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPlaylistInfoName"
             tools:text="@string/placeholder"
             tools:ignore="MissingConstraints" />
@@ -59,6 +61,7 @@
         <TextView
             android:id="@+id/tvPlaylistInfoTime"
             style="@style/TextViewPlaylistInfoAttr"
+            android:layout_width="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPlaylistInfoDescription"
             tools:text="@string/placeholder"
@@ -77,8 +80,9 @@
         <TextView
             android:id="@+id/tvPlaylistInfoCountTracks"
             style="@style/TextViewPlaylistInfoAttr"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/playlist_info_textView_count_tracks_marginStart_and_marginTop"
+            android:layout_marginTop="@dimen/playlist_info_textView_count_tracks_marginStart_and_marginTop"
             app:layout_constraintStart_toEndOf="@id/ivDotBlack"
             app:layout_constraintTop_toTopOf="@id/tvPlaylistInfoTime"
             tools:text="@string/placeholder"
@@ -107,6 +111,38 @@
             app:layout_constraintStart_toEndOf="@id/ivPlaylistInfoShare"
             android:src="@drawable/ic_more"
             android:contentDescription="@string/icon_more_description" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tracks_bottom_sheet"
+        style="@style/BottomSheetAttr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/playlists_bottom_sheet_background"
+        app:behavior_hideable="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <View
+            android:id="@+id/resizeHandle"
+            android:layout_width="50dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:background="?attr/backgroundTint"
+            android:layout_marginTop="8dp"
+            app:cornerRadius="44dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvListTrackBottomSheet"
+            style="@style/RecyclerViewPlaylistsAttr"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="@dimen/playlists_bottom_sheet_layout_marginStart_and_marginEnd"
+            android:layout_marginEnd="@dimen/playlists_bottom_sheet_layout_marginStart_and_marginEnd"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/track_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

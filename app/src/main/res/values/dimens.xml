@@ -65,4 +65,7 @@
     <dimen name="playlist_info_ic_padding_3">3dp</dimen>
     <dimen name="playlist_info_ic_padding_4">4dp</dimen>
     <dimen name="playlist_info_ic_padding_10">10dp</dimen>
+    <dimen name="playlist_info_textView_marginStart_and_marginEnd">16dp</dimen>
+    <dimen name="playlist_info_textView_count_tracks_marginStart_and_marginTop">0dp</dimen>
+    <dimen name="sum_height_items_playlist_info">174dp</dimen>
 </resources>

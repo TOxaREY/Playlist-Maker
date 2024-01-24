@@ -51,5 +51,9 @@
         android:id="@+id/playlistInfoFragment"
         android:name="xyz.toxarey.playlistmaker.media_library.ui.PlaylistInfo.PlaylistInfoFragment"
         android:label="fragment_playlist_info"
-        tools:layout="@layout/fragment_playlist_info" />
+        tools:layout="@layout/fragment_playlist_info" >
+        <action
+            android:id="@+id/action_playlistInfoFragment_to_audioPlayerFragment"
+            app:destination="@id/audioPlayerFragment" />
+    </fragment>
 </navigation>

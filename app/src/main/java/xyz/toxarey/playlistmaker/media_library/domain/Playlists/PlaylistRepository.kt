@@ -14,4 +14,8 @@ interface PlaylistRepository {
         track: Track
     ): Flow<Boolean>
     fun getListTrackFromPlaylist(trackIds: List<Long>): Flow<List<Track>>
+    fun deleteTrackFromPlaylist(
+        playlistId: Long,
+        track: Track
+    ): Flow<Boolean>
 }

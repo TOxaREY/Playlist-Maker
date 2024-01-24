@@ -53,4 +53,10 @@
     <string name="add_playlist_button_image_description">изображение кнопки добавить в плейлист</string>
     <string name="favorite_button_image_description">изображение кнопки добавить в избранное</string>
     <string name="placeholder_cover_image_description">изображение заглушки обложки альбома</string>
+    <string name="icon_share_description">иконка поделиться</string>
+    <string name="icon_more_description">иконка меню</string>
+    <string name="yes">ДА</string>
+    <string name="no">НЕТ</string>
+    <string name="want_to_delete_a_track">Хотите удалить трек?</string>
+
 </resources>
