@@ -16,4 +16,8 @@ class SharingInteractorImpl(private val externalTransitions: ExternalTransitions
     override fun termsOfUse() {
         externalTransitions.termsOfUseAddress(TERMS_OF_USE_ADDRESS)
     }
+
+    override fun sharePlaylist(playlist: String) {
+        externalTransitions.sharePlaylist(playlist)
+    }
 }

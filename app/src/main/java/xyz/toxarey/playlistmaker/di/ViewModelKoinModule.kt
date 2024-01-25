@@ -50,6 +50,7 @@ val viewModelKoinModule = module {
     viewModel { (playlistId: Long) ->
         PlaylistInfoFragmentViewModel(
             playlistId,
+            get(),
             get()
         )
     }

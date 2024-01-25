@@ -17,6 +17,30 @@ class PlaylistRepositoryImpl(
 
     override suspend fun deletePlaylist(playlist: Playlist) {
         appDatabase.playlistDao().deletePlaylist(playlistDbConvertor.map(playlist))
+        getPlaylists().collect { playlists ->
+            if (playlists.isNotEmpty()) {
+                if (playlist.playlistTrackIdList != null) {
+                    playlist.playlistTrackIdList!!.forEach {
+                        val track = playlistDbConvertor.map(appDatabase.trackInPlaylistDao().getTrackFromPlaylist(it))
+                        if (isTrackNotIncludedInPlaylists(
+                                playlists,
+                                track
+                            )
+                        ) {
+                            appDatabase.trackInPlaylistDao()
+                                .deleteTrackFromPlaylist(playlistDbConvertor.map(track))
+                        }
+                    }
+                }
+            } else {
+                if (playlist.playlistTrackIdList != null) {
+                    playlist.playlistTrackIdList!!.forEach {
+                        val track = playlistDbConvertor.map(appDatabase.trackInPlaylistDao().getTrackFromPlaylist(it))
+                        appDatabase.trackInPlaylistDao().deleteTrackFromPlaylist(playlistDbConvertor.map(track))
+                    }
+                }
+            }
+        }
     }
 
     override suspend fun updatePlaylist(playlist: Playlist) {

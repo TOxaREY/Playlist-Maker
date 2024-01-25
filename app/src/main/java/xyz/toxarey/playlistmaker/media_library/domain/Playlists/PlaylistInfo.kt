@@ -8,6 +8,7 @@ data class PlaylistInfo(
     var playlistDescription: String? = null,
     var playlistCoverPath: String? = null,
     var playlistTracks: List<Track>? = null,
-    var playlistTrackCount: String? = null,
+    var playlistTrackCount: Long = 0,
+    var playlistTrackCountString: String? = null,
     var playlistDurationOfAllTracks: String? = null
 )
