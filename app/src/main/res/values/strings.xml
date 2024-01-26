@@ -47,7 +47,7 @@
     <string name="image_dot_description">точка для разделения текста описания</string>
     <string name="arrow_forward_description">стрелка перехода вперед</string>
     <string name="search_icon_description">иконка поиска</string>
-    <string name="communication_error_image_description">изображение оишбка соединения</string>
+    <string name="communication_error_image_description">изображение ошибка соединения</string>
     <string name="timer_zero">0:00</string>
     <string name="play_button_image_description">изображение кнопки пуск</string>
     <string name="add_playlist_button_image_description">изображение кнопки добавить в плейлист</string>
@@ -59,9 +59,13 @@
     <string name="no">НЕТ</string>
     <string name="want_to_delete_a_track">Хотите удалить трек?</string>
     <string name="share">Поделиться</string>
-    <string name="update_info">Редактировать информацию</string>
+    <string name="editing_info">Редактировать информацию</string>
     <string name="delete_playlist">Удалить плейлист</string>
     <string name="want_to_delete_a_playlist">Хотите удалить плейлист</string>
     <string name="not_tracks_for_share">В этом плейлисте нет списков треков, которыми можно поделиться</string>
     <string name="share_playlist">Поделиться плейлистом</string>
+    <string name="save">Сохранить</string>
+    <string name="edit">Редактировать</string>
+    <string name="new_playlist_cover_image_description">место для добавления обложки альбома</string>
+    <string name="not_tracks_in_playlist">В этом плейлисте нет треков</string>
 </resources>

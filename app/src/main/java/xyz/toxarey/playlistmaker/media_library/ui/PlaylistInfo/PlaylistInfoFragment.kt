@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
@@ -24,6 +25,7 @@ import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
 import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistInfo
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.player.ui.PlaylistsBottomSheetAdapter
+import xyz.toxarey.playlistmaker.utils.EDITABLE_PLAYLIST
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import xyz.toxarey.playlistmaker.utils.PLAYLIST_ID
 
@@ -33,7 +35,7 @@ class PlaylistInfoFragment: Fragment() {
     }
     private var _binding: FragmentPlaylistInfoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var tracksBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var tracksBottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var menuBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private var tracksBottomSheetAdapter: TracksPlaylistInfoAdapter? = null
     private var menuBottomSheetAdapter: PlaylistsBottomSheetAdapter? = null
@@ -76,6 +78,11 @@ class PlaylistInfoFragment: Fragment() {
         isClickAllowed = true
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getPlaylist()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun updatePlaylistInfo(playlistInfo: PlaylistInfo) {
         if (!playlistInfo.playlistCoverPath.isNullOrEmpty()) {
@@ -102,6 +109,9 @@ class PlaylistInfoFragment: Fragment() {
         playlist.add(viewModel.getPlaylistFromDb())
         tracksBottomSheetAdapter?.notifyDataSetChanged()
         menuBottomSheetAdapter?.notifyDataSetChanged()
+        if (playlistInfo.playlistTrackCount == 0L) {
+            binding.tvNotTracksInPlaylist.visibility = View.VISIBLE
+        }
     }
 
     private fun initializationAdapters() {
@@ -137,8 +147,11 @@ class PlaylistInfoFragment: Fragment() {
             sharePlaylist()
         }
 
-        binding.tvUpdateInfo.setOnClickListener {
-
+        binding.tvEditingInfo.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_playlistInfoFragment_to_editingPlaylistFragment,
+                bundleOf(EDITABLE_PLAYLIST to viewModel.getPlaylistFromDb())
+            )
         }
 
         binding.tvDeletePlaylist.setOnClickListener {
@@ -219,6 +232,7 @@ class PlaylistInfoFragment: Fragment() {
     }
 
     private fun sharePlaylist() {
+        menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         if (viewModel.getPlaylistFromDb().playlistTrackCount == 0L) {
             showToastNotTracksForShare()
         } else {

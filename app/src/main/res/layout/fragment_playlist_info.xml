@@ -113,11 +113,12 @@
             android:contentDescription="@string/icon_more_description" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/tracks_bottom_sheet"
         style="@style/BottomSheetAttr"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@drawable/playlists_bottom_sheet_background"
         app:behavior_hideable="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -126,24 +127,27 @@
             android:layout_width="50dp"
             android:layout_height="4dp"
             android:layout_gravity="center"
-            android:background="?attr/backgroundTint"
             android:layout_marginTop="8dp"
-            app:cornerRadius="44dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:background="?attr/backgroundTint"
+            app:cornerRadius="44dp" />
+
+        <TextView
+            android:id="@+id/tvNotTracksInPlaylist"
+            style="@style/TextViewPlaylistInfoAttr"
+            android:layout_marginTop="12dp"
+            android:textAlignment="center"
+            android:textColor="?attr/colorPrimary"
+            android:text="@string/not_tracks_in_playlist"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvListTrackBottomSheet"
             style="@style/RecyclerViewPlaylistsAttr"
-            android:layout_marginTop="24dp"
             android:layout_marginStart="@dimen/playlists_bottom_sheet_layout_marginStart_and_marginEnd"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="@dimen/playlists_bottom_sheet_layout_marginStart_and_marginEnd"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             tools:listitem="@layout/track_item" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/overlay"
@@ -203,21 +207,21 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/flUpdateInfo"
+            android:id="@+id/flEditingInfo"
             style="@style/FrameLayoutSettings"
             app:layout_constraintTop_toBottomOf="@id/flShare"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
-                android:id="@+id/tvUpdateInfo"
+                android:id="@+id/tvEditingInfo"
                 style="@style/TextViewAttr"
-                android:text="@string/update_info"/>
+                android:text="@string/editing_info"/>
         </FrameLayout>
 
         <FrameLayout
             style="@style/FrameLayoutSettings"
-            app:layout_constraintTop_toBottomOf="@id/flUpdateInfo"
+            app:layout_constraintTop_toBottomOf="@id/flEditingInfo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 

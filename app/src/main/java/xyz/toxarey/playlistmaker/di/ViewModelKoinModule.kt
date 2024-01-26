@@ -2,6 +2,8 @@ package xyz.toxarey.playlistmaker.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
+import xyz.toxarey.playlistmaker.media_library.ui.EditingPlaylist.EditingPlaylistFragmentViewModel
 import xyz.toxarey.playlistmaker.media_library.ui.FavoriteTracks.FavoriteTracksFragmentViewModel
 import xyz.toxarey.playlistmaker.media_library.ui.NewPlaylist.NewPlaylistFragmentViewModel
 import xyz.toxarey.playlistmaker.media_library.ui.PlaylistInfo.PlaylistInfoFragmentViewModel
@@ -50,6 +52,14 @@ val viewModelKoinModule = module {
     viewModel { (playlistId: Long) ->
         PlaylistInfoFragmentViewModel(
             playlistId,
+            get(),
+            get()
+        )
+    }
+
+    viewModel { (editablePlaylist: Playlist) ->
+        EditingPlaylistFragmentViewModel(
+            editablePlaylist,
             get(),
             get()
         )

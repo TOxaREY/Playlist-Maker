@@ -12,7 +12,10 @@ import java.util.*
 class TracksViewHolder(private val binding: TrackItemBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(item: Track) {
         Glide.with(itemView)
-            .load(item.artworkUrl100)
+            .load(item.artworkUrl100.replaceAfterLast(
+                '/',
+                "60x60bb.jpg")
+            )
             .centerCrop()
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.track_item_imageView_roundedCorners)))
             .placeholder(R.drawable.album_placeholder)

@@ -55,5 +55,12 @@
         <action
             android:id="@+id/action_playlistInfoFragment_to_audioPlayerFragment"
             app:destination="@id/audioPlayerFragment" />
+        <action
+            android:id="@+id/action_playlistInfoFragment_to_editingPlaylistFragment"
+            app:destination="@id/editingPlaylistFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/editingPlaylistFragment"
+        android:name="xyz.toxarey.playlistmaker.media_library.ui.EditingPlaylist.EditingPlaylistFragment"
+        android:label="EditingPlaylistFragment" />
 </navigation>

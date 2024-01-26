@@ -12,3 +12,4 @@ const val DIRECTORY_WITH_COVERS = "my_playlists"
 const val QUALITY_COMPRESSION = 30
 const val SPAN_COUNT_PLAYLISTS = 2
 const val PLAYLIST_ID = "playlist_id"
+const val EDITABLE_PLAYLIST = "editable_playlist"

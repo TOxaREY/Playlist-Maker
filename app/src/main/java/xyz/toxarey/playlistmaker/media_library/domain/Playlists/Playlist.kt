@@ -7,4 +7,4 @@ data class Playlist(
     var playlistCoverPath: String? = null,
     var playlistTrackIdList: ArrayList<Long>? = null,
     var playlistTrackCount: Long = 0
-)
+) : java.io.Serializable

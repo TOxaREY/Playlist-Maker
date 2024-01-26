@@ -25,12 +25,12 @@ import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.databinding.FragmentNewPlaylistBinding
 import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
 
-class NewPlaylistFragment: Fragment() {
-    private val viewModel: NewPlaylistFragmentViewModel by viewModel()
+open class NewPlaylistFragment: Fragment() {
+    open val viewModel: NewPlaylistFragmentViewModel by viewModel()
     private var _binding: FragmentNewPlaylistBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
     private lateinit var confirmDialog: MaterialAlertDialogBuilder
-    private val newPlaylist = Playlist()
+    open var newPlaylist = Playlist()
     private var isClickAllowed = true
 
     override fun onCreateView(
@@ -119,13 +119,7 @@ class NewPlaylistFragment: Fragment() {
         binding.createPlaylistButton.setOnClickListener {
             if (clickDebounce()) {
                 viewModel.savePlaylist(newPlaylist)
-                val toastText = getString(R.string.toast_creation_text_playlist) +
-                        " " + newPlaylist.playlistName +
-                        " " + getString(R.string.toast_creation_text_created)
-                Toast.makeText(requireContext(),
-                    toastText,
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToastSavePlaylist()
                 findNavController().navigateUp()
             }
         }
@@ -134,6 +128,34 @@ class NewPlaylistFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    open fun onBackToMediaLibrary() {
+        if (viewModel.getNewPlaylistStateLiveData().value == NewPlaylistScreenState.AllEmpty) {
+            findNavController().navigateUp()
+        } else {
+            confirmDialog.show()
+        }
+    }
+
+    open fun saveCover(uri: Uri) {
+        val coverPath = (System.currentTimeMillis() / 1000).toString() + ".jpg"
+        newPlaylist.playlistCoverPath = coverPath
+        setNewPlaylistStateLiveData()
+        viewModel.saveCover(
+            uri,
+            coverPath
+        )
+    }
+
+    open fun showToastSavePlaylist() {
+        val toastText = getString(R.string.toast_creation_text_playlist) +
+                " " + newPlaylist.playlistName +
+                " " + getString(R.string.toast_creation_text_created)
+        Toast.makeText(requireContext(),
+            toastText,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun newPlaylistState(state: NewPlaylistScreenState) {
@@ -160,14 +182,6 @@ class NewPlaylistFragment: Fragment() {
         }
     }
 
-    private fun onBackToMediaLibrary() {
-        if (viewModel.getNewPlaylistStateLiveData().value == NewPlaylistScreenState.AllEmpty) {
-            findNavController().navigateUp()
-        } else {
-            confirmDialog.show()
-        }
-    }
-
     private fun setNewPlaylistStateLiveData() {
         if (newPlaylist.playlistName.isNullOrEmpty()
             && newPlaylist.playlistDescription.isNullOrEmpty()
@@ -179,16 +193,6 @@ class NewPlaylistFragment: Fragment() {
         } else {
             viewModel.setFieldNameIsNotEmptyNewPlaylistStateLiveData()
         }
-    }
-
-    private fun saveCover(uri: Uri) {
-        val coverPath = (System.currentTimeMillis() / 1000).toString() + ".jpg"
-        newPlaylist.playlistCoverPath = coverPath
-        setNewPlaylistStateLiveData()
-        viewModel.saveCover(
-            uri,
-            coverPath
-        )
     }
 
     private fun clickDebounce(): Boolean {

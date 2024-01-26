@@ -10,7 +10,7 @@ import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
 import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistInteractor
 import xyz.toxarey.playlistmaker.media_library.domain.SaveCover.SaveCoverInteractor
 
-class NewPlaylistFragmentViewModel(
+open class NewPlaylistFragmentViewModel(
     private val interactorPlaylist: PlaylistInteractor,
     private val interactorSaveCover: SaveCoverInteractor
 ): ViewModel() {
@@ -18,6 +18,12 @@ class NewPlaylistFragmentViewModel(
 
     init {
         setAllEmptyNewPlaylistStateLiveData()
+    }
+
+    open fun savePlaylist(playlist: Playlist) {
+        viewModelScope.launch {
+            interactorPlaylist.insertPlaylist(playlist)
+        }
     }
 
     fun getNewPlaylistStateLiveData(): LiveData<NewPlaylistScreenState> = newPlaylistStateLiveData
@@ -33,12 +39,6 @@ class NewPlaylistFragmentViewModel(
 
     fun setFieldNameIsEmptyNewPlaylistStateLiveData() {
         newPlaylistStateLiveData.postValue(NewPlaylistScreenState.FieldNameIsEmpty)
-    }
-
-    fun savePlaylist(playlist: Playlist) {
-        viewModelScope.launch {
-            interactorPlaylist.insertPlaylist(playlist)
-        }
     }
 
     fun saveCover(

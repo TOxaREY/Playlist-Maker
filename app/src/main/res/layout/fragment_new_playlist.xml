@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tvTitleNewPlaylist"
         style="@style/TextViewTitleAttr"
         android:text="@string/new_playlist"
         app:layout_constraintStart_toEndOf="@+id/back_to_media_library_button_from_new_playlist"
@@ -33,7 +34,8 @@
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/new_playlist_cover_image_description" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tiNamePlaylist"
