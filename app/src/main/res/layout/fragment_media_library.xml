@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearLayoutAttr"
     android:background="?attr/backgroundColor"
-    tools:context=".media_library.ui.MediaLibraryFragment">
+    tools:context=".mediaLibrary.ui.MediaLibraryFragment">
 
     <FrameLayout
         style="@style/FrameLayoutAttr">

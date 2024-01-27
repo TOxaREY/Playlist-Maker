@@ -6,7 +6,7 @@
     style="@style/ConstraintLayoutAttr"
     android:background="@color/yp_light_gray"
     android:orientation="vertical"
-    tools:context=".media_library.ui.PlaylistInfo.PlaylistInfoFragment">
+    tools:context=".mediaLibrary.ui.PlaylistInfo.PlaylistInfoFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

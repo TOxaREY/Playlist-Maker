@@ -10,10 +10,10 @@ import xyz.toxarey.playlistmaker.search.domain.SearchState
 import xyz.toxarey.playlistmaker.search.domain.TracksInteractor
 
 class SearchFragmentViewModel(private val tracksInteractor: TracksInteractor): ViewModel() {
-    private val searchStateLiveData = MutableLiveData<SearchState>()
-    fun getSearchStateLiveData(): LiveData<SearchState> = searchStateLiveData
+    private val _searchState = MutableLiveData<SearchState>()
+    val searchState: LiveData<SearchState> = _searchState
     fun setPauseSearchStateLiveData() {
-        searchStateLiveData.postValue(SearchState.Paused)
+        _searchState.postValue(SearchState.Paused)
     }
 
     fun addTrackToHistory(track: Track) {
@@ -30,24 +30,24 @@ class SearchFragmentViewModel(private val tracksInteractor: TracksInteractor): V
 
     fun searchTrack(text: String) {
         if (text.isNotEmpty()) {
-            searchStateLiveData.postValue(SearchState.Loading)
+            _searchState.postValue(SearchState.Loading)
             viewModelScope.launch {
                 tracksInteractor
                     .searchTracks(text)
                     .collect { queryResult ->
                         val searchTracks = arrayListOf<Track>()
-                        if (queryResult.tracks != null && searchStateLiveData.value != SearchState.Paused) {
+                        if (queryResult.tracks != null && _searchState.value != SearchState.Paused) {
                             searchTracks.addAll(queryResult.tracks)
                         }
 
                         when {
-                            queryResult.isError == true -> searchStateLiveData.postValue(SearchState.Error)
+                            queryResult.isError == true -> _searchState.postValue(SearchState.Error)
                             searchTracks.isEmpty() -> {
-                                if (searchStateLiveData.value != SearchState.Paused) {
-                                    searchStateLiveData.postValue(SearchState.Empty)
+                                if (_searchState.value != SearchState.Paused) {
+                                    _searchState.postValue(SearchState.Empty)
                                 }
                             }
-                            searchTracks.isNotEmpty() -> searchStateLiveData.postValue(SearchState.Content(searchTracks))
+                            searchTracks.isNotEmpty() -> _searchState.postValue(SearchState.Content(searchTracks))
                         }
                     }
             }

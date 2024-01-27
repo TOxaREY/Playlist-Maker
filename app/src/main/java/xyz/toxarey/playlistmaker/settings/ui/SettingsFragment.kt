@@ -33,26 +33,28 @@ class SettingsFragment: Fragment() {
             view,
             savedInstanceState
         )
-        viewModel.currentThemeIsDark.observe(viewLifecycleOwner) {checked ->
-            binding.darkThemeSwitch.isChecked = checked
-        }
+        with(binding) {
+            viewModel.currentThemeIsDark.observe(viewLifecycleOwner) { checked ->
+                darkThemeSwitch.isChecked = checked
+            }
 
-        binding.darkThemeSwitch.isChecked = viewModel.getCurrentThemeIsDark()
+            darkThemeSwitch.isChecked = viewModel.getCurrentThemeIsDark()
 
-        binding.darkThemeSwitch.setOnCheckedChangeListener { _, checked ->
-            viewModel.switchTheme(checked)
-        }
+            darkThemeSwitch.setOnCheckedChangeListener { _, checked ->
+                viewModel.switchTheme(checked)
+            }
 
-        binding.shareAppFrameLayout.setOnClickListener {
-            viewModel.shareApp()
-        }
+            shareAppFrameLayout.setOnClickListener {
+                viewModel.shareApp()
+            }
 
-        binding.writeToSupportFrameLayout.setOnClickListener {
-            viewModel.writeToSupport()
-        }
+            writeToSupportFrameLayout.setOnClickListener {
+                viewModel.writeToSupport()
+            }
 
-        binding.termsOfUseFrameLayout.setOnClickListener {
-            viewModel.termsOfUseFrame()
+            termsOfUseFrameLayout.setOnClickListener {
+                viewModel.termsOfUseFrame()
+            }
         }
     }
 

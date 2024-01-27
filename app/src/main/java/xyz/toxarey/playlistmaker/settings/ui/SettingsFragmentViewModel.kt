@@ -10,11 +10,11 @@ class SettingsFragmentViewModel(
     private val settingsInteractor: SettingsInteractor,
     private val sharingInteractor: SharingInteractor
 ): ViewModel() {
-    private val darkThemeEnabled = MutableLiveData<Boolean>()
-    val currentThemeIsDark: LiveData<Boolean> = darkThemeEnabled
+    private val _darkThemeEnabled = MutableLiveData<Boolean>()
+    val currentThemeIsDark: LiveData<Boolean> = _darkThemeEnabled
 
     init {
-        darkThemeEnabled.postValue(settingsInteractor.getThemeIsDark())
+        _darkThemeEnabled.postValue(settingsInteractor.getThemeIsDark())
     }
 
     fun getCurrentThemeIsDark(): Boolean {
@@ -22,7 +22,7 @@ class SettingsFragmentViewModel(
     }
 
     fun switchTheme(checked: Boolean) {
-        darkThemeEnabled.postValue(checked)
+        _darkThemeEnabled.postValue(checked)
         settingsInteractor.switchTheme(checked)
     }
 

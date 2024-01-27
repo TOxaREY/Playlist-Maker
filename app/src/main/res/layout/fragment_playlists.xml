@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/LinearLayoutAttr"
     android:background="?attr/backgroundColor"
-    tools:context=".media_library.ui.Playlists.PlaylistsFragment">
+    tools:context=".mediaLibrary.ui.Playlists.PlaylistsFragment">
 
     <FrameLayout
         style="@style/FrameLayoutSearchAndMediaLibraryAttr">

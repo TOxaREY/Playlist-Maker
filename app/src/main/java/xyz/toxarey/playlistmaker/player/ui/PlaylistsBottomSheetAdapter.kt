@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import xyz.toxarey.playlistmaker.databinding.PlaylistBottomSheetItemBinding
-import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.Playlist
 
 class PlaylistsBottomSheetAdapter(
     private val data: ArrayList<Playlist>,

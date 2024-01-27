@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -56,7 +57,7 @@ class SearchFragment: Fragment() {
             view,
             savedInstanceState
         )
-        viewModel.getSearchStateLiveData().observe(viewLifecycleOwner) {
+        viewModel.searchState.observe(viewLifecycleOwner) {
             searchState(it)
         }
 
@@ -95,7 +96,7 @@ class SearchFragment: Fragment() {
 
     override fun onPause() {
         super.onPause()
-        if (viewModel.getSearchStateLiveData().value != SearchState.Content(tracks)) {
+        if (viewModel.searchState.value != SearchState.Content(tracks)) {
             viewModel.setPauseSearchStateLiveData()
             if (isSegueToAudioPlayerFragment) {
                 isSegueToAudioPlayerFragment = false
@@ -142,54 +143,56 @@ class SearchFragment: Fragment() {
     }
 
     private fun buttonsListeners(inputMethodManager: InputMethodManager?) {
-        binding.updateButton.setOnClickListener {
-            communicationErrorMessage(false)
-            requestTrack(inputMethodManager)
-        }
+        with(binding) {
+            updateButton.setOnClickListener {
+                communicationErrorMessage(false)
+                requestTrack(inputMethodManager)
+            }
 
-        binding.clearSearchButton.setOnClickListener {
-            viewModel.setPauseSearchStateLiveData()
-            clearSearchText()
-            inputMethodManager?.hideSoftInputFromWindow(
-                binding.searchEditText.windowToken,
-                0
-            )
-            clearTrackList()
-        }
+            clearSearchButton.setOnClickListener {
+                viewModel.setPauseSearchStateLiveData()
+                clearSearchText()
+                inputMethodManager?.hideSoftInputFromWindow(
+                    binding.searchEditText.windowToken,
+                    0
+                )
+                clearTrackList()
+            }
 
-        binding.clearHistoryButton.setOnClickListener {
-            tracksHistory.clear()
-            viewModel.removeTracksHistory()
-            binding.searchHistoryLinear.visibility = View.GONE
+            clearHistoryButton.setOnClickListener {
+                tracksHistory.clear()
+                viewModel.removeTracksHistory()
+                binding.searchHistoryLinear.isVisible = false
+            }
         }
     }
 
     private fun searchEditTextListeners(simpleTextWatcher: TextWatcher) {
-        binding.searchEditText.addTextChangedListener(simpleTextWatcher)
-        binding.searchEditText.setOnFocusChangeListener { _, hasFocus ->
-            val tracks = viewModel.getTracksFromHistory()
-            addHistoryTracks(tracks)
-            binding.searchHistoryLinear.visibility = if (
-                hasFocus && binding.searchEditText.text.isEmpty() && tracks.isNotEmpty()
-            ) View.VISIBLE else View.GONE
+        with(binding) {
+            searchEditText.addTextChangedListener(simpleTextWatcher)
+            searchEditText.setOnFocusChangeListener { _, hasFocus ->
+                val tracks = viewModel.getTracksFromHistory()
+                addHistoryTracks(tracks)
+                searchHistoryLinear.isVisible = hasFocus && binding.searchEditText.text.isEmpty() && tracks.isNotEmpty()
+            }
         }
     }
 
     private fun onTextChangedAction(s: CharSequence?) {
-        binding.clearSearchButton.visibility = clearSearchButtonVisibility(s)
-        binding.searchHistoryLinear.visibility = if (
-            binding.searchEditText.hasFocus() && s?.isEmpty() == true
-        ) View.VISIBLE else View.GONE
+        with(binding) {
+            clearSearchButton.isVisible = clearSearchButtonVisibility(s)
+            searchHistoryLinear.isVisible = searchEditText.hasFocus() && s?.isEmpty() == true
+        }
     }
 
     private fun afterTextChangedAction(tracks: ArrayList<Track>) {
-        searchText = binding.searchEditText.text.toString()
-        if (searchText.isEmpty()) {
-            clearTrackList()
-            addHistoryTracks(tracks)
-            binding.searchHistoryLinear.visibility = if (
-                tracksHistory.isNotEmpty()
-            ) View.VISIBLE else View.GONE
+        with(binding) {
+            searchText = searchEditText.text.toString()
+            if (searchText.isEmpty()) {
+                clearTrackList()
+                addHistoryTracks(tracks)
+                searchHistoryLinear.isVisible = tracksHistory.isNotEmpty()
+            }
         }
     }
 
@@ -200,12 +203,8 @@ class SearchFragment: Fragment() {
         tracksAdapterHistory?.notifyDataSetChanged()
     }
 
-    private fun clearSearchButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+    private fun clearSearchButtonVisibility(s: CharSequence?): Boolean {
+        return !s.isNullOrEmpty()
     }
 
     private fun requestTrackDebounce(inputMethodManager: InputMethodManager?) {
@@ -250,7 +249,7 @@ class SearchFragment: Fragment() {
     ) {
         when (state) {
             SearchScreenState.PROGRESS -> {
-                binding.progressBar.visibility = View.VISIBLE
+                binding.progressBar.isVisible = true
                 communicationErrorMessage(false)
                 nothingFoundMessage(false)
             }
@@ -266,7 +265,7 @@ class SearchFragment: Fragment() {
             }
 
             SearchScreenState.SUCCESS -> {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.isVisible = false
                 communicationErrorMessage(false)
                 nothingFoundMessage(false)
                 if (newTracks != null) {
@@ -275,7 +274,7 @@ class SearchFragment: Fragment() {
             }
 
             SearchScreenState.PAUSED -> {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.isVisible = false
                 communicationErrorMessage(false)
                 nothingFoundMessage(false)
             }
@@ -284,27 +283,35 @@ class SearchFragment: Fragment() {
 
     private fun communicationErrorMessage(isVisible: Boolean) {
         if(isVisible) {
-            binding.progressBar.visibility = View.GONE
-            clearTrackList()
-            binding.communicationErrorImage.visibility = View.VISIBLE
-            binding.communicationErrorText.visibility = View.VISIBLE
-            binding.updateButton.visibility = View.VISIBLE
+            with(binding) {
+                progressBar.isVisible = false
+                clearTrackList()
+                communicationErrorImage.isVisible = true
+                communicationErrorText.isVisible = true
+                updateButton.isVisible = true
+            }
         } else {
-            binding.communicationErrorImage.visibility = View.GONE
-            binding.communicationErrorText.visibility = View.GONE
-            binding.updateButton.visibility = View.GONE
+            with(binding) {
+                communicationErrorImage.isVisible = false
+                communicationErrorText.isVisible = false
+                updateButton.isVisible = false
+            }
         }
     }
 
     private fun nothingFoundMessage(isVisible: Boolean) {
         if(isVisible) {
-            binding.progressBar.visibility = View.GONE
-            clearTrackList()
-            binding.nothingFoundImage.visibility = View.VISIBLE
-            binding.nothingFoundText.visibility = View.VISIBLE
+            with(binding) {
+                progressBar.isVisible = false
+                clearTrackList()
+                nothingFoundImage.isVisible = true
+                nothingFoundText.isVisible = true
+            }
         } else {
-            binding.nothingFoundImage.visibility = View.GONE
-            binding.nothingFoundText.visibility = View.GONE
+            with(binding) {
+                nothingFoundImage.isVisible = false
+                nothingFoundText.isVisible = false
+            }
         }
     }
 
@@ -323,13 +330,15 @@ class SearchFragment: Fragment() {
     }
 
     private fun requestTrack(inputMethodManager: InputMethodManager?) {
-        if (binding.searchEditText.text.isNotEmpty()) {
-            inputMethodManager?.hideSoftInputFromWindow(
-                binding.searchEditText.windowToken,
-                0
-            )
-            binding.progressBar.visibility = View.VISIBLE
-            viewModel.searchTrack(searchText)
+        with(binding) {
+            if (searchEditText.text.isNotEmpty()) {
+                inputMethodManager?.hideSoftInputFromWindow(
+                    searchEditText.windowToken,
+                    0
+                )
+                progressBar.isVisible = true
+                viewModel.searchTrack(searchText)
+            }
         }
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/newPlaylistFragment"
     style="@style/ConstraintLayoutAttr"
-    tools:context=".media_library.ui.NewPlaylist.NewPlaylistFragment">
+    tools:context=".mediaLibrary.ui.NewPlaylist.NewPlaylistFragment">
 
     <Button
         android:id="@+id/back_to_media_library_button_from_new_playlist"

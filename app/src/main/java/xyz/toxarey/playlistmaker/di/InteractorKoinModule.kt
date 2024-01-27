@@ -1,12 +1,12 @@
 package xyz.toxarey.playlistmaker.di
 
 import org.koin.dsl.module
-import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracks.FavoriteTracksInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracks.FavoriteTracksInteractorImpl
-import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistInteractorImpl
-import xyz.toxarey.playlistmaker.media_library.domain.SaveCover.SaveCoverInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.SaveCover.SaveCoverInteractorImpl
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.FavoriteTracks.FavoriteTracksInteractor
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.FavoriteTracks.FavoriteTracksInteractorImpl
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.PlaylistInteractor
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.PlaylistInteractorImpl
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.SaveCover.SaveCoverInteractor
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.SaveCover.SaveCoverInteractorImpl
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractorImpl
 import xyz.toxarey.playlistmaker.search.domain.TracksInteractor

@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import xyz.toxarey.playlistmaker.media_library.domain.FavoriteTracks.FavoriteTracksInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.Playlists.Playlist
-import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistInteractor
-import xyz.toxarey.playlistmaker.media_library.domain.Playlists.PlaylistsState
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.FavoriteTracks.FavoriteTracksInteractor
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.Playlist
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.PlaylistInteractor
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.PlaylistsState
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.player.domain.TrackMediaPlayerInteractor
@@ -24,18 +24,18 @@ class AudioPlayerFragmentViewModel(
     private val interactorPlaylist: PlaylistInteractor
 ): ViewModel() {
     private var timerJob: Job? = null
-    private val audioPlayerStateLiveData = MutableLiveData<AudioPlayerState>()
-    private val updateTimerTaskLiveData = MutableLiveData<String>()
-    private val favoriteStatusLiveData = MutableLiveData<Boolean>()
-    private val playlistsStateLiveData = MutableLiveData<PlaylistsState>()
-    private val insertTrackStatusLiveData = MutableLiveData<Boolean>()
+    private val _audioPlayerState = MutableLiveData<AudioPlayerState>()
+    private val _updateTimerTask = MutableLiveData<String>()
+    private val _favoriteStatus = MutableLiveData<Boolean>()
+    private val _playlistsState = MutableLiveData<PlaylistsState>()
+    private val _insertTrackStatus = MutableLiveData<Boolean>()
 
     init {
         viewModelScope.launch {
             interactorFavoriteTracks
                 .checkFavoriteTrack(track.trackId)
                 .collect { isFavorite ->
-                    favoriteStatusLiveData.postValue(isFavorite)
+                    _favoriteStatus.postValue(isFavorite)
                 }
         }
         updateAudioPlayerState(AudioPlayerState.STATE_DEFAULT)
@@ -46,7 +46,7 @@ class AudioPlayerFragmentViewModel(
             },
             onCompletion = {
                 updateAudioPlayerState(AudioPlayerState.STATE_PREPARED)
-                updateTimerTaskLiveData.postValue("0:00")
+                _updateTimerTask.postValue("0:00")
                 timerJob?.cancel()
             }
         )
@@ -59,16 +59,16 @@ class AudioPlayerFragmentViewModel(
         timerJob?.cancel()
     }
 
-    fun getAudioPlayerStateLiveData(): LiveData<AudioPlayerState> = audioPlayerStateLiveData
+    val audioPlayerState: LiveData<AudioPlayerState> = _audioPlayerState
 
-    fun getUpdateTimerTaskLiveData(): LiveData<String> = updateTimerTaskLiveData
+    val updateTimerTask: LiveData<String> = _updateTimerTask
 
     fun getTrack(): Track {
         return this.track
     }
 
     fun playbackControl() {
-        when(audioPlayerStateLiveData.value) {
+        when(_audioPlayerState.value) {
             AudioPlayerState.STATE_PLAYING -> {
                 pausePlayer()
             }
@@ -85,7 +85,7 @@ class AudioPlayerFragmentViewModel(
         updateAudioPlayerState(AudioPlayerState.STATE_PAUSED)
     }
 
-    fun getFavoriteStatusLiveData(): LiveData<Boolean> = favoriteStatusLiveData
+    val favoriteStatus: LiveData<Boolean> = _favoriteStatus
 
     fun setFavoriteStatusLiveData(isFavorite: Boolean) {
         viewModelScope.launch {
@@ -94,11 +94,11 @@ class AudioPlayerFragmentViewModel(
             } else {
                 interactorFavoriteTracks.deleteFavoriteTrack(track)
             }
-            favoriteStatusLiveData.postValue(isFavorite)
+            _favoriteStatus.postValue(isFavorite)
         }
     }
 
-    fun getPlaylistsStateLiveData(): LiveData<PlaylistsState> = playlistsStateLiveData
+    val playlistsState: LiveData<PlaylistsState> = _playlistsState
 
     fun getPlaylistsTracks() {
         viewModelScope.launch {
@@ -106,22 +106,22 @@ class AudioPlayerFragmentViewModel(
                 .getPlaylists()
                 .collect { playlists ->
                     if (playlists.isEmpty()) {
-                        playlistsStateLiveData.postValue(PlaylistsState.Empty)
+                        _playlistsState.postValue(PlaylistsState.Empty)
                     } else {
-                        playlistsStateLiveData.postValue(PlaylistsState.Content(playlists))
+                        _playlistsState.postValue(PlaylistsState.Content(playlists))
                     }
                 }
         }
     }
 
-    fun getInsertTrackStatusLiveData(): LiveData<Boolean> = insertTrackStatusLiveData
+    val insertTrackStatus: LiveData<Boolean> = _insertTrackStatus
     fun setTrackToPlaylist(
         playlist: Playlist,
         track: Track
     ) {
         viewModelScope.launch {
             if (playlist.playlistTrackIdList?.contains(track.trackId) == true) {
-                insertTrackStatusLiveData.postValue(false)
+                _insertTrackStatus.postValue(false)
             } else {
                 playlist.playlistId?.let {
                     interactorPlaylist.insertTrackToPlaylist(
@@ -130,7 +130,7 @@ class AudioPlayerFragmentViewModel(
                     )
                         .collect { insertTrackToPlaylist ->
                             if (insertTrackToPlaylist) {
-                                insertTrackStatusLiveData.postValue(true)
+                                _insertTrackStatus.postValue(true)
                             }
                         }
 
@@ -152,13 +152,13 @@ class AudioPlayerFragmentViewModel(
     }
 
     private fun updateAudioPlayerState(state: AudioPlayerState) {
-        audioPlayerStateLiveData.postValue(state)
+        _audioPlayerState.postValue(state)
     }
 
     private fun updateTimerTask() {
         timerJob = viewModelScope.launch {
             while (true) {
-                updateTimerTaskLiveData.postValue(
+                _updateTimerTask.postValue(
                     SimpleDateFormat(
                         "mm:ss",
                         Locale.getDefault()

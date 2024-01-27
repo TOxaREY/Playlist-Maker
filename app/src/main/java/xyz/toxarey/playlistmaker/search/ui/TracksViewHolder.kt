@@ -20,11 +20,13 @@ class TracksViewHolder(private val binding: TrackItemBinding): RecyclerView.View
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.track_item_imageView_roundedCorners)))
             .placeholder(R.drawable.album_placeholder)
             .into(binding.ivAlbum)
-        binding.tvTrackName.text = item.trackName
-        binding.tvArtistName.text = item.artistName
-        binding.tvTrackTime.text = SimpleDateFormat(
-            "mm:ss",
-            Locale.getDefault()
-        ).format(item.trackTimeMillis)
+        with(binding) {
+            tvTrackName.text = item.trackName
+            tvArtistName.text = item.artistName
+            tvTrackTime.text = SimpleDateFormat(
+                "mm:ss",
+                Locale.getDefault()
+            ).format(item.trackTimeMillis)
+        }
     }
 }
