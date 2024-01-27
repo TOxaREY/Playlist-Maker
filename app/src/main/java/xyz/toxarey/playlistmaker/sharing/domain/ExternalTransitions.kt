@@ -4,4 +4,5 @@ interface ExternalTransitions {
     fun shareAppAddress(address: String)
     fun writeToSupportMail(mail: String)
     fun termsOfUseAddress(address: String)
+    fun sharePlaylist(playlist: String)
 }

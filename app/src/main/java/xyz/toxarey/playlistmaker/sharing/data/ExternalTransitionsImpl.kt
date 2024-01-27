@@ -41,4 +41,15 @@ class ExternalTransitionsImpl(private val context: Context): ExternalTransitions
         }, context.getString(R.string.terms_of_use))
         context.startActivity(termsOfUseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
+
+    override fun sharePlaylist(playlist: String) {
+        val sharePlaylistIntent = Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(
+                Intent.EXTRA_TEXT,
+                playlist
+            )
+        }, context.getString(R.string.share_playlist))
+        context.startActivity(sharePlaylistIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
 }

@@ -8,7 +8,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.databinding.PlaylistBottomSheetItemBinding
-import xyz.toxarey.playlistmaker.media_library.domain.Playlist
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.Playlist
 import xyz.toxarey.playlistmaker.utils.DIRECTORY_WITH_COVERS
 import xyz.toxarey.playlistmaker.utils.countToString
 import java.io.File
@@ -35,7 +35,9 @@ class PlaylistsBottomSheetViewHolder(private val binding: PlaylistBottomSheetIte
             )
             .placeholder(R.drawable.album_placeholder)
             .into(binding.ivCoverBottomSheet)
-        binding.tvPlaylistNameBottomSheet.text = item.playlistName
-        binding.tvPlaylistCountTracksBottomSheet.text = countToString(item.playlistTrackCount)
+        with(binding) {
+            tvPlaylistNameBottomSheet.text = item.playlistName
+            tvPlaylistCountTracksBottomSheet.text = countToString(item.playlistTrackCount)
+        }
     }
 }

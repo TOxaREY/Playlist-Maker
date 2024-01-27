@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,8 +22,8 @@ import org.koin.core.parameter.parametersOf
 import xyz.toxarey.playlistmaker.R
 import xyz.toxarey.playlistmaker.player.domain.Track
 import xyz.toxarey.playlistmaker.databinding.FragmentAudioPlayerBinding
-import xyz.toxarey.playlistmaker.media_library.domain.Playlist
-import xyz.toxarey.playlistmaker.media_library.domain.PlaylistsState
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.Playlist
+import xyz.toxarey.playlistmaker.mediaLibrary.domain.Playlists.PlaylistsState
 import xyz.toxarey.playlistmaker.player.domain.AudioPlayerState
 import xyz.toxarey.playlistmaker.utils.EXTRA_TRACK
 import java.text.SimpleDateFormat
@@ -34,11 +35,11 @@ class AudioPlayerFragment: Fragment() {
     }
     private var _binding: FragmentAudioPlayerBinding? = null
     private val binding get() = _binding!!
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>? = null
     private val playlists = ArrayList<Playlist>()
     private var playlistsBottomSheetAdapter: PlaylistsBottomSheetAdapter? = null
     private var isClickAllowed = true
-    private lateinit var nameSelectedPlaylist: String
+    private var nameSelectedPlaylist: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,19 +61,19 @@ class AudioPlayerFragment: Fragment() {
             view,
             savedInstanceState
         )
-        viewModel.getAudioPlayerStateLiveData().observe(viewLifecycleOwner) {
+        viewModel.audioPlayerState.observe(viewLifecycleOwner) {
             setImagePlayPauseButton(it)
         }
 
-        viewModel.getUpdateTimerTaskLiveData().observe(viewLifecycleOwner) {
+        viewModel.updateTimerTask.observe(viewLifecycleOwner) {
             setTextViewPlaybackTime(it)
         }
 
-        viewModel.getPlaylistsStateLiveData().observe(viewLifecycleOwner) {
+        viewModel.playlistsState.observe(viewLifecycleOwner) {
             playlistsState(it)
         }
 
-        viewModel.getInsertTrackStatusLiveData().observe(viewLifecycleOwner) {
+        viewModel.insertTrackStatus.observe(viewLifecycleOwner) {
             insertTrackToPlaylistStatus(it)
         }
 
@@ -84,17 +85,17 @@ class AudioPlayerFragment: Fragment() {
             state = BottomSheetBehavior.STATE_HIDDEN
         }
 
-        bottomSheetBehavior.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior?.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(
                 bottomSheet: View,
                 newState: Int
             ) {
                 when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
-                        binding.overlay.visibility = View.GONE
+                        binding.overlay.isVisible = false
                     }
                     else -> {
-                        binding.overlay.visibility = View.VISIBLE
+                        binding.overlay.isVisible = true
                     }
                 }
             }
@@ -111,7 +112,7 @@ class AudioPlayerFragment: Fragment() {
             viewModel.playbackControl()
         }
 
-        viewModel.getFavoriteStatusLiveData().observe(viewLifecycleOwner) {
+        viewModel.favoriteStatus.observe(viewLifecycleOwner) {
             setImageLikeButton(it)
         }
 
@@ -120,7 +121,7 @@ class AudioPlayerFragment: Fragment() {
         }
 
         binding.addButton.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
         binding.newPlaylistButtonBottomSheet.setOnClickListener {
@@ -142,7 +143,7 @@ class AudioPlayerFragment: Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getPlaylistsTracks()
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun setInfo(track: Track) {
@@ -153,8 +154,8 @@ class AudioPlayerFragment: Fragment() {
             if (track.collectionName != null) {
                 tvAlbumValue.text = track.collectionName
             } else {
-                tvAlbumValue.visibility = View.GONE
-                tvAlbum.visibility = View.GONE
+                tvAlbumValue.isVisible = false
+                tvAlbum.isVisible = false
             }
             tvDurationValue.text = SimpleDateFormat(
                 "mm:ss",
@@ -201,25 +202,29 @@ class AudioPlayerFragment: Fragment() {
     }
 
     private fun setImageFavoriteButton() {
-        binding.likeButton.setImageResource(R.drawable.ic_like_button)
-        binding.likeButton.setColorFilter(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.yp_red
-            ),
-            android.graphics.PorterDuff.Mode.SRC_IN
-        )
+        with(binding) {
+            likeButton.setImageResource(R.drawable.ic_like_button)
+            likeButton.setColorFilter(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.yp_red
+                ),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
+        }
     }
 
     private fun setImageNotFavoriteButton() {
-        binding.likeButton.setImageResource(R.drawable.ic_not_like_button)
-        binding.likeButton.setColorFilter(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.yp_white
-            ),
-            android.graphics.PorterDuff.Mode.SRC_IN
-        )
+        with(binding) {
+            likeButton.setImageResource(R.drawable.ic_not_like_button)
+            likeButton.setColorFilter(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.yp_white
+                ),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
+        }
     }
 
     private fun setImageLikeButton(isFavorite: Boolean) {
@@ -231,7 +236,7 @@ class AudioPlayerFragment: Fragment() {
     }
 
     private fun setFavoriteStatus() {
-        if (viewModel.getFavoriteStatusLiveData().value == true) {
+        if (viewModel.favoriteStatus.value == true) {
             viewModel.setFavoriteStatusLiveData(false)
         } else {
             viewModel.setFavoriteStatusLiveData(true)
@@ -270,7 +275,7 @@ class AudioPlayerFragment: Fragment() {
                     " " + nameSelectedPlaylist
             showToast(toastText)
             viewModel.getPlaylistsTracks()
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
             val toastText = getString(R.string.track_has_already_added_to_playlist) +
                     " " + nameSelectedPlaylist
